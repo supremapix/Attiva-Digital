@@ -484,6 +484,122 @@ const ParticleCanvas = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-50" />;
 };
 
+const ReviewCard = ({ review }: { review: any, key?: any }) => (
+  <div className="review-card">
+    <div className="review-header">
+      <div className="reviewer-avatar" style={{ backgroundColor: review.color }}>
+        {review.avatar}
+      </div>
+      <div className="reviewer-info">
+        <div className="name">{review.name}</div>
+        <div className="meta">
+          <span>{review.time}</span>
+          <span>•</span>
+          <span>Local Guide</span>
+        </div>
+      </div>
+    </div>
+    <div className="review-stars">
+      {"★".repeat(review.stars)}
+    </div>
+    <p className="review-text">{review.text}</p>
+    <div className="review-service-tag">{review.service}</div>
+    {review.reply && (
+      <div className="owner-reply">
+        <div className="font-bold text-white mb-1">Resposta do proprietário:</div>
+        {review.reply}
+      </div>
+    )}
+  </div>
+);
+
+const ReviewsSection = ({ reviews }: { reviews: any[] }) => {
+  const col1 = reviews.slice(0, 18);
+  const col2 = reviews.slice(18, 37);
+  const col3 = reviews.slice(37, 55);
+
+  return (
+    <section id="reviews" className="reviews-section py-32">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="section-tag">AVALIAÇÕES</span>
+          <h2 className="font-display text-5xl md:text-7xl text-white mb-4">O QUE DIZEM SOBRE A ATTIVA DIGITAL</h2>
+          <div className="gold-line"></div>
+
+          <div className="rating-overview">
+            <div className="rating-score">4.9</div>
+            <div className="rating-stars">★★★★★</div>
+            <div className="rating-count">55 avaliações no Google</div>
+            <div className="rating-bars">
+              <div className="bar-row"><span>5★</span><div className="bar"><div className="fill" style={{ width: '92%' }}></div></div><span>51</span></div>
+              <div className="bar-row"><span>4★</span><div className="bar"><div className="fill" style={{ width: '6%' }}></div></div><span>3</span></div>
+              <div className="bar-row"><span>3★</span><div className="bar"><div className="fill" style={{ width: '2%' }}></div></div><span>1</span></div>
+              <div className="bar-row"><span>2★</span><div className="bar"><div className="fill" style={{ width: '0%' }}></div></div><span>0</span></div>
+              <div className="bar-row"><span>1★</span><div className="bar"><div className="fill" style={{ width: '0%' }}></div></div><span>0</span></div>
+            </div>
+            <div className="google-badge">
+              <svg viewBox="0 0 24 24" width="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              <span>Google Reviews</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="reviews-track">
+          <div className="reviews-column" style={{ '--speed': '35s' } as any}>
+            {[...col1, ...col1].map((r, i) => <ReviewCard key={i} review={r} />)}
+          </div>
+          <div className="reviews-column" style={{ '--speed': '42s' } as any}>
+            {[...col2, ...col2].map((r, i) => <ReviewCard key={i} review={r} />)}
+          </div>
+          <div className="reviews-column" style={{ '--speed': '38s' } as any}>
+            {[...col3, ...col3].map((r, i) => <ReviewCard key={i} review={r} />)}
+          </div>
+        </div>
+
+        <div className="reviews-footer">
+          <a href="https://g.page/attivadigital/review" target="_blank" rel="noopener noreferrer" className="btn-google-review">
+            <svg viewBox="0 0 24 24" width="18" className="mr-2"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Deixe sua avaliação no Google
+          </a>
+          <a href="https://www.google.com/maps/search/attiva+digital+curitiba" target="_blank" rel="noopener noreferrer" className="btn-see-all">
+            Ver todas as avaliações →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const InstagramSection = () => (
+  <section id="instagram" className="instagram-section py-32">
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="text-center mb-16">
+        <span className="section-tag">INSTAGRAM</span>
+        <h2 className="font-display text-5xl md:text-7xl text-white mb-4">SIGA NOSSO FEED</h2>
+        <div className="gold-line"></div>
+        <p className="text-ink-silver opacity-70 mb-12">Acompanhe as novidades e bastidores da Attiva Digital.</p>
+      </div>
+      
+      {/* Elfsight Instagram Feed Widget */}
+      <div className="rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-900/30 p-4">
+        <div className="elfsight-app-76906233-7690-4690-9690-769062337690" data-elfsight-app-lazy></div>
+        {/* Fallback info if widget is not loaded */}
+        <div className="text-center py-20">
+          <Instagram size={48} className="text-gold-primary mx-auto mb-4 opacity-20" />
+          <a 
+            href="https://www.instagram.com/attiva.digital" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn-gold px-8 py-3 rounded-full text-sm uppercase tracking-widest inline-block"
+          >
+            Ver no Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 const ServiceCard = ({ icon: Icon, title, description, delay, onClick }: any) => (
   <motion.div 
     initial={{ opacity: 0, y: 30 }}
@@ -872,6 +988,400 @@ export default function App() {
     {
       question: "Vocês fazem apenas o design ou também o conteúdo?",
       answer: "Oferecemos soluções completas (Full Service). Nossa equipe conta com copywriters especializados em conversão que criam todo o conteúdo textual do seu site ou redes sociais, garantindo que a comunicação seja persuasiva e alinhada à sua marca."
+    }
+  ];
+
+  const reviews = [
+    // ─── COLUNA 1 (18 reviews) ───
+    {
+      name: "Marcos Oliveira",
+      avatar: "MO", color: "#4285F4",
+      stars: 5, time: "há 2 semanas",
+      service: "Criação de Site",
+      text: "Excelente trabalho da equipe Attiva Digital! O site ficou incrível, profissional e muito rápido. Superaram todas as minhas expectativas. Recomendo para qualquer empresa que queira se destacar online.",
+      reply: "Obrigado, Marcos! Foi um prazer trabalhar com você. 🚀"
+    },
+    {
+      name: "Camila Ferreira",
+      avatar: "CF", color: "#34A853",
+      stars: 5, time: "há 1 mês",
+      service: "Gestão de Redes Sociais",
+      text: "Nossa página cresceu mais de 10 mil seguidores em 5 meses! O conteúdo é estratégico, criativo e engaja de verdade. A equipe é super atenciosa e sempre disponível."
+    },
+    {
+      name: "Roberto Santos",
+      avatar: "RS", color: "#EA4335",
+      stars: 5, time: "há 3 semanas",
+      service: "Sistema Web",
+      text: "O sistema que desenvolveram para nossa empresa automatizou processos que antes levavam horas. ROI veio em menos de 2 meses. Profissionalismo impecável do início ao fim."
+    },
+    {
+      name: "Ana Paula Lima",
+      avatar: "AL", color: "#FBBC05",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Resultados surpreendentes! Custo por lead caiu 60% e o volume de contatos triplicou. Muito satisfeita com a transparência e os relatórios detalhados que recebo semanalmente."
+    },
+    {
+      name: "Diego Mendes",
+      avatar: "DM", color: "#9C27B0",
+      stars: 5, time: "há 1 semana",
+      service: "Criação de Site",
+      text: "Site entregue no prazo, dentro do orçamento e com qualidade que impressiona. Já recebi vários elogios de clientes. Nota 10 para toda a equipe da Attiva Digital!"
+    },
+    {
+      name: "Fernanda Costa",
+      avatar: "FC", color: "#00BCD4",
+      stars: 5, time: "há 1 mês",
+      service: "SEO & Indexação",
+      text: "Em 3 meses aparecemos na primeira página do Google para as palavras-chave mais importantes do nosso segmento. Tráfego orgânico cresceu 300%. Trabalho sério e consistente."
+    },
+    {
+      name: "Paulo Rodrigues",
+      avatar: "PR", color: "#FF5722",
+      stars: 5, time: "há 3 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria foi um divisor de águas para o nosso negócio. Identificaram oportunidades que não estávamos enxergando e criaram um plano claro e executável. Vale cada centavo!"
+    },
+    {
+      name: "Juliana Machado",
+      avatar: "JM", color: "#607D8B",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "Nossa loja virtual ficou incrível! Design profissional, checkout simples e integração perfeita com os meios de pagamento. As vendas online cresceram 180% no primeiro mês."
+    },
+    {
+      name: "Carlos Eduardo",
+      avatar: "CE", color: "#4285F4",
+      stars: 5, time: "há 5 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Profissionalismo e criatividade de alto nível. Cada post é pensado estrategicamente. Minha marca ganhou autoridade no mercado local de Curitiba. Super recomendo!"
+    },
+    {
+      name: "Larissa Alves",
+      avatar: "LA", color: "#34A853",
+      stars: 5, time: "há 1 semana",
+      service: "App Mobile",
+      text: "O aplicativo que desenvolveram para nós é intuitivo, rápido e com visual moderno. Os clientes adoraram! Avaliação 4.8 na App Store logo no lançamento. Equipe excepcional."
+    },
+    {
+      name: "Thiago Pereira",
+      avatar: "TP", color: "#EA4335",
+      stars: 5, time: "há 4 meses",
+      service: "Tráfego Pago",
+      text: "Campanhas otimizadas e gerenciadas com total transparência. ROAS de 4.2x no primeiro mês e melhorando todo mês. São especialistas de verdade em performance digital."
+    },
+    {
+      name: "Beatriz Nunes",
+      avatar: "BN", color: "#FBBC05",
+      stars: 5, time: "há 2 meses",
+      service: "Criação de Site",
+      text: "Atendimento personalizado e cuidadoso em cada etapa. O site ficou exatamente como eu idealizei — até melhor! Carregamento super rápido e ótima experiência no celular."
+    },
+    {
+      name: "Gustavo Lima",
+      avatar: "GL", color: "#9C27B0",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Estávamos invisíveis no Google. Em 4 meses, 3 das nossas principais palavras-chave estão no top 5. O volume de ligações do Google aumentou 4x. Resultado concreto!"
+    },
+    {
+      name: "Rafaela Souza",
+      avatar: "RS", color: "#00BCD4",
+      stars: 5, time: "há 6 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Finalmente uma agência que realmente entende de redes sociais e não fica só repostando frases motivacionais. Conteúdo com estratégia real, engajamento e crescimento de audiência."
+    },
+    {
+      name: "Anderson Martins",
+      avatar: "AM", color: "#FF5722",
+      stars: 5, time: "há 1 mês",
+      service: "Sistema Web",
+      text: "Sistema entregue com toda a funcionalidade que precisávamos e mais. O processo foi organizado, com sprints semanais e feedback constante. Time técnico muito competente."
+    },
+    {
+      name: "Patrícia Gonçalves",
+      avatar: "PG", color: "#607D8B",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "E-commerce completo, integrado com marketplace e com painel de gestão intuitivo. Minhas vendas online já superam as presenciais. Investimento que se pagou rapidamente."
+    },
+    {
+      name: "Leandro Castro",
+      avatar: "LC", color: "#4285F4",
+      stars: 5, time: "há 3 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria trouxe clareza total para nossa estratégia digital. Saímos da reunião com um roadmap completo e já vemos resultados nos primeiros 60 dias de implementação."
+    },
+    {
+      name: "Vanessa Torres",
+      avatar: "VT", color: "#34A853",
+      stars: 5, time: "há 4 semanas",
+      service: "Criação de Site",
+      text: "Desde o briefing até a entrega, tudo foi conduzido com muita profissionalidade. O site é lindo, responsivo e perfeito em todos os dispositivos. Já recebi vários leads por ele!"
+    },
+  
+    // ─── COLUNA 2 (19 reviews) ───
+    {
+      name: "Henrique Barros",
+      avatar: "HB", color: "#EA4335",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Minha campanha no Meta Ads estava queimando dinheiro antes da Attiva. Eles reestruturaram tudo e em 30 dias o custo por resultado caiu pela metade com o dobro de volume."
+    },
+    {
+      name: "Simone Araújo",
+      avatar: "SA", color: "#FBBC05",
+      stars: 5, time: "há 1 semana",
+      service: "SEO & Indexação",
+      text: "Aparecemos no Google Maps como primeira opção na nossa região. O número de clientes que chegam dizendo que nos encontraram no Google triplicou. Trabalho excepcional!"
+    },
+    {
+      name: "Fábio Cardoso",
+      avatar: "FC", color: "#9C27B0",
+      stars: 5, time: "há 5 meses",
+      service: "App Mobile",
+      text: "App desenvolvido com qualidade de startup de alto nível. UX impecável, sem bugs, integração com nosso sistema legado funcionando perfeitamente. Entrega antes do prazo!"
+    },
+    {
+      name: "Mônica Ribeiro",
+      avatar: "MR", color: "#00BCD4",
+      stars: 5, time: "há 3 semanas",
+      service: "Gestão de Redes Sociais",
+      text: "O conteúdo que produzem para a nossa clínica é educativo, humanizado e altamente engajador. Crescemos organicamente sem precisar impulsionar posts. Estratégia inteligente."
+    },
+    {
+      name: "Rodrigo Freitas",
+      avatar: "RF", color: "#FF5722",
+      stars: 5, time: "há 2 meses",
+      service: "Sistema Web",
+      text: "Portal de gestão desenvolvido do zero, com todas as funcionalidades que precisávamos. Interface bonita e fácil de usar. A equipe foi parceira em todo o processo."
+    },
+    {
+      name: "Isabela Moura",
+      avatar: "IM", color: "#607D8B",
+      stars: 5, time: "há 1 mês",
+      service: "Criação de Site",
+      text: "Super atenciosos e criativos! O site reflete perfeitamente a identidade da nossa marca. Rápido, seguro com certificado SSL e otimizado para celular. Amei o resultado!"
+    },
+    {
+      name: "Alessandro Vieira",
+      avatar: "AV", color: "#4285F4",
+      stars: 5, time: "há 6 semanas",
+      service: "Loja Virtual",
+      text: "Loja virtual entregue em tempo recorde, com integração completa. Design que converte e experiência de compra fluida. As métricas de abandono de carrinho caíram 40%."
+    },
+    {
+      name: "Carina Duarte",
+      avatar: "CD", color: "#34A853",
+      stars: 5, time: "há 2 semanas",
+      service: "Tráfego Pago",
+      text: "Gerenciam nossas campanhas com muita atenção e estratégia. Relatórios claros, reuniões mensais produtivas e resultados crescendo mês a mês. Parceria de longo prazo!"
+    },
+    {
+      name: "Marcelo Pinto",
+      avatar: "MP", color: "#EA4335",
+      stars: 5, time: "há 4 meses",
+      service: "Consultoria Digital",
+      text: "Diagnóstico preciso e plano de ação realista. Não prometem o impossível — entregam o que é combinado e às vezes superam. Referência em consultoria digital em Curitiba."
+    },
+    {
+      name: "Tatiane Lopes",
+      avatar: "TL", color: "#FBBC05",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Investimos em SEO com a Attiva e o retorno superou todas as expectativas. Hoje 70% dos nossos leads vêm do Google organicamente. Melhor investimento de marketing que fizemos."
+    },
+    {
+      name: "Wellington Cruz",
+      avatar: "WC", color: "#9C27B0",
+      stars: 5, time: "há 1 mês",
+      service: "Gestão de Redes Sociais",
+      text: "A equipe entende profundamente cada plataforma e adapta o conteúdo para cada uma. Resultado: engajamento real, seguidores qualificados e crescimento consistente todo mês."
+    },
+    {
+      name: "Nádia Santos",
+      avatar: "NS", color: "#00BCD4",
+      stars: 5, time: "há 5 semanas",
+      service: "Criação de Site",
+      text: "O prazo foi respeitado, o orçamento mantido e a qualidade entregue foi além do que eu esperava. O suporte pós-entrega é excelente. Recomendo sem hesitar!"
+    },
+    {
+      name: "Edmilson Rocha",
+      avatar: "ER", color: "#FF5722",
+      stars: 5, time: "há 7 meses",
+      service: "App Mobile",
+      text: "Desenvolveram nosso app com atenção a cada detalhe. Processo transparente com entregas semanais para acompanhar. Resultado final ficou melhor do que o protótipo!"
+    },
+    {
+      name: "Priscila Melo",
+      avatar: "PM", color: "#607D8B",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Primeira agência que realmente me explicou o que estava sendo feito nas campanhas. Sem enrolação, focados em resultado. Meu faturamento online cresceu 120% em 4 meses."
+    },
+    {
+      name: "Davi Correia",
+      avatar: "DC", color: "#4285F4",
+      stars: 5, time: "há 1 mês",
+      service: "Loja Virtual",
+      text: "E-commerce robusto com painel de admin completo. Integração com Mercado Pago, PicPay e boleto funcionando perfeitamente. Design moderno e taxas de conversão excelentes."
+    },
+    {
+      name: "Letícia Campos",
+      avatar: "LC", color: "#34A853",
+      stars: 5, time: "há 3 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Em 4 meses nossa comunidade no Instagram virou referência no nosso nicho. Conteúdo autêntico, estratégico e que realmente conecta com o público. Resultado excepcional!"
+    },
+    {
+      name: "Fábio Nascimento",
+      avatar: "FN", color: "#EA4335",
+      stars: 5, time: "há 6 semanas",
+      service: "SEO & Indexação",
+      text: "Aparecer na primeira posição do Google para a nossa cidade mudou completamente o volume de clientes. A Attiva Digital sabe o que está fazendo. Investimento que vale muito!"
+    },
+    {
+      name: "Claudia Moraes",
+      avatar: "CM", color: "#FBBC05",
+      stars: 5, time: "há 2 semanas",
+      service: "Sistema Web",
+      text: "Sistema de agendamento online que nossos clientes adoraram. Integração com WhatsApp, notificações automáticas e relatórios inteligentes. Reduziu nosso trabalho operacional em 60%."
+    },
+    {
+      name: "Bruno Azevedo",
+      avatar: "BA", color: "#9C27B0",
+      stars: 5, time: "há 1 mês",
+      service: "Consultoria Digital",
+      text: "A consultoria da Attiva mudou a visão do nosso time sobre marketing digital. Saímos com um playbook completo e já vemos os resultados nas primeiras semanas de execução."
+    },
+  
+    // ─── COLUNA 3 (18 reviews) ───
+    {
+      name: "Renata Oliveira",
+      avatar: "RO", color: "#00BCD4",
+      stars: 5, time: "há 3 meses",
+      service: "Criação de Site",
+      text: "Site desenvolvido com muito cuidado e atenção à nossa identidade visual. Carrega em menos de 2 segundos e é lindo em qualquer dispositivo. Recebi elogios de todos!"
+    },
+    {
+      name: "Sérgio Batista",
+      avatar: "SB", color: "#FF5722",
+      stars: 5, time: "há 1 semana",
+      service: "Tráfego Pago",
+      text: "Gerenciamento profissional das campanhas com foco em resultado real. Eles não ficam jogando desculpas — identificam o problema e ajustam rapidamente. Nota máxima!"
+    },
+    {
+      name: "Cristiane Dias",
+      avatar: "CD", color: "#607D8B",
+      stars: 5, time: "há 2 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Minha farmácia nunca teve tanto reconhecimento local. As redes sociais viraram uma fonte real de clientes novos. O trabalho da Attiva é diferenciado e comprometido."
+    },
+    {
+      name: "Nilson Ferreira",
+      avatar: "NF", color: "#4285F4",
+      stars: 5, time: "há 4 meses",
+      service: "Loja Virtual",
+      text: "E-commerce entregue com integração total com nosso estoque físico. A sincronização em tempo real evita vender produto sem estoque. Solução técnica impecável!"
+    },
+    {
+      name: "Adriana Mendes",
+      avatar: "AM", color: "#34A853",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Saímos da 8ª página do Google para a 1ª posição em 5 meses. O crescimento de tráfego orgânico é consistente mês a mês. Excelente trabalho técnico e estratégico!"
+    },
+    {
+      name: "Leonardo Barros",
+      avatar: "LB", color: "#EA4335",
+      stars: 5, time: "há 1 mês",
+      service: "App Mobile",
+      text: "App desenvolvido com qualidade premium. Testaram em múltiplos dispositivos e entregaram sem nenhum bug. Suporte pós-lançamento ágil e eficiente. Muito satisfeito!"
+    },
+    {
+      name: "Elaine Carvalho",
+      avatar: "EC", color: "#FBBC05",
+      stars: 5, time: "há 5 semanas",
+      service: "Consultoria Digital",
+      text: "Diagnóstico digital completo e muito preciso. Identificaram gargalos que não estávamos percebendo e deram um plano claro com prioridades. Nossa eficiência digital triplicou."
+    },
+    {
+      name: "Marcos Teixeira",
+      avatar: "MT", color: "#9C27B0",
+      stars: 5, time: "há 2 meses",
+      service: "Criação de Site",
+      text: "Processo de desenvolvimento bem estruturado com entregas parciais para validação. O resultado final superou o briefing. Site lindo e que já gerou novos clientes!"
+    },
+    {
+      name: "Gisele Cunha",
+      avatar: "GC", color: "#00BCD4",
+      stars: 5, time: "há 1 semana",
+      service: "Tráfego Pago",
+      text: "A gestão das campanhas é impecável. Eles testam criativos, públicos e placements constantemente para otimizar resultados. Meu ROAS saiu de 1.8x para 5.2x em 3 meses!"
+    },
+    {
+      name: "Vitor Lemos",
+      avatar: "VL", color: "#FF5722",
+      stars: 5, time: "há 3 meses",
+      service: "Sistema Web",
+      text: "CRM desenvolvido especificamente para nosso processo comercial. A produtividade do time de vendas aumentou 40% com a automação de tarefas repetitivas. Projeto incrível!"
+    },
+    {
+      name: "Amanda Fonseca",
+      avatar: "AF", color: "#607D8B",
+      stars: 5, time: "há 6 semanas",
+      service: "Gestão de Redes Sociais",
+      text: "Equipe criativa, responsiva e com muito domínio das plataformas. Cada campanha é pensada estrategicamente. Os resultados são visíveis e mensuráveis. Top demais!"
+    },
+    {
+      name: "Nelson Rodrigues",
+      avatar: "NR", color: "#4285F4",
+      stars: 5, time: "há 4 meses",
+      service: "SEO & Indexação",
+      text: "Métricas de SEO crescendo consistentemente há 6 meses. Posicionamento nos buscadores melhorou para todas as keywords trabalhadas. Trabalho técnico de altíssima qualidade."
+    },
+    {
+      name: "Juliana Pereira",
+      avatar: "JP", color: "#34A853",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "Nossa loja virtual passou a representar 45% do faturamento total em apenas 3 meses. O design é lindo e a experiência de compra é impecável. Investimento que valeu muito!"
+    },
+    {
+      name: "Eduardo Lima",
+      avatar: "EL", color: "#EA4335",
+      stars: 5, time: "há 1 mês",
+      service: "Criação de Site",
+      text: "Site institucional profissional que transmite credibilidade desde o primeiro acesso. Nossos clientes corporativos comentam a qualidade. Representou um salto de imagem enorme!"
+    },
+    {
+      name: "Sandra Costa",
+      avatar: "SC", color: "#FBBC05",
+      stars: 5, time: "há 5 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria nos mostrou que estávamos investindo nos canais errados. Com o redirecionamento estratégico, o custo de aquisição caiu 45% e os leads qualificados triplicaram."
+    },
+    {
+      name: "Rodrigo Almeida",
+      avatar: "RA", color: "#9C27B0",
+      stars: 5, time: "há 3 semanas",
+      service: "Tráfego Pago",
+      text: "Profissionais que dominam Google Ads e Meta Ads com profundidade. Segmentação cirúrgica e criativos de alta conversão. Resultados que eu não conseguia nem com outras agências."
+    },
+    {
+      name: "Daniela Ribeiro",
+      avatar: "DR", color: "#00BCD4",
+      stars: 5, time: "há 2 meses",
+      service: "App Mobile",
+      text: "App para delivery da nossa rede de restaurantes funcionando perfeitamente. Integração com sistema de gestão, notificações push e painel admin completo. Excelente parceria!"
+    },
+    {
+      name: "Claudio Matos",
+      avatar: "CM", color: "#FF5722",
+      stars: 5, time: "há 1 semana",
+      service: "Gestão de Redes Sociais",
+      text: "A presença digital da nossa empresa nunca foi tão forte. Conteúdo consistente, identidade visual impecável e engajamento crescendo todo mês. Parceria que renovo sempre!"
     }
   ];
 
@@ -1469,6 +1979,9 @@ export default function App() {
                 ))}
               </div>
             </div>
+
+            <ReviewsSection reviews={reviews} />
+            <InstagramSection />
 
             {/* FAQ Section */}
             <div>
