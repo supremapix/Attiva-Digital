@@ -44,7 +44,7 @@ import {
   User,
   ArrowUpRight
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useInView } from 'motion/react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -227,16 +227,23 @@ const ResultChart = ({ data, label }: { data: number[], label: string }) => {
   );
 };
 
-const BlogCard = ({ title, category, date, excerpt, image, delay }: any) => (
+const BlogCard = ({ title, category, date, excerpt, image, delay, onClick }: any) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
-    className="bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-gold-primary transition-all group"
+    onClick={onClick}
+    className="bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-gold-primary transition-all group cursor-pointer"
   >
     <div className="aspect-video relative overflow-hidden">
-      <div className={`absolute inset-0 bg-gradient-to-br ${image} opacity-40 group-hover:scale-110 transition-transform duration-700`} />
+      <img 
+        src={image} 
+        alt={title}
+        referrerPolicy="no-referrer"
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+      />
+      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
       <div className="absolute top-4 left-4 px-3 py-1 bg-gold-primary text-black text-[10px] font-bold uppercase tracking-widest rounded-full">
         {category}
       </div>
@@ -253,6 +260,80 @@ const BlogCard = ({ title, category, date, excerpt, image, delay }: any) => (
     </div>
   </motion.div>
 );
+
+const BlogModal = ({ post, onClose }: { post: any, onClose: () => void }) => {
+  if (!post) return null;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/90 backdrop-blur-xl"
+      onClick={onClose}
+    >
+        <motion.div 
+          initial={{ scale: 0.9, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
+          exit={{ scale: 0.9, y: 20 }}
+          className="bg-zinc-950 w-full max-w-4xl max-h-[90vh] rounded-2xl md:rounded-[3rem] border border-gold-primary/20 overflow-hidden relative flex flex-col"
+          onClick={e => e.stopPropagation()}
+        >
+          <button 
+            onClick={onClose}
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 md:w-12 md:h-12 bg-black/50 hover:bg-gold-primary hover:text-black rounded-full flex items-center justify-center text-white transition-all z-10"
+          >
+            <X size={20} md:size={24} />
+          </button>
+
+        <div className="overflow-y-auto custom-scrollbar">
+          <div className="aspect-video w-full relative">
+            <img 
+              src={post.image} 
+              alt={post.title}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+            <div className="absolute bottom-10 left-10 right-10">
+              <div className="px-4 py-1 bg-gold-primary text-black text-xs font-bold uppercase tracking-widest rounded-full inline-block mb-4">
+                {post.category}
+              </div>
+                <h2 className="text-xl md:text-5xl font-display text-white leading-tight">{post.title}</h2>
+            </div>
+          </div>
+
+            <div className="p-6 md:p-16">
+              <div className="flex flex-wrap items-center gap-4 text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest mb-6 md:mb-10 pb-6 md:pb-10 border-b border-zinc-900">
+                <div className="flex items-center gap-2"><Calendar size={12} /> {post.date}</div>
+                <div className="flex items-center gap-2"><User size={12} /> Por Attiva Digital</div>
+                <div className="flex items-center gap-2"><Clock size={12} /> 5 min de leitura</div>
+              </div>
+
+              <div className="prose prose-invert max-w-none">
+                <p className="text-lg md:text-xl text-ink-silver leading-relaxed mb-6 md:mb-8 font-light italic">
+                  {post.excerpt}
+                </p>
+                <div className="text-ink-silver leading-relaxed space-y-4 md:space-y-6 text-base md:text-lg opacity-80 whitespace-pre-line">
+                  {post.content}
+                </div>
+              </div>
+
+              <div className="mt-10 md:mt-16 p-6 md:p-10 bg-zinc-900/50 rounded-2xl md:rounded-3xl border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+                <div className="text-center md:text-left">
+                  <h4 className="text-white font-bold text-lg md:text-xl mb-1 md:mb-2">Gostou deste conteúdo?</h4>
+                  <p className="text-ink-silver text-xs md:text-sm opacity-60">Compartilhe com sua rede ou fale com um especialista.</p>
+                </div>
+                <div className="flex gap-4 w-full md:w-auto">
+                  <button className="w-full md:w-auto btn-gold px-8 py-3 rounded-full text-[10px] md:text-xs uppercase tracking-widest font-bold">Falar com Especialista</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -523,7 +604,7 @@ const ReviewsSection = ({ reviews }: { reviews: any[] }) => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="section-tag">AVALIAÇÕES</span>
-          <h2 className="font-display text-5xl md:text-7xl text-white mb-4">O QUE DIZEM SOBRE A ATTIVA DIGITAL</h2>
+          <h2 className="font-display text-3xl sm:text-5xl md:text-7xl text-white mb-4">O QUE DIZEM SOBRE A ATTIVA DIGITAL</h2>
           <div className="gold-line"></div>
 
           <div className="rating-overview">
@@ -570,35 +651,67 @@ const ReviewsSection = ({ reviews }: { reviews: any[] }) => {
   );
 };
 
-const InstagramSection = () => (
-  <section id="instagram" className="instagram-section py-32">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="text-center mb-16">
-        <span className="section-tag">INSTAGRAM</span>
-        <h2 className="font-display text-5xl md:text-7xl text-white mb-4">SIGA NOSSO FEED</h2>
-        <div className="gold-line"></div>
-        <p className="text-ink-silver opacity-70 mb-12">Acompanhe as novidades e bastidores da Attiva Digital.</p>
-      </div>
-      
-      {/* Elfsight Instagram Feed Widget */}
-      <div className="rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-900/30 p-4">
-        <div className="elfsight-app-76906233-7690-4690-9690-769062337690" data-elfsight-app-lazy></div>
-        {/* Fallback info if widget is not loaded */}
-        <div className="text-center py-20">
-          <Instagram size={48} className="text-gold-primary mx-auto mb-4 opacity-20" />
-          <a 
-            href="https://www.instagram.com/attiva.digital" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="btn-gold px-8 py-3 rounded-full text-sm uppercase tracking-widest inline-block"
-          >
-            Ver no Instagram
+const InstagramFeed = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="instagram" className="py-24 md:py-32 bg-zinc-900/30" ref={ref}>
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.header 
+          className="text-center max-w-2xl mx-auto mb-14"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gold-primary text-black text-base font-bold mb-5">
+            <Instagram className="h-5 w-5" />
+            <span>@attiva.digital</span>
+          </div>
+          <h2 className="font-display text-3xl sm:text-5xl md:text-7xl text-white mb-5">
+            Siga no <span className="text-gold-primary">Instagram</span>
+          </h2>
+          <div className="gold-line"></div>
+        </motion.header>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-4xl mx-auto mb-8"
+        >
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-zinc-800 bg-black">
+            <iframe
+              src="https://www.instagram.com/attiva.digital/embed"
+              title="Feed do Instagram"
+              width="100%"
+              height="320"
+              frameBorder="0"
+              scrolling="no"
+              allowTransparency={true}
+              className="w-full md:h-[700px] h-[320px] block"
+              loading="lazy"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div 
+          className="flex flex-col md:flex-row items-center justify-center gap-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <a href="https://www.instagram.com/attiva.digital/" 
+             target="_blank" rel="noopener noreferrer"
+             className="btn-gold inline-flex items-center gap-2 text-black font-bold text-lg px-8 py-4 rounded-lg">
+            <Instagram className="h-6 w-6" />
+            Seguir no Instagram
           </a>
-        </div>
+        </motion.div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const ServiceCard = ({ icon: Icon, title, description, delay, onClick }: any) => (
   <motion.div 
@@ -607,7 +720,7 @@ const ServiceCard = ({ icon: Icon, title, description, delay, onClick }: any) =>
     viewport={{ once: true }}
     transition={{ duration: 0.6, delay }}
     onClick={onClick}
-    className="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 hover:border-gold-primary transition-all duration-500 group cursor-pointer hover:-translate-y-3 flex flex-col h-full"
+    className="bg-zinc-900/50 p-6 md:p-8 rounded-2xl border border-zinc-800 hover:border-gold-primary transition-all duration-500 group cursor-pointer hover:-translate-y-3 flex flex-col h-full"
   >
     <div className="w-16 h-16 bg-zinc-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
       <Icon className="w-8 h-8 text-gold-primary group-hover:rotate-6 transition-transform" />
@@ -637,54 +750,54 @@ const ServiceModal = ({ service, onClose }: { service: any, onClose: () => void 
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="bg-zinc-900 border border-gold-primary/30 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-8 md:p-12 relative shadow-[0_0_50px_rgba(201,168,76,0.2)]"
+        className="bg-zinc-900 border border-gold-primary/30 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl md:rounded-3xl p-6 md:p-12 relative shadow-[0_0_50px_rgba(201,168,76,0.2)]"
         onClick={e => e.stopPropagation()}
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+          className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 rounded-full transition-all"
         >
-          <X size={32} />
+          <X size={24} />
         </button>
 
-        <div className="flex flex-col md:flex-row gap-12">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
           <div className="md:w-1/3">
-            <div className="w-20 h-20 bg-zinc-800 rounded-2xl flex items-center justify-center mb-6">
-              <service.icon className="w-10 h-10 text-gold-primary" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-zinc-800 rounded-2xl flex items-center justify-center mb-6">
+              <service.icon className="w-8 h-8 md:w-10 md:h-10 text-gold-primary" />
             </div>
-            <h2 className="text-3xl font-display text-white mb-4">{service.title}</h2>
-            <p className="text-gold-primary font-bold uppercase tracking-widest text-xs mb-8">Resultados Esperados: {service.results}</p>
+            <h2 className="text-2xl md:text-3xl font-display text-white mb-4">{service.title}</h2>
+            <p className="text-gold-primary font-bold uppercase tracking-widest text-[10px] md:text-xs mb-6 md:mb-8">Resultados Esperados: {service.results}</p>
             
             <button 
               onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá! Gostaria de saber mais sobre o serviço: ${service.title}`)}`, '_blank')}
-              className="w-full btn-gold py-4 rounded-xl text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2"
+              className="w-full btn-gold py-4 rounded-xl text-xs md:text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2"
             >
               <MessageCircle size={18} /> Solicitar Orçamento
             </button>
           </div>
 
-          <div className="md:w-2/3 space-y-8">
+          <div className="md:w-2/3 space-y-6 md:space-y-8">
             <div>
-              <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">Visão Geral</h4>
-              <p className="text-ink-silver leading-relaxed elderly-friendly-text">{service.fullText}</p>
+              <h4 className="text-white font-heading font-bold mb-3 md:mb-4 uppercase tracking-widest text-[10px] md:text-sm border-l-2 border-gold-primary pl-4">Visão Geral</h4>
+              <p className="text-ink-silver leading-relaxed text-sm md:text-base elderly-friendly-text">{service.fullText}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div>
-                <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">O que inclui</h4>
+                <h4 className="text-white font-heading font-bold mb-3 md:mb-4 uppercase tracking-widest text-[10px] md:text-sm border-l-2 border-gold-primary pl-4">O que inclui</h4>
                 <ul className="space-y-2">
                   {service.items.map((item: string, i: number) => (
-                    <li key={i} className="text-ink-silver text-sm flex items-center gap-2">
+                    <li key={i} className="text-ink-silver text-xs md:text-sm flex items-center gap-2">
                       <div className="w-1.5 h-1.5 bg-gold-primary rounded-full" /> {item}
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">Diferenciais</h4>
+                <h4 className="text-white font-heading font-bold mb-3 md:mb-4 uppercase tracking-widest text-[10px] md:text-sm border-l-2 border-gold-primary pl-4">Diferenciais</h4>
                 <ul className="space-y-2">
                   {service.differentiators.map((item: string, i: number) => (
-                    <li key={i} className="text-ink-silver text-sm flex items-center gap-2">
+                    <li key={i} className="text-ink-silver text-xs md:text-sm flex items-center gap-2">
                       <div className="w-1.5 h-1.5 bg-gold-primary rounded-full" /> {item}
                     </li>
                   ))}
@@ -748,31 +861,31 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
         initial={{ scale: 0.9, y: 30, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, y: 30, opacity: 0 }}
-        className="bg-zinc-950 border border-gold-primary/40 w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-[2.5rem] p-8 md:p-16 relative shadow-[0_0_100px_rgba(201,168,76,0.15)]"
+        className="bg-zinc-950 border border-gold-primary/40 w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl md:rounded-[2.5rem] p-6 md:p-16 relative shadow-[0_0_100px_rgba(201,168,76,0.15)]"
         onClick={e => e.stopPropagation()}
       >
         <button 
           onClick={onClose}
-          className="absolute top-8 right-8 text-white/30 hover:text-gold-primary transition-all hover:rotate-90"
+          className="absolute top-4 right-4 md:top-8 md:right-8 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center text-white/30 hover:text-gold-primary hover:bg-white/5 rounded-full transition-all hover:rotate-90"
         >
-          <X size={40} />
+          <X size={24} md:size={32} />
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
           {/* Left Column: Info */}
-          <div className="lg:col-span-5 space-y-10">
+          <div className="lg:col-span-5 space-y-6 md:space-y-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary text-xs font-bold uppercase tracking-[0.2em] mb-6">
-                <project.icon size={14} /> {project.category}
+              <div className="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-6">
+                <project.icon size={12} md:size={14} /> {project.category}
               </div>
-              <h2 className="text-4xl md:text-6xl font-display text-white leading-tight mb-6">{project.title}</h2>
-              <p className="text-ink-silver text-lg leading-relaxed opacity-80">{project.description}</p>
+              <h2 className="text-3xl md:text-6xl font-display text-white leading-tight mb-4 md:mb-6">{project.title}</h2>
+              <p className="text-ink-silver text-base md:text-lg leading-relaxed opacity-80">{project.description}</p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800">
-              <div className="text-xs uppercase tracking-widest text-zinc-500 mb-2">Resultado Principal</div>
-              <div className="text-5xl font-display text-gold-primary">{project.result}</div>
-              <div className="mt-4 h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
+            <div className="p-6 md:p-8 rounded-2xl md:rounded-3xl bg-zinc-900/50 border border-zinc-800">
+              <div className="text-[10px] md:text-xs uppercase tracking-widest text-zinc-500 mb-1 md:mb-2">Resultado Principal</div>
+              <div className="text-3xl md:text-5xl font-display text-gold-primary">{project.result}</div>
+              <div className="mt-3 md:mt-4 h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: '100%' }}
@@ -782,11 +895,11 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h4 className="text-white font-bold uppercase tracking-widest text-sm">Estratégia Aplicada</h4>
+            <div className="space-y-3 md:space-y-4">
+              <h4 className="text-white font-bold uppercase tracking-widest text-[10px] md:text-sm">Estratégia Aplicada</h4>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag: string, i: number) => (
-                  <span key={i} className="px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-ink-silver text-xs">
+                  <span key={i} className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl bg-zinc-900 border border-zinc-800 text-ink-silver text-[10px] md:text-xs">
                     {tag}
                   </span>
                 ))}
@@ -795,17 +908,17 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
           </div>
 
           {/* Right Column: Ray-X & Timeline */}
-          <div className="lg:col-span-7 space-y-12">
-            <div className="relative p-8 rounded-[2rem] bg-zinc-900/30 border border-zinc-800 overflow-hidden">
+          <div className="lg:col-span-7 space-y-8 md:space-y-12">
+            <div className="relative p-6 md:p-8 rounded-2xl md:rounded-[2rem] bg-zinc-900/30 border border-zinc-800 overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-5">
                 <project.icon size={200} />
               </div>
               
-              <h4 className="text-gold-primary font-display text-2xl mb-8 flex items-center gap-3">
-                <TrendingIcon size={24} /> Raio-X de Crescimento
+              <h4 className="text-gold-primary font-display text-xl md:text-2xl mb-6 md:mb-8 flex items-center gap-3">
+                <TrendingIcon size={20} md:size={24} /> Raio-X de Crescimento
               </h4>
 
-              <div className="relative space-y-12 pl-8 border-l border-zinc-800">
+              <div className="relative space-y-8 md:space-y-12 pl-6 md:pl-8 border-l border-zinc-800">
                 {project.timeline.map((item: any, i: number) => (
                   <motion.div 
                     key={i}
@@ -814,12 +927,12 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
                     transition={{ delay: i * 0.2 }}
                     className="relative"
                   >
-                    <div className="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-zinc-950 border-2 border-gold-primary flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-gold-primary animate-pulse" />
+                    <div className="absolute -left-[33px] md:-left-[41px] top-0 w-4 h-4 md:w-5 md:h-5 rounded-full bg-zinc-950 border-2 border-gold-primary flex items-center justify-center">
+                      <div className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-gold-primary animate-pulse" />
                     </div>
-                    <div className="text-xs font-bold text-gold-primary/60 uppercase tracking-tighter mb-1">{item.period}</div>
-                    <div className="text-xl font-heading font-bold text-white mb-2">{item.event}</div>
-                    <div className="text-ink-silver text-sm opacity-60 leading-relaxed">{item.impact}</div>
+                    <div className="text-[10px] font-bold text-gold-primary/60 uppercase tracking-tighter mb-1">{item.period}</div>
+                    <div className="text-lg md:text-xl font-heading font-bold text-white mb-2">{item.event}</div>
+                    <div className="text-ink-silver text-xs md:text-sm opacity-60 leading-relaxed">{item.impact}</div>
                     
                     {item.growth && (
                       <div className="mt-4 flex items-center gap-4">
@@ -831,7 +944,7 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
                             className="h-full bg-gold-primary"
                           />
                         </div>
-                        <div className="text-gold-primary font-mono text-xs font-bold">+{item.growth}%</div>
+                        <div className="text-gold-primary font-mono text-[10px] md:text-xs font-bold">+{item.growth}%</div>
                       </div>
                     )}
                   </motion.div>
@@ -839,11 +952,11 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
               </div>
             </div>
 
-            <div className="bg-gold-primary/5 p-8 rounded-3xl border border-gold-primary/20">
-              <h4 className="text-white font-bold mb-4 flex items-center gap-2">
-                <Lightbulb size={18} className="text-gold-primary" /> Insight da Agência
+            <div className="bg-gold-primary/5 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gold-primary/20">
+              <h4 className="text-white font-bold mb-3 md:mb-4 flex items-center gap-2 text-sm md:text-base">
+                <Lightbulb size={16} md:size={18} className="text-gold-primary" /> Insight da Agência
               </h4>
-              <p className="text-ink-silver text-sm italic leading-relaxed">
+              <p className="text-ink-silver text-xs md:text-sm italic leading-relaxed">
                 "{project.insight}"
               </p>
             </div>
@@ -861,6 +974,9 @@ export default function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [selectedService, setSelectedService] = useState<any>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
@@ -1612,42 +1728,104 @@ export default function App() {
       category: "SEO",
       date: "15 Mar 2026",
       excerpt: "Como as novas atualizações do Google estão priorizando a intenção do usuário e o conteúdo gerado por especialistas.",
-      image: "from-blue-900 to-purple-900"
+      image: "https://picsum.photos/seed/seo/800/600",
+      content: `
+        O cenário do SEO está mudando drasticamente com a integração da Inteligência Artificial Generativa nos motores de busca. Em 2026, não basta apenas palavras-chave; o Google agora prioriza a **Intenção do Usuário** e a **Autoridade do Especialista (E-E-A-T)**.
+
+        Neste artigo, exploramos:
+        - Como otimizar para a Busca Generativa (SGE).
+        - A importância de dados estruturados avançados.
+        - Por que o conteúdo humano e autêntico se tornou o maior diferencial competitivo.
+
+        A Attiva Digital já está implementando essas estratégias para garantir que nossos clientes permaneçam no topo das buscas, mesmo com as mudanças constantes dos algoritmos.
+      `
     },
     {
       title: "5 Estratégias para Escalar seu E-commerce este ano",
       category: "E-commerce",
       date: "10 Mar 2026",
       excerpt: "Do checkout em uma página ao remarketing dinâmico: o que realmente funciona para vender mais.",
-      image: "from-gold-dark to-gold-light"
+      image: "https://picsum.photos/seed/ecommerce/800/600",
+      content: `
+        Escalar um e-commerce exige mais do que apenas tráfego; exige uma experiência de compra impecável. Analisamos os dados de mais de 50 lojas virtuais para identificar o que realmente move o ponteiro em 2026.
+
+        As 5 estratégias vencedoras:
+        1. **Checkout Ultra-Rápido:** Redução de fricção no momento crítico.
+        2. **Personalização com IA:** Recomendações de produtos baseadas em comportamento real.
+        3. **Social Commerce:** Venda direta através de vídeos curtos e lives.
+        4. **Logística Reversa Facilitada:** Transformando devoluções em novas oportunidades de venda.
+        5. **Remarketing de Alta Precisão:** Mensagens personalizadas que não cansam o cliente.
+
+        Descubra como aplicar cada uma delas no seu negócio hoje mesmo.
+      `
     },
     {
       title: "Branding de Luxo: Como posicionar sua marca no topo",
       category: "Branding",
       date: "05 Mar 2026",
       excerpt: "A psicologia por trás das marcas de alto padrão e como aplicar esses conceitos no seu negócio digital.",
-      image: "from-zinc-800 to-black"
+      image: "https://picsum.photos/seed/luxury/800/600",
+      content: `
+        O luxo não é sobre preço, é sobre **exclusividade, história e percepção de valor**. No mundo digital, o branding de luxo exige uma estética minimalista e uma comunicação que valoriza o silêncio e a sofisticação.
+
+        Pontos chave para o seu posicionamento:
+        - **Identidade Visual Impecável:** Onde cada pixel importa.
+        - **Storytelling Emocional:** Conectando a marca a valores aspiracionais.
+        - **Experiência do Cliente VIP:** O atendimento digital deve ser tão refinado quanto o presencial.
+
+        A Attiva Digital ajuda marcas a construírem essa aura de prestígio, elevando o ticket médio e a fidelidade dos clientes.
+      `
     },
     {
       title: "Tráfego Pago vs Orgânico: Onde investir seu orçamento?",
       category: "Marketing",
       date: "01 Mar 2026",
       excerpt: "Um guia completo para equilibrar investimentos de curto e longo prazo para um crescimento sustentável.",
-      image: "from-red-900 to-orange-900"
+      image: "https://picsum.photos/seed/marketing/800/600",
+      content: `
+        O dilema eterno: resultados rápidos com anúncios ou autoridade duradoura com conteúdo orgânico? A resposta curta é: **ambos**, mas com o equilíbrio certo para o seu momento de negócio.
+
+        Neste guia, detalhamos:
+        - Quando acelerar no Google Ads e Meta Ads.
+        - Como o SEO sustenta o ROI a longo prazo.
+        - A estratégia de "Cercamento Digital" para dominar seu nicho.
+
+        Entenda como a Attiva Digital gerencia orçamentos de marketing para maximizar o retorno sobre o investimento (ROI) de forma previsível e escalável.
+      `
     },
     {
       title: "A Importância da Velocidade de Carregamento para Conversão",
       category: "Tecnologia",
       date: "25 Fev 2026",
-      excerpt: "Por que cada milissegundo conta e como os Core Web Vitals impactam diretamente no seu faturamento.",
-      image: "from-green-900 to-teal-900"
+      excerpt: "Cada milissegundo conta. Descubra como a performance técnica impacta diretamente no seu faturamento.",
+      image: "https://picsum.photos/seed/speed/800/600",
+      content: `
+        Estudos mostram que um atraso de apenas 1 segundo no carregamento pode reduzir as conversões em até 7%. Em 2026, com conexões 5G e usuários cada vez mais impacientes, a performance técnica é uma questão de sobrevivência.
+
+        O que otimizamos na Attiva Digital:
+        - **Core Web Vitals:** As métricas que o Google usa para ranquear seu site.
+        - **Otimização de Imagens de Próxima Geração:** WebP e AVIF.
+        - **Código Limpo e Minificado:** Removendo o "lixo" que atrasa o navegador.
+
+        Seu site é rápido o suficiente para não perder dinheiro? Faça o teste conosco.
+      `
     },
     {
       title: "Gestão de Redes Sociais: Além dos Likes e Seguidores",
       category: "Social Media",
       date: "20 Fev 2026",
       excerpt: "Como transformar sua audiência em uma comunidade ativa que defende e promove sua marca organicamente.",
-      image: "from-pink-900 to-rose-900"
+      image: "https://picsum.photos/seed/social/800/600",
+      content: `
+        Likes não pagam boletos. O verdadeiro poder das redes sociais em 2026 está no **Engajamento Profundo** e na construção de comunidades.
+
+        Nossa abordagem:
+        - **Conteúdo Nativo:** Adaptando a mensagem para cada plataforma (TikTok, Reels, LinkedIn).
+        - **Gestão de Crise e Atendimento:** Transformando reclamações em fãs.
+        - **Estratégia de Influenciadores:** Conectando sua marca com quem realmente tem voz.
+
+        A Attiva Digital não apenas posta; nós construímos relacionamentos que se traduzem em vendas.
+      `
     }
   ];
 
@@ -1671,9 +1849,6 @@ export default function App() {
       chartData: [1.2, 1.5, 1.8, 2.2, 2.8, 3.2, 3.5, 3.8, 4.1, 4.3, 4.5, 4.8]
     }
   ];
-
-  const [selectedService, setSelectedService] = useState<any>(null);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   return (
     <div className="min-h-screen selection:bg-gold-primary selection:text-black">
@@ -1702,6 +1877,12 @@ export default function App() {
             onClose={() => setSelectedProject(null)} 
           />
         )}
+        {selectedPost && (
+          <BlogModal 
+            post={selectedPost} 
+            onClose={() => setSelectedPost(null)} 
+          />
+        )}
       </AnimatePresence>
 
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-black/90 backdrop-blur-md py-3 shadow-2xl' : 'bg-transparent py-6'}`}>
@@ -1727,8 +1908,8 @@ export default function App() {
             </button>
           </div>
 
-          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
+          <button className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
@@ -1739,20 +1920,58 @@ export default function App() {
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            className="fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center gap-6 backdrop-blur-xl"
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-black z-[60] flex flex-col items-center justify-center p-6 overflow-hidden"
           >
-            {['#home', '#servicos', '#sobre', '#portfolio', '#resultados', '#blog', '#contato'].map((hash) => (
-              <button 
-                key={hash}
-                onClick={() => navigate(hash)}
-                className="text-2xl font-display text-white uppercase tracking-widest hover:text-gold-primary transition-colors"
-              >
-                {hash.replace('#', '') || 'home'}
-              </button>
-            ))}
-            <div className="flex gap-6 mt-8">
-              <a href="https://www.instagram.com/attiva.digital" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gold-primary transition-colors"><Instagram /></a>
-              <a href="https://www.facebook.com/leonardo.barretto" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gold-primary transition-colors"><Facebook /></a>
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.15)_0%,transparent_70%)]" />
+              <div className="h-full w-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
+            </div>
+
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-8 right-8 text-white/50 hover:text-gold-primary transition-colors p-2"
+            >
+              <X size={40} />
+            </button>
+
+            <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-xs">
+              <Logo className="mb-8 scale-125" onClick={() => navigate('#home')} />
+              
+              <div className="flex flex-col items-center gap-4 w-full">
+                {['#home', '#servicos', '#sobre', '#portfolio', '#resultados', '#blog', '#contato'].map((hash) => (
+                  <button 
+                    key={hash}
+                    onClick={() => navigate(hash)}
+                    className={`text-3xl font-display uppercase tracking-[0.2em] transition-all duration-300 hover:scale-110 ${currentHash === hash ? 'text-gold-primary' : 'text-white/60 hover:text-white'}`}
+                  >
+                    {hash.replace('#', '') || 'home'}
+                  </button>
+                ))}
+              </div>
+
+              <div className="w-full h-px bg-white/10 my-4" />
+
+              <div className="flex flex-col items-center gap-6">
+                <div className="flex gap-8">
+                  <a href="https://www.instagram.com/attiva.digital" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-gold-primary transition-colors hover:scale-125 transform"><Instagram size={28} /></a>
+                  <a href="https://www.facebook.com/leonardo.barretto" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-gold-primary transition-colors hover:scale-125 transform"><Facebook size={28} /></a>
+                </div>
+                
+                <div className="text-center">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-2 font-bold">Contato Direto</p>
+                  <a 
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gold-primary font-mono text-sm tracking-widest hover:underline"
+                  >
+                    (41) 99874-5632
+                  </a>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
@@ -1786,7 +2005,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
-                className="font-display text-6xl md:text-9xl lg:text-[12rem] text-white mb-6 leading-none tracking-tighter"
+                className="font-display text-4xl sm:text-6xl md:text-9xl lg:text-[12rem] text-white mb-6 leading-none tracking-tighter"
               >
                 ATTIVA <span className="gold-text">DIGITAL</span>
               </motion.h1>
@@ -1845,6 +2064,9 @@ export default function App() {
                 <ChevronDown size={32} />
               </div>
             </motion.div>
+
+            <ReviewsSection reviews={reviews} />
+            <InstagramFeed />
           </section>
         )}
 
@@ -1980,9 +2202,6 @@ export default function App() {
               </div>
             </div>
 
-            <ReviewsSection reviews={reviews} />
-            <InstagramSection />
-
             {/* FAQ Section */}
             <div>
               <div className="text-center mb-16">
@@ -2029,11 +2248,11 @@ export default function App() {
                   </div>
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500" />
                   
-                  <div className="absolute inset-0 p-10 flex flex-col justify-end translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
                     <div className="flex items-center gap-2 text-gold-primary text-xs uppercase tracking-[0.2em] font-bold mb-4">
                       <p.icon size={14} /> {p.category}
                     </div>
-                    <h4 className="text-3xl font-display text-white mb-3 leading-tight">{p.title}</h4>
+                    <h4 className="text-2xl md:text-3xl font-display text-white mb-3 leading-tight">{p.title}</h4>
                     <div className="flex items-center gap-3 mb-8">
                       <div className="px-3 py-1 rounded-full bg-gold-primary text-black text-[10px] font-black uppercase tracking-tighter">
                         {p.result}
@@ -2105,12 +2324,15 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.map((post, i) => (
-                <BlogCard key={i} {...post} delay={i * 0.1} />
+                <BlogCard key={i} {...post} delay={i * 0.1} onClick={() => setSelectedPost(post)} />
               ))}
             </div>
 
             <div className="mt-20 text-center">
-              <button className="border border-gold-primary text-gold-primary px-10 py-4 rounded-full text-sm uppercase tracking-widest hover:bg-gold-primary hover:text-black transition-all">
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="border border-gold-primary text-gold-primary px-10 py-4 rounded-full text-sm uppercase tracking-widest hover:bg-gold-primary hover:text-black transition-all"
+              >
                 Ver Todos os Artigos
               </button>
             </div>
