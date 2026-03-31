@@ -215,23 +215,103 @@ const ParticleCanvas = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-50" />;
 };
 
-const ServiceCard = ({ icon: Icon, title, description, delay }: any) => (
+const ServiceCard = ({ icon: Icon, title, description, delay, onClick }: any) => (
   <motion.div 
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.6, delay }}
-    className="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 hover:border-gold-primary transition-all duration-500 group cursor-pointer hover:-translate-y-3"
+    onClick={onClick}
+    className="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 hover:border-gold-primary transition-all duration-500 group cursor-pointer hover:-translate-y-3 flex flex-col h-full"
   >
     <div className="w-16 h-16 bg-zinc-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
       <Icon className="w-8 h-8 text-gold-primary group-hover:rotate-6 transition-transform" />
     </div>
     <h3 className="text-xl font-heading font-bold text-white mb-4">{title}</h3>
-    <p className="text-ink-silver font-sans leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+    <p className="text-ink-silver font-sans leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity mb-6 flex-grow">
       {description}
     </p>
+    <div className="flex items-center gap-2 text-gold-primary font-bold text-sm uppercase tracking-widest group-hover:gap-4 transition-all">
+      Saiba Mais <ArrowRight size={16} />
+    </div>
   </motion.div>
 );
+
+const ServiceModal = ({ service, onClose }: { service: any, onClose: () => void }) => {
+  if (!service) return null;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl"
+      onClick={onClose}
+    >
+      <motion.div 
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 20 }}
+        className="bg-zinc-900 border border-gold-primary/30 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-8 md:p-12 relative shadow-[0_0_50px_rgba(201,168,76,0.2)]"
+        onClick={e => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+        >
+          <X size={32} />
+        </button>
+
+        <div className="flex flex-col md:flex-row gap-12">
+          <div className="md:w-1/3">
+            <div className="w-20 h-20 bg-zinc-800 rounded-2xl flex items-center justify-center mb-6">
+              <service.icon className="w-10 h-10 text-gold-primary" />
+            </div>
+            <h2 className="text-3xl font-display text-white mb-4">{service.title}</h2>
+            <p className="text-gold-primary font-bold uppercase tracking-widest text-xs mb-8">Resultados Esperados: {service.results}</p>
+            
+            <button 
+              onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá! Gostaria de saber mais sobre o serviço: ${service.title}`)}`, '_blank')}
+              className="w-full btn-gold py-4 rounded-xl text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2"
+            >
+              <MessageCircle size={18} /> Solicitar Orçamento
+            </button>
+          </div>
+
+          <div className="md:w-2/3 space-y-8">
+            <div>
+              <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">Visão Geral</h4>
+              <p className="text-ink-silver leading-relaxed elderly-friendly-text">{service.fullText}</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">O que inclui</h4>
+                <ul className="space-y-2">
+                  {service.items.map((item: string, i: number) => (
+                    <li key={i} className="text-ink-silver text-sm flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-gold-primary rounded-full" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-sm border-l-2 border-gold-primary pl-4">Diferenciais</h4>
+                <ul className="space-y-2">
+                  {service.differentiators.map((item: string, i: number) => (
+                    <li key={i} className="text-ink-silver text-sm flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-gold-primary rounded-full" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const Counter = ({ end, label, suffix = "" }: { end: number, label: string, suffix?: string }) => {
   const [count, setCount] = useState(0);
@@ -301,14 +381,122 @@ export default function App() {
   };
 
   const services = [
-    { icon: Globe, title: "Criação de Sites", description: "Sites profissionais, rápidos e otimizados para converter visitantes em clientes." },
-    { icon: MessageCircle, title: "Gestão de Redes Sociais", description: "Conteúdo estratégico que engaja, cresce seguidores e gera autoridade para sua marca." },
-    { icon: Search, title: "SEO & Indexação", description: "Apareça no topo do Google e seja encontrado por quem já procura o que você oferece." },
-    { icon: ShoppingCart, title: "Lojas Virtuais", description: "E-commerce completo com integração de pagamento, logística e design que vende." },
-    { icon: Settings, title: "Sistemas Web", description: "Plataformas e sistemas customizados que automatizam e escalam seu negócio." },
-    { icon: Smartphone, title: "Desenvolvimento de Apps", description: "Aplicativos iOS e Android que conectam sua empresa ao seu cliente onde quer que ele esteja." },
-    { icon: TrendingUp, title: "Tráfego Pago", description: "Campanhas no Google Ads e Meta Ads otimizadas para o menor custo por aquisição." },
-    { icon: Lightbulb, title: "Consultoria Digital", description: "Diagnóstico completo da sua presença digital e plano de ação personalizado para crescer." },
+    { 
+      icon: Globe, 
+      title: "Criação de Sites Profissionais", 
+      description: "Desenvolvemos sites de alta conversão, ultra-rápidos e otimizados para o Google (SEO).",
+      fullText: "Na Attiva Digital, não criamos apenas sites; construímos máquinas de vendas. Nossos projetos são desenvolvidos com foco total em UX (Experiência do Usuário) e UI (Interface do Usuário), garantindo que cada clique tenha o potencial de se tornar um novo cliente. Utilizamos as tecnologias mais modernas para assegurar que seu site carregue em menos de 2 segundos, seja 100% responsivo (funciona perfeitamente em celulares, tablets e desktops) e possua uma arquitetura de informação pensada para a jornada de compra do seu público.",
+      items: ["Sites Institucionais", "Landing Pages de Alta Conversão", "Blogs de Autoridade", "Portfólios Digitais"],
+      differentiators: ["Otimização de Velocidade (Core Web Vitals)", "Design Exclusivo e Luxuoso", "SEO On-Page Integrado", "Hospedagem de Alta Performance"],
+      results: "Aumento médio de 45% na taxa de conversão e melhoria imediata no posicionamento orgânico."
+    },
+    { 
+      icon: MessageCircle, 
+      title: "Gestão de Redes Sociais", 
+      description: "Conteúdo estratégico que engaja, constrói autoridade e transforma seguidores em embaixadores da marca.",
+      fullText: "Sua presença nas redes sociais é o cartão de visitas da sua empresa no mundo moderno. Nossa gestão vai muito além de 'postagens bonitas'. Criamos uma estratégia de conteúdo baseada em dados, tendências e no comportamento do seu público-alvo. Focamos em construir uma comunidade ativa em torno da sua marca, utilizando narrativas envolventes (storytelling), design de impacto e monitoramento constante de métricas para garantir que seu investimento se transforme em engajamento real e vendas.",
+      items: ["Planejamento de Conteúdo Mensal", "Design de Posts e Reels", "Gestão de Comunidade e Comentários", "Relatórios de Performance"],
+      differentiators: ["Estratégia de Branding Integrada", "Copywriting de Alto Impacto", "Análise de Concorrência", "Foco em Conversão, não apenas likes"],
+      results: "Crescimento orgânico qualificado e fortalecimento da identidade visual da marca."
+    },
+    { 
+      icon: Search, 
+      title: "SEO & Indexação Google", 
+      description: "Domine a primeira página do Google e seja encontrado por quem já está procurando o seu serviço.",
+      fullText: "O SEO (Search Engine Optimization) é o investimento mais rentável a longo prazo para qualquer negócio digital. Na Attiva Digital, aplicamos técnicas avançadas de SEO Semântico, otimização técnica e link building para garantir que sua empresa apareça no topo das buscas em Curitiba e em todo o Brasil. Trabalhamos a indexação profunda do seu site, garantindo que o Google entenda exatamente o que você oferece e priorize sua marca frente aos concorrentes.",
+      items: ["Auditoria Técnica de SEO", "Pesquisa de Palavras-Chave Estratégicas", "SEO Local (Google Meu Negócio)", "Otimização de Conteúdo Semântico"],
+      differentiators: ["Foco em E-E-A-T (Experiência, Especialidade, Autoridade e Confiança)", "Estratégia de SEO Local para Curitiba", "Monitoramento de Rankings em Tempo Real", "Otimização Contínua de Performance"],
+      results: "Aumento exponencial no tráfego orgânico e redução drástica no custo por lead a longo prazo."
+    },
+    { 
+      icon: ShoppingCart, 
+      title: "Lojas Virtuais (E-commerce)", 
+      description: "Plataformas de vendas completas, seguras e prontas para escalar seu faturamento.",
+      fullText: "Transforme sua loja física em uma potência de vendas online ou comece seu império digital do zero. Desenvolvemos e-commerces robustos, com foco na facilidade de navegação e na segurança das transações. Integramos as melhores soluções de pagamento (Pix, Cartão, Boleto) e logística do mercado, garantindo que a experiência de compra do seu cliente seja fluida e prazerosa, resultando em menos carrinhos abandonados e mais vendas finalizadas.",
+      items: ["Desenvolvimento em Shopify/WooCommerce/Custom", "Integração com Gateways de Pagamento", "Gestão de Estoque e Frete", "Otimização de Checkout"],
+      differentiators: ["Checkout em Uma Página", "Recuperação de Carrinhos Abandonados", "Design Focado em Mobile-First", "Treinamento Completo para sua Equipe"],
+      results: "Plataforma escalável pronta para suportar grandes volumes de tráfego e vendas."
+    },
+    { 
+      icon: Settings, 
+      title: "Sistemas Web Customizados", 
+      description: "Automação de processos e ferramentas exclusivas para a gestão eficiente do seu negócio.",
+      fullText: "Muitas vezes, as ferramentas prontas do mercado não atendem às necessidades específicas da sua empresa. É aí que entramos com o desenvolvimento de sistemas web sob medida. Seja um CRM personalizado, um portal de membros ou uma ferramenta de automação interna, criamos soluções que resolvem problemas reais, economizam tempo da sua equipe e fornecem dados precisos para a tomada de decisão.",
+      items: ["Dashboards Administrativos", "Sistemas de Gestão (ERP/CRM) Customizados", "Portais de Conteúdo e EAD", "Integrações via API"],
+      differentiators: ["Arquitetura Escalável", "Segurança de Dados Avançada", "Interface Intuitiva", "Suporte Técnico Especializado"],
+      results: "Aumento da produtividade interna e centralização inteligente das informações do negócio."
+    },
+    { 
+      icon: Smartphone, 
+      title: "Desenvolvimento de Apps", 
+      description: "Aplicativos nativos e híbridos que colocam sua marca no bolso do seu cliente.",
+      fullText: "O mundo é mobile. Ter um aplicativo próprio é a forma mais direta de fidelizar seus clientes e oferecer serviços exclusivos. Desenvolvemos apps para iOS e Android com foco em performance e usabilidade. Desde a concepção da ideia até a publicação nas lojas (App Store e Google Play), cuidamos de todo o processo técnico para que você tenha uma ferramenta poderosa de conexão e vendas na palma da mão.",
+      items: ["Apps Nativos (Swift/Kotlin)", "Apps Híbridos (React Native/Flutter)", "Progressive Web Apps (PWA)", "Manutenção e Atualização de Apps"],
+      differentiators: ["UI/UX Mobile Especializada", "Integração com Recursos do Celular (GPS, Câmera, Push)", "Performance Fluida", "Publicação Assistida nas Lojas"],
+      results: "Maior retenção de clientes e criação de um novo canal de receita direta."
+    },
+    { 
+      icon: TrendingUp, 
+      title: "Tráfego Pago (Ads)", 
+      description: "Anúncios certeiros no Google, Instagram e Facebook para gerar leads qualificados hoje.",
+      fullText: "Quer resultados imediatos? O tráfego pago é o caminho. Criamos e gerenciamos campanhas de alta performance no Google Ads, Meta Ads (Instagram/Facebook), LinkedIn Ads e TikTok Ads. Nossa metodologia foca no ROI (Retorno sobre Investimento). Não buscamos apenas cliques; buscamos as pessoas certas, no momento certo, com a oferta certa para garantir que cada centavo investido retorne em faturamento para sua empresa.",
+      items: ["Gestão de Google Ads (Pesquisa/Display/Shopping)", "Anúncios em Redes Sociais (Meta/TikTok/LinkedIn)", "Remarketing Estratégico", "Criação de Criativos de Alta Conversão"],
+      differentiators: ["Análise de Dados em Tempo Real", "Testes A/B Constantes", "Otimização de Landing Pages", "Relatórios Transparentes de ROI"],
+      results: "Geração imediata de leads e vendas com controle total do orçamento investido."
+    },
+    { 
+      icon: Lightbulb, 
+      title: "Consultoria de Marketing Digital", 
+      description: "Estratégia macro para empresas que buscam crescimento sustentável e posicionamento de elite.",
+      fullText: "Muitas empresas investem no digital sem uma estratégia clara, o que resulta em desperdício de recursos. Nossa consultoria oferece um olhar 360º sobre o seu negócio. Analisamos sua concorrência, seu posicionamento atual e identificamos as melhores oportunidades de crescimento. Entregamos um roadmap detalhado de ações que vão desde o branding até a escala de vendas, garantindo que sua marca se torne uma autoridade no seu nicho.",
+      items: ["Planejamento Estratégico Anual", "Análise de Presença Digital", "Treinamento de Equipes de Vendas/Marketing", "Definição de KPIs e Métricas"],
+      differentiators: ["Visão de Negócio Além do Marketing", "Metodologia Própria de Escala", "Acompanhamento Próximo e Consultivo", "Foco em Branding de Luxo e Valor"],
+      results: "Clareza estratégica total e um caminho sólido para a liderança de mercado."
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "Quanto tempo leva para criar um site profissional?",
+      answer: "O tempo médio de desenvolvimento de um site institucional de alta qualidade é de 15 a 30 dias, dependendo da complexidade e da agilidade na aprovação do conteúdo. Landing pages podem ser entregues em até 7 dias úteis."
+    },
+    {
+      question: "A Attiva Digital atende apenas empresas de Curitiba?",
+      answer: "Embora nossa sede seja em Curitiba–PR, atendemos clientes em todo o Brasil e até no exterior. O marketing digital nos permite uma conexão total e eficiente de forma remota, com reuniões via vídeo e acompanhamento em tempo real."
+    },
+    {
+      question: "Qual o investimento mínimo para tráfego pago?",
+      answer: "Não existe um valor fixo, pois o investimento depende dos seus objetivos e da concorrência do seu nicho. Recomendamos um valor inicial que permita realizar testes significativos, geralmente a partir de R$ 1.000,00 mensais em verba de anúncios, além da nossa taxa de gestão."
+    },
+    {
+      question: "Meu site vai aparecer na primeira página do Google?",
+      answer: "Trabalhamos com as melhores práticas de SEO e indexação para que isso aconteça. O SEO é um processo de médio a longo prazo, mas com nossa estratégia de SEO Local e Semântico, os resultados de posicionamento começam a aparecer de forma sólida nos primeiros meses."
+    },
+    {
+      question: "Vocês fazem apenas o design ou também o conteúdo?",
+      answer: "Oferecemos soluções completas (Full Service). Nossa equipe conta com copywriters especializados em conversão que criam todo o conteúdo textual do seu site ou redes sociais, garantindo que a comunicação seja persuasiva e alinhada à sua marca."
+    }
+  ];
+
+  const testimonials = [
+    {
+      name: "Ricardo Almeida",
+      company: "Almeida Advocacia",
+      text: "A Attiva Digital transformou nossa presença online. Saímos do zero para a primeira página do Google em Curitiba em menos de 3 meses. O profissionalismo do Leonardo e sua equipe é impecável.",
+      rating: 5
+    },
+    {
+      name: "Mariana Costa",
+      company: "Boutique de Luxo",
+      text: "Minha loja virtual nunca vendeu tanto. O novo design trouxe uma elegância que meus clientes valorizam muito. O suporte pós-venda também é um grande diferencial deles.",
+      rating: 5
+    },
+    {
+      name: "Carlos Eduardo",
+      company: "Tech Solutions",
+      text: "O sistema web que desenvolveram para nossa gestão interna economizou horas de trabalho manual da minha equipe. Valeu cada centavo do investimento.",
+      rating: 5
+    }
   ];
 
   const portfolio = [
@@ -320,9 +508,20 @@ export default function App() {
     { title: "Social Media Fashion", category: "Redes Sociais", result: "Engajamento +400%" },
   ];
 
+  const [selectedService, setSelectedService] = useState<any>(null);
+
   return (
     <div className="min-h-screen selection:bg-gold-primary selection:text-black">
       <div id="curtain" className={isTransitioning ? 'curtain-animate' : ''} />
+
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceModal 
+            service={selectedService} 
+            onClose={() => setSelectedService(null)} 
+          />
+        )}
+      </AnimatePresence>
 
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-black/90 backdrop-blur-md py-3 shadow-2xl' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -371,9 +570,9 @@ export default function App() {
               </button>
             ))}
             <div className="flex gap-6 mt-8">
-              <Instagram className="text-gold-primary" />
-              <Facebook className="text-gold-primary" />
-              <MessageCircle className="text-gold-primary" />
+              <a href="https://www.instagram.com/attiva.digital" target="_blank" rel="noopener noreferrer" className="text-gold-primary hover:scale-110 transition-transform"><Instagram /></a>
+              <a href="https://www.facebook.com/leonardo.barretto" target="_blank" rel="noopener noreferrer" className="text-gold-primary hover:scale-110 transition-transform"><Facebook /></a>
+              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-gold-primary hover:scale-110 transition-transform"><MessageCircle /></a>
             </div>
           </motion.div>
         )}
@@ -455,7 +654,7 @@ export default function App() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {services.map((s, i) => (
-                <ServiceCard key={i} {...s} delay={i * 0.1} />
+                <ServiceCard key={i} {...s} delay={i * 0.1} onClick={() => setSelectedService(s)} />
               ))}
             </div>
           </section>
@@ -493,8 +692,8 @@ export default function App() {
                     <h4 className="text-2xl font-heading font-bold text-white mb-2">Leonardo Santana Barretto Bastos</h4>
                     <p className="text-gold-primary uppercase tracking-widest text-sm mb-6">Fundador & Diretor Criativo</p>
                     <div className="flex gap-4">
-                      <a href="#" className="text-white hover:text-gold-primary transition-colors"><Facebook /></a>
-                      <a href="#" className="text-white hover:text-gold-primary transition-colors"><Instagram /></a>
+                      <a href="https://www.facebook.com/leonardo.barretto" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gold-primary transition-colors"><Facebook /></a>
+                      <a href="https://www.instagram.com/leo.barretto1" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gold-primary transition-colors"><Instagram /></a>
                     </div>
                   </div>
                 </div>
@@ -503,10 +702,61 @@ export default function App() {
               </motion.div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 bg-zinc-900/30 rounded-3xl border border-zinc-800 p-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 bg-zinc-900/30 rounded-3xl border border-zinc-800 p-12 mb-32">
               <Counter end={200} label="Clientes Atendidos" suffix="+" />
               <Counter end={500} label="Projetos Entregues" suffix="+" />
               <Counter end={8} label="Anos de Mercado" suffix="+" />
+            </div>
+
+            {/* Testimonials Section */}
+            <div className="mb-32">
+              <div className="text-center mb-16">
+                <h3 className="font-display text-4xl md:text-5xl text-white mb-4">O que dizem nossos clientes</h3>
+                <div className="w-16 h-1 bg-gold-primary mx-auto" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {testimonials.map((t, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="bg-zinc-900/50 p-8 rounded-3xl border border-zinc-800 relative"
+                  >
+                    <div className="flex text-gold-primary mb-6">
+                      {[...Array(t.rating)].map((_, i) => <span key={i}>★</span>)}
+                    </div>
+                    <p className="text-ink-silver italic mb-8 leading-relaxed">"{t.text}"</p>
+                    <div>
+                      <div className="text-white font-bold">{t.name}</div>
+                      <div className="text-gold-primary text-xs uppercase tracking-widest">{t.company}</div>
+                    </div>
+                    <div className="absolute -top-4 -left-4 text-6xl text-gold-primary opacity-10 font-serif">“</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div>
+              <div className="text-center mb-16">
+                <h3 className="font-display text-4xl md:text-5xl text-white mb-4">Dúvidas Frequentes</h3>
+                <div className="w-16 h-1 bg-gold-primary mx-auto" />
+              </div>
+              <div className="max-w-3xl mx-auto space-y-4">
+                {faqs.map((faq, i) => (
+                  <details key={i} className="group bg-zinc-900/50 rounded-2xl border border-zinc-800 overflow-hidden">
+                    <summary className="p-6 cursor-pointer flex justify-between items-center list-none">
+                      <span className="text-white font-bold elderly-friendly-text">{faq.question}</span>
+                      <ChevronDown className="text-gold-primary group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div className="px-6 pb-6 text-ink-silver opacity-70 elderly-friendly-text border-t border-zinc-800 pt-4">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
             </div>
           </section>
         )}
@@ -653,8 +903,8 @@ export default function App() {
               Sua marca sempre ativa no mundo digital. Transformamos tecnologia em resultados reais para sua empresa.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-gold-primary hover:bg-gold-primary hover:text-black transition-all"><Instagram size={20} /></a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-gold-primary hover:bg-gold-primary hover:text-black transition-all"><Facebook size={20} /></a>
+              <a href="https://www.instagram.com/attiva.digital" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-gold-primary hover:bg-gold-primary hover:text-black transition-all"><Instagram size={20} /></a>
+              <a href="https://www.facebook.com/leonardo.barretto" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-gold-primary hover:bg-gold-primary hover:text-black transition-all"><Facebook size={20} /></a>
             </div>
           </div>
           
