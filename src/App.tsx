@@ -393,9 +393,13 @@ const HeroTagline = ({ text }: { text: string }) => {
       {words.map((word, i) => (
         <motion.span
           key={i}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 + i * 0.1, duration: 0.5 }}
+          initial={{ opacity: 0, y: 80, scale: 0.5, filter: "blur(20px)", rotate: i % 2 === 0 ? -5 : 5 }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)", rotate: 0 }}
+          transition={{ 
+            delay: 1 + i * 0.2, 
+            duration: 1,
+            ease: "circOut"
+          }}
           className="font-sans font-light text-lg md:text-2xl tracking-[0.2em] uppercase text-white/60"
         >
           {word}
@@ -497,10 +501,10 @@ const ParticleCanvas = () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.size = Math.random() * 3 + 1.5;
+        this.speedX = (Math.random() - 0.5) * 0.8;
+        this.speedY = (Math.random() - 0.5) * 0.8;
+        this.opacity = Math.random() * 0.6 + 0.3;
       }
       update() {
         this.x += this.speedX;
@@ -520,7 +524,7 @@ const ParticleCanvas = () => {
 
     const init = () => {
       particles = [];
-      const count = window.innerWidth < 768 ? 30 : 60;
+      const count = window.innerWidth < 768 ? 50 : 80;
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -653,16 +657,16 @@ const ReviewsSection = ({ reviews }: { reviews: any[] }) => {
 
 const InstagramFeed = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
 
   return (
-    <section id="instagram" className="py-24 md:py-32 bg-zinc-900/30" ref={ref}>
+    <section id="instagram" className="py-24 md:py-32 bg-zinc-900/30 overflow-hidden" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.header 
           className="text-center max-w-2xl mx-auto mb-14"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 100, scale: 0.8, rotate: -5 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1, rotate: 0 } : {}}
+          transition={{ duration: 1, ease: "circOut" }}
         >
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gold-primary text-black text-base font-bold mb-5">
             <Instagram className="h-5 w-5" />
@@ -675,21 +679,22 @@ const InstagramFeed = () => {
         </motion.header>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          initial={{ opacity: 0, y: 120, scale: 0.9, rotate: 2 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1, rotate: 0 } : {}}
+          transition={{ duration: 0.9, delay: 0.2, ease: "circOut" }}
           className="max-w-4xl mx-auto mb-8"
         >
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-zinc-800 bg-black">
+          <div className="rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-zinc-800 bg-black relative h-[280px] md:h-[550px]">
             <iframe
               src="https://www.instagram.com/attiva.digital/embed"
               title="Feed do Instagram"
               width="100%"
-              height="320"
+              height="280"
               frameBorder="0"
               scrolling="no"
               allowTransparency={true}
-              className="w-full md:h-[700px] h-[320px] block"
+              className="w-full h-full block bg-black"
+              style={{ background: 'black' }}
               loading="lazy"
             />
           </div>
@@ -697,9 +702,9 @@ const InstagramFeed = () => {
 
         <motion.div 
           className="flex flex-col md:flex-row items-center justify-center gap-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          initial={{ opacity: 0, y: 60, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.4, ease: "circOut" }}
         >
           <a href="https://www.instagram.com/attiva.digital/" 
              target="_blank" rel="noopener noreferrer"
@@ -715,10 +720,10 @@ const InstagramFeed = () => {
 
 const ServiceCard = ({ icon: Icon, title, description, delay, onClick }: any) => (
   <motion.div 
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6, delay }}
+    initial={{ opacity: 0, y: 100, scale: 0.8, rotate: -2 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+    viewport={{ once: true, margin: "-30px" }}
+    transition={{ duration: 0.9, delay, ease: "circOut" }}
     onClick={onClick}
     className="bg-zinc-900/50 p-6 md:p-8 rounded-2xl border border-zinc-800 hover:border-gold-primary transition-all duration-500 group cursor-pointer hover:-translate-y-3 flex flex-col h-full"
   >
@@ -836,6 +841,10 @@ const Counter = ({ end, label, suffix = "" }: { end: number, label: string, suff
   return (
     <motion.div 
       onViewportEnter={() => setHasStarted(true)}
+      initial={{ opacity: 0, y: 50, scale: 0.8 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="text-center p-6"
     >
       <div className="text-5xl md:text-6xl font-display text-gold-primary mb-2">
@@ -1987,9 +1996,9 @@ export default function App() {
             <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,1)] pointer-events-none" />
 
             <motion.div 
-              initial={{ scale: 0.5, opacity: 0, rotate: -10 }}
-              animate={{ scale: 1.5, opacity: 1, rotate: 0 }}
-              transition={{ duration: 1.5, ease: "circOut" }}
+              initial={{ scale: 0.3, opacity: 0, rotate: -20, y: 100 }}
+              animate={{ scale: 1.5, opacity: 1, rotate: 0, y: 0 }}
+              transition={{ duration: 2, ease: "circOut" }}
               className="mb-12 relative"
             >
               <Logo />
@@ -2002,9 +2011,9 @@ export default function App() {
             
             <div className="relative z-10 max-w-5xl mx-auto">
               <motion.h1 
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+                initial={{ opacity: 0, y: 120, scale: 0.7, rotate: -2 }}
+                animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                transition={{ delay: 0.3, duration: 1.5, ease: "circOut" }}
                 className="font-display text-4xl sm:text-6xl md:text-9xl lg:text-[12rem] text-white mb-6 leading-none tracking-tighter"
               >
                 ATTIVA <span className="gold-text">DIGITAL</span>
@@ -2033,9 +2042,9 @@ export default function App() {
               </div>
 
               <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
+                initial={{ opacity: 0, y: 100, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 1.2, duration: 1.2, ease: "circOut" }}
                 className="flex flex-col md:flex-row gap-6 justify-center"
               >
                 <button 
@@ -2092,9 +2101,10 @@ export default function App() {
           <section id="sobre" className="py-32 px-6 max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, x: -100, scale: 0.8, rotate: -5 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 1, ease: "circOut" }}
               >
                 <h2 className="font-display text-5xl md:text-7xl text-white mb-6">Quem Somos</h2>
                 <h3 className="text-gold-primary text-xl font-sans font-semibold mb-8 uppercase tracking-widest">Agência nascida para transformar negócios digitalmente</h3>
@@ -2118,9 +2128,10 @@ export default function App() {
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, scale: 0.7, rotate: 10, y: 50 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 1.2, ease: "circOut" }}
                 className="relative"
               >
                 <div className="aspect-square rounded-3xl overflow-hidden border-2 border-gold-primary p-4">
@@ -2182,10 +2193,10 @@ export default function App() {
                 {testimonials.map((t, i) => (
                   <motion.div 
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
+                    initial={{ opacity: 0, y: 100, scale: 0.8, rotate: i % 2 === 0 ? -2 : 2 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.8, delay: i * 0.1, ease: "circOut" }}
                     className="bg-zinc-900/50 p-8 rounded-3xl border border-zinc-800 relative"
                   >
                     <div className="flex text-gold-primary mb-6">
@@ -2236,10 +2247,10 @@ export default function App() {
               {portfolio.map((p, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  initial={{ opacity: 0, scale: 0.7, y: 120, rotate: i % 2 === 0 ? -3 : 3 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.9, delay: i * 0.1, ease: "circOut" }}
                   onClick={() => setSelectedProject(p)}
                   className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer border border-zinc-800 hover:border-gold-primary/50 transition-all duration-500"
                 >
@@ -2283,10 +2294,10 @@ export default function App() {
               {resultsData.map((res, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  initial={{ opacity: 0, y: 100, scale: 0.8, rotate: i % 2 === 0 ? 2 : -2 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 1, delay: i * 0.1, ease: "circOut" }}
                   className="bg-zinc-900/50 p-8 rounded-3xl border border-zinc-800"
                 >
                   <h4 className="text-white font-bold mb-2">{res.title}</h4>
