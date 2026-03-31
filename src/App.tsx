@@ -42,9 +42,13 @@ import {
   Eye,
   Calendar,
   User,
-  ArrowUpRight
+  ArrowUpRight,
+  ChevronRight,
+  ShoppingBag,
+  Check
 } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
+import Markdown from 'react-markdown';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -227,34 +231,35 @@ const ResultChart = ({ data, label }: { data: number[], label: string }) => {
   );
 };
 
-const BlogCard = ({ title, category, date, excerpt, image, delay, onClick }: any) => (
+const BlogCard = ({ title, category, date, excerpt, image, svg, delay, onClick }: any) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
     onClick={onClick}
-    className="bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-gold-primary transition-all group cursor-pointer"
+    className="blog-card group"
   >
-    <div className="aspect-video relative overflow-hidden">
-      <img 
-        src={image} 
-        alt={title}
-        referrerPolicy="no-referrer"
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-      />
-      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
-      <div className="absolute top-4 left-4 px-3 py-1 bg-gold-primary text-black text-[10px] font-bold uppercase tracking-widest rounded-full">
+    <div className="blog-article-img">
+      {svg ? svg : (
+        <img 
+          src={image} 
+          alt={title}
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+        />
+      )}
+      <div className="blog-card-category">
         {category}
       </div>
     </div>
-    <div className="p-6">
-      <div className="flex items-center gap-2 text-zinc-500 text-[10px] uppercase tracking-widest mb-3">
+    <div className="p-6 md:p-8">
+      <div className="blog-card-meta">
         <Calendar size={12} /> {date}
       </div>
-      <h4 className="text-xl font-heading font-bold text-white mb-3 group-hover:text-gold-primary transition-colors">{title}</h4>
-      <p className="text-ink-silver text-sm opacity-60 line-clamp-2 mb-6">{excerpt}</p>
-      <button className="flex items-center gap-2 text-gold-primary font-bold text-xs uppercase tracking-widest group-hover:gap-4 transition-all">
+      <h4 className="blog-card-title">{title}</h4>
+      <p className="blog-card-excerpt">{excerpt}</p>
+      <button className="blog-card-readmore">
         Ler Artigo <ArrowRight size={14} />
       </button>
     </div>
@@ -264,68 +269,165 @@ const BlogCard = ({ title, category, date, excerpt, image, delay, onClick }: any
 const BlogModal = ({ post, onClose }: { post: any, onClose: () => void }) => {
   if (!post) return null;
 
+  // JSON-LD Schema for Article
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.metaDescription || post.excerpt,
+    "image": post.image,
+    "author": {
+      "@type": "Person",
+      "name": post.author || "Leonardo Santana"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Attiva Digital",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ais-pre-rh5pu4xkapvjlabeqel3ws-386589059803.us-west2.run.app/logo.png"
+      }
+    },
+    "datePublished": post.date,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://ais-pre-rh5pu4xkapvjlabeqel3ws-386589059803.us-west2.run.app/#blog/${post.id}`
+    }
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://attiva.digital"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://attiva.digital/#blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `https://attiva.digital/blog/${post.id}`
+      }
+    ]
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/90 backdrop-blur-xl"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/95 backdrop-blur-2xl"
       onClick={onClose}
     >
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd)}
+        </script>
+        
         <motion.div 
-          initial={{ scale: 0.9, y: 20 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.9, y: 20 }}
-          className="bg-zinc-950 w-full max-w-4xl max-h-[90vh] rounded-2xl md:rounded-[3rem] border border-gold-primary/20 overflow-hidden relative flex flex-col"
+          initial={{ scale: 0.9, y: 50, opacity: 0 }}
+          animate={{ scale: 1, y: 0, opacity: 1 }}
+          exit={{ scale: 0.9, y: 50, opacity: 0 }}
+          className="bg-zinc-950 w-full max-w-5xl max-h-[90vh] rounded-[2rem] md:rounded-[3.5rem] border border-gold-primary/20 overflow-hidden relative flex flex-col shadow-[0_0_100px_rgba(201,168,76,0.1)]"
           onClick={e => e.stopPropagation()}
         >
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 md:w-12 md:h-12 bg-black/50 hover:bg-gold-primary hover:text-black rounded-full flex items-center justify-center text-white transition-all z-10"
+            className="absolute top-6 right-6 w-12 h-12 bg-black/50 hover:bg-gold-primary hover:text-black rounded-full flex items-center justify-center text-white transition-all z-50 border border-white/10"
           >
-            <X size={20} md:size={24} />
+            <X size={24} />
           </button>
 
         <div className="overflow-y-auto custom-scrollbar">
-          <div className="aspect-video w-full relative">
-            <img 
-              src={post.image} 
-              alt={post.title}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-            <div className="absolute bottom-10 left-10 right-10">
-              <div className="px-4 py-1 bg-gold-primary text-black text-xs font-bold uppercase tracking-widest rounded-full inline-block mb-4">
+          <div className="aspect-[21/9] w-full relative">
+            {post.svg ? (
+              <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                {post.svg}
+              </div>
+            ) : (
+              <img 
+                src={post.image} 
+                alt={post.title}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+              <nav className="flex items-center gap-2 text-gold-primary/60 text-[10px] uppercase tracking-[0.2em] mb-6">
+                <span>Home</span>
+                <ChevronRight size={10} />
+                <span>Blog</span>
+                <ChevronRight size={10} />
+                <span className="text-gold-primary">{post.category}</span>
+              </nav>
+              <div className="px-4 py-1 bg-gold-primary text-black text-[10px] font-black uppercase tracking-widest rounded-full inline-block mb-6">
                 {post.category}
               </div>
-                <h2 className="text-xl md:text-5xl font-display text-white leading-tight">{post.title}</h2>
+              <h1 className="text-3xl md:text-6xl font-display text-white leading-[1.1] tracking-tighter max-w-4xl">{post.title}</h1>
             </div>
           </div>
 
-            <div className="p-6 md:p-16">
-              <div className="flex flex-wrap items-center gap-4 text-zinc-500 text-[10px] md:text-xs uppercase tracking-widest mb-6 md:mb-10 pb-6 md:pb-10 border-b border-zinc-900">
-                <div className="flex items-center gap-2"><Calendar size={12} /> {post.date}</div>
-                <div className="flex items-center gap-2"><User size={12} /> Por Attiva Digital</div>
-                <div className="flex items-center gap-2"><Clock size={12} /> 5 min de leitura</div>
+            <div className="p-8 md:p-20">
+              <div className="flex flex-wrap items-center gap-8 text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.2em] mb-12 pb-12 border-b border-zinc-900/50">
+                <div className="flex items-center gap-3"><Calendar size={14} className="text-gold-primary" /> {post.date}</div>
+                <div className="flex items-center gap-3"><User size={14} className="text-gold-primary" /> Por {post.author}</div>
+                <div className="flex items-center gap-3"><Clock size={14} className="text-gold-primary" /> 5 min de leitura</div>
               </div>
 
-              <div className="prose prose-invert max-w-none">
-                <p className="text-lg md:text-xl text-ink-silver leading-relaxed mb-6 md:mb-8 font-light italic">
+              <div className="max-w-3xl mx-auto">
+                <p className="text-xl md:text-2xl text-white leading-relaxed mb-12 font-light italic border-l-4 border-gold-primary pl-8 py-2">
                   {post.excerpt}
                 </p>
-                <div className="text-ink-silver leading-relaxed space-y-4 md:space-y-6 text-base md:text-lg opacity-80 whitespace-pre-line">
-                  {post.content}
+                
+                <div className="blog-content text-ink-silver leading-[1.8] space-y-8 text-lg md:text-xl opacity-90">
+                  <Markdown components={{
+                    h2: ({node, ...props}) => <h2 className="text-3xl md:text-4xl font-display text-white mt-16 mb-8" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="text-2xl font-heading font-bold text-gold-primary mt-12 mb-6" {...props} />,
+                    p: ({node, ...props}) => <p className="mb-6" {...props} />,
+                    ul: ({node, ...props}) => <ul className="list-disc list-inside space-y-4 mb-8 text-gold-primary/80" {...props} />,
+                    li: ({node, ...props}) => <li className="text-ink-silver" {...props} />,
+                    strong: ({node, ...props}) => <strong className="text-white font-bold" {...props} />
+                  }}>
+                    {post.content}
+                  </Markdown>
                 </div>
-              </div>
 
-              <div className="mt-10 md:mt-16 p-6 md:p-10 bg-zinc-900/50 rounded-2xl md:rounded-3xl border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                <div className="text-center md:text-left">
-                  <h4 className="text-white font-bold text-lg md:text-xl mb-1 md:mb-2">Gostou deste conteúdo?</h4>
-                  <p className="text-ink-silver text-xs md:text-sm opacity-60">Compartilhe com sua rede ou fale com um especialista.</p>
+                <div className="mt-20 pt-12 border-t border-zinc-900/50">
+                  <div className="flex flex-wrap gap-3">
+                    {post.keywords?.map((kw: string, idx: number) => (
+                      <span key={idx} className="px-4 py-2 bg-zinc-900 rounded-full text-[10px] text-zinc-500 uppercase tracking-widest border border-zinc-800">
+                        #{kw.replace(/\s+/g, '')}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-4 w-full md:w-auto">
-                  <button className="w-full md:w-auto btn-gold px-8 py-3 rounded-full text-[10px] md:text-xs uppercase tracking-widest font-bold">Falar com Especialista</button>
+
+                <div className="mt-20 p-10 md:p-16 bg-gradient-to-br from-gold-dark/10 to-zinc-900/50 rounded-[3rem] border border-gold-primary/20 flex flex-col md:flex-row items-center justify-between gap-10">
+                  <div className="text-center md:text-left">
+                    <h4 className="text-2xl md:text-3xl font-display text-white mb-3">Pronto para o próximo nível?</h4>
+                    <p className="text-ink-silver opacity-60 text-sm md:text-base">Nossa equipe está pronta para implementar estas estratégias no seu negócio.</p>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      onClose();
+                      window.location.hash = '#contato';
+                    }}
+                    className="w-full md:w-auto btn-gold px-12 py-5 rounded-full text-xs uppercase tracking-widest font-black shadow-[0_0_30px_rgba(201,168,76,0.2)]"
+                  >
+                    Consultoria Gratuita
+                  </button>
                 </div>
               </div>
           </div>
@@ -857,6 +959,20 @@ const Counter = ({ end, label, suffix = "" }: { end: number, label: string, suff
 const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => void }) => {
   if (!project) return null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": project.title,
+    "description": project.description,
+    "image": `https://picsum.photos/seed/${project.title.toLowerCase().replace(/\s+/g, '-')}/800/600`,
+    "author": {
+      "@type": "Organization",
+      "name": "Attiva Digital"
+    },
+    "keywords": project.tags.join(", "),
+    "about": project.category
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -865,6 +981,9 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-2xl"
       onClick={onClose}
     >
+      <script type="application/ld+json">
+        {JSON.stringify(jsonLd)}
+      </script>
       <motion.div 
         initial={{ scale: 0.9, y: 30, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -876,7 +995,7 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
           onClick={onClose}
           className="absolute top-4 right-4 md:top-8 md:right-8 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center text-white/30 hover:text-gold-primary hover:bg-white/5 rounded-full transition-all hover:rotate-90"
         >
-          <X size={24} md:size={32} />
+          <X size={24} />
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
@@ -884,7 +1003,7 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
           <div className="lg:col-span-5 space-y-6 md:space-y-10">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-6">
-                <project.icon size={12} md:size={14} /> {project.category}
+                <project.icon size={14} /> {project.category}
               </div>
               <h2 className="text-3xl md:text-6xl font-display text-white leading-tight mb-4 md:mb-6">{project.title}</h2>
               <p className="text-ink-silver text-base md:text-lg leading-relaxed opacity-80">{project.description}</p>
@@ -923,7 +1042,7 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
               </div>
               
               <h4 className="text-gold-primary font-display text-xl md:text-2xl mb-6 md:mb-8 flex items-center gap-3">
-                <TrendingIcon size={20} md:size={24} /> Raio-X de Crescimento
+                <TrendingIcon size={24} /> Raio-X de Crescimento
               </h4>
 
               <div className="relative space-y-8 md:space-y-12 pl-6 md:pl-8 border-l border-zinc-800">
@@ -962,7 +1081,7 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
 
             <div className="bg-gold-primary/5 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gold-primary/20">
               <h4 className="text-white font-bold mb-3 md:mb-4 flex items-center gap-2 text-sm md:text-base">
-                <Lightbulb size={16} md:size={18} className="text-gold-primary" /> Insight da Agência
+                <Lightbulb size={18} className="text-gold-primary" /> Insight da Agência
               </h4>
               <p className="text-ink-silver text-xs md:text-sm italic leading-relaxed">
                 "{project.insight}"
@@ -1657,184 +1776,328 @@ export default function App() {
         { period: "Mês 06", event: "Rollout Nacional", impact: "Redução de 15% no consumo de combustível.", growth: 200 },
         { period: "Mês 12", event: "Otimização Total", impact: "Eficiência logística da frota cresceu 500%.", growth: 500 }
       ]
-    },
-    { 
-      title: "IA Generativa Startup", 
-      category: "Branding & Web", 
-      result: "+1100% Users", 
-      icon: Cpu,
-      description: "Lançamento de plataforma de IA para criação de ativos de marketing.",
-      tags: ["Product Design", "Growth Hacking", "Viral Loops", "SaaS"],
-      insight: "O 'Aha Moment' deve ser rápido. Reduzimos o tempo de onboarding para menos de 45 segundos.",
-      timeline: [
-        { period: "Mês 01", event: "Beta Fechado", impact: "Lista de espera com 5.000 interessados.", growth: 100 },
-        { period: "Mês 04", event: "Lançamento Público", impact: "100k usuários atingidos em 30 dias.", growth: 600 },
-        { period: "Mês 08", event: "Escala Global", impact: "Base de usuários cresceu 1100% organicamente.", growth: 1100 }
-      ]
-    },
-    { 
-      title: "Rede de Clínicas Estéticas", 
-      category: "Tráfego Pago", 
-      result: "+900% Conversão", 
-      icon: Target,
-      description: "Funil de vendas completo para rede de clínicas de harmonização facial.",
-      tags: ["Meta Ads", "Landing Pages", "WhatsApp Automation", "Sales Funnel"],
-      insight: "O agendamento deve ser imediato. O bot de IA qualifica e agenda o paciente em 1 minuto.",
-      timeline: [
-        { period: "Mês 01", event: "Novo Funil", impact: "Taxa de conversão da LP subiu de 2% para 12%.", growth: 200 },
-        { period: "Mês 06", event: "Automação de Vendas", impact: "Redução de 40% no tempo de resposta comercial.", growth: 500 },
-        { period: "Mês 12", event: "Escala de Unidades", impact: "Volume de agendamentos cresceu 900%.", growth: 900 }
-      ]
-    },
-    { 
-      title: "Indústria Dashboard", 
-      category: "Sistemas Web", 
-      result: "+400% Automação", 
-      icon: BarChart,
-      description: "Sistema de monitoramento de linha de produção para indústria têxtil.",
-      tags: ["Industrial IoT", "Big Data", "Predictive Maintenance", "UX"],
-      insight: "Prever é melhor que remediar. O sistema avisa falhas 2 horas antes de acontecerem.",
-      timeline: [
-        { period: "Mês 01", event: "Sensores IoT", impact: "Coleta de dados de 100% das máquinas.", growth: 50 },
-        { period: "Mês 06", event: "Algoritmo Preditivo", impact: "Redução de 25% nas paradas não programadas.", growth: 250 },
-        { period: "Mês 12", event: "Fábrica Inteligente", impact: "Nível de automação e controle subiu 400%.", growth: 400 }
-      ]
-    },
-    { 
-      title: "Eventos Híbridos", 
-      category: "Apps & Web", 
-      result: "+1300% Participação", 
-      icon: Users,
-      description: "Plataforma para grandes congressos médicos com interação em tempo real.",
-      tags: ["Live Streaming", "Networking App", "Interactive Q&A", "Analytics"],
-      insight: "O evento não acaba no palco. O app manteve a comunidade ativa 365 dias por ano.",
-      timeline: [
-        { period: "Mês 01", event: "Lançamento App", impact: "95% de adoção pelos congressistas presenciais.", growth: 200 },
-        { period: "Mês 06", event: "Módulo Streaming", impact: "Audiência global em 45 países simultâneos.", growth: 800 },
-        { period: "Mês 12", event: "Ecossistema Digital", impact: "Participação total cresceu 1300% vs modelo físico.", growth: 1300 }
-      ]
-    },
-    { 
-      title: "Consultoria B2B", 
-      category: "SEO & LinkedIn", 
-      result: "+1700% Autoridade", 
-      icon: Briefcase,
-      description: "Estratégia de Social Selling e SEO para consultoria de gestão empresarial.",
-      tags: ["LinkedIn Strategy", "Thought Leadership", "B2B SEO", "Lead Gen"],
-      insight: "B2B é de pessoa para pessoa. Humanizamos a marca dos diretores para gerar negócios.",
-      timeline: [
-        { period: "Mês 01", event: "Otimização Perfis", impact: "Aumento de 300% nas visualizações de perfil.", growth: 150 },
-        { period: "Mês 06", event: "Estratégia de Conteúdo", impact: "Liderança orgânica para termos de 'gestão'.", growth: 900 },
-        { period: "Mês 12", event: "Máquina de Leads", impact: "Autoridade e geração de leads cresceram 1700%.", growth: 1700 }
-      ]
     }
+
   ];
 
   const blogPosts = [
     {
+      id: "seo-ia-2026",
       title: "O Futuro do SEO em 2026: IA e Busca Semântica",
       category: "SEO",
       date: "15 Mar 2026",
+      author: "Leonardo Santana",
       excerpt: "Como as novas atualizações do Google estão priorizando a intenção do usuário e o conteúdo gerado por especialistas.",
       image: "https://picsum.photos/seed/seo/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="100" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+          <circle cx="200" cy="140" r="60" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+          <g className="neural-nodes">
+            <circle className="neural-node" cx="200" cy="140" r="8" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="180" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="180" r="6" fill="#C9A84C" />
+          </g>
+          <path className="flow-line" d="M200 140 L120 100 M200 140 L280 100 M200 140 L120 180 M200 140 L280 180" stroke="#C9A84C" strokeWidth="2" opacity="0.5" />
+        </svg>
+      ),
       content: `
-        O cenário do SEO está mudando drasticamente com a integração da Inteligência Artificial Generativa nos motores de busca. Em 2026, não basta apenas palavras-chave; o Google agora prioriza a **Intenção do Usuário** e a **Autoridade do Especialista (E-E-A-T)**.
+# O Futuro do SEO em 2026: IA e Busca Semântica
 
-        Neste artigo, exploramos:
-        - Como otimizar para a Busca Generativa (SGE).
-        - A importância de dados estruturados avançados.
-        - Por que o conteúdo humano e autêntico se tornou o maior diferencial competitivo.
+O cenário do SEO está mudando drasticamente com a integração da Inteligência Artificial Generativa nos motores de busca. Em 2026, não basta apenas palavras-chave; o Google agora prioriza a **Intenção do Usuário** e a **Autoridade do Especialista (E-E-A-T)**.
 
-        A Attiva Digital já está implementando essas estratégias para garantir que nossos clientes permaneçam no topo das buscas, mesmo com as mudanças constantes dos algoritmos.
-      `
+## Como a IA está mudando a busca
+
+A Busca Generativa (SGE) do Google agora responde diretamente às perguntas dos usuários, o que significa que o tráfego informativo puro pode diminuir. No entanto, a necessidade de fontes confiáveis e opiniões de especialistas nunca foi tão alta.
+
+### O que é Busca Semântica?
+
+A busca semântica foca no significado por trás das palavras, não apenas nas palavras em si. O Google tenta entender o contexto da pesquisa para entregar o resultado mais relevante, mesmo que a palavra-chave exata não esteja presente.
+
+### Estratégias para 2026:
+
+1.  **Dados Estruturados Avançados:** Ajude a IA a entender seu conteúdo através de Schema.org.
+2.  **Conteúdo de Especialista:** Foque em experiências reais, estudos de caso e opiniões que a IA não pode replicar.
+3.  **Otimização para Intenção:** Vá além da palavra-chave e responda ao \"porquê\" do usuário.
+4.  **Velocidade e UX:** O Google continua priorizando sites que carregam rápido e oferecem uma ótima experiência.
+
+### Conclusão
+
+A Attiva Digital já está implementando essas estratégias para garantir que nossos clientes permaneçam no topo das buscas, mesmo com as mudanças constantes dos algoritmos. O SEO não morreu, ele apenas evoluiu para algo mais humano e inteligente.
+      `,
+      keywords: ["SEO 2026", "Inteligência Artificial", "Busca Semântica", "Google SGE", "E-E-A-T"],
+      metaDescription: "Descubra como a IA e a busca semântica estão transformando o SEO em 2026 e como sua empresa pode se adaptar para continuar no topo do Google."
     },
     {
+      id: "ecommerce-escala-2026",
       title: "5 Estratégias para Escalar seu E-commerce este ano",
       category: "E-commerce",
       date: "10 Mar 2026",
+      author: "Leonardo Santana",
       excerpt: "Do checkout em uma página ao remarketing dinâmico: o que realmente funciona para vender mais.",
       image: "https://picsum.photos/seed/ecommerce/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="100" y="80" width="200" height="120" rx="8" stroke="#C9A84C" strokeWidth="2" className="wireframe-box" />
+          <path d="M120 110 H280 M120 130 H220 M120 150 H180" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <circle cx="250" cy="160" r="20" fill="#C9A84C" className="pulse-circle" />
+          <path d="M240 160 L248 168 L260 152" stroke="black" strokeWidth="3" />
+        </svg>
+      ),
       content: `
-        Escalar um e-commerce exige mais do que apenas tráfego; exige uma experiência de compra impecável. Analisamos os dados de mais de 50 lojas virtuais para identificar o que realmente move o ponteiro em 2026.
+# 5 Estratégias para Escalar seu E-commerce este ano
 
-        As 5 estratégias vencedoras:
-        1. **Checkout Ultra-Rápido:** Redução de fricção no momento crítico.
-        2. **Personalização com IA:** Recomendações de produtos baseadas em comportamento real.
-        3. **Social Commerce:** Venda direta através de vídeos curtos e lives.
-        4. **Logística Reversa Facilitada:** Transformando devoluções em novas oportunidades de venda.
-        5. **Remarketing de Alta Precisão:** Mensagens personalizadas que não cansam o cliente.
+Escalar um e-commerce exige mais do que apenas tráfego; exige conversão e retenção. Aqui estão as 5 estratégias que estão trazendo resultados reais para nossos clientes em 2026.
 
-        Descubra como aplicar cada uma delas no seu negócio hoje mesmo.
-      `
+## 1. Checkout em Uma Página (One-Page Checkout)
+
+Reduza o atrito. Quanto menos cliques entre o carrinho e a confirmação de pagamento, maior a sua taxa de conversão. O checkout em uma página simplifica o processo e diminui o abandono de carrinho.
+
+## 2. Remarketing Dinâmico com IA
+
+Não mostre apenas o produto que o cliente viu. Use IA para mostrar produtos complementares ou ofertas personalizadas baseadas no comportamento de navegação.
+
+## 3. Prova Social em Tempo Real
+
+Exibir notificações de \"Alguém acabou de comprar este item\" ou avaliações recentes cria urgência e confiança imediata.
+
+## 4. Otimização para Mobile-First
+
+Em 2026, mais de 80% das compras online são feitas via smartphone. Seu site deve ser impecável no mobile, com botões fáceis de clicar e carregamento instantâneo.
+
+## 5. Atendimento via WhatsApp Automatizado
+
+Integre um bot de IA no seu WhatsApp para responder dúvidas frequentes e até fechar vendas 24/7. O toque humano ainda é importante, mas a velocidade da IA no primeiro contato é imbatível.
+
+### Como a Attiva Digital pode ajudar?
+
+Nós somos especialistas em transformar e-commerces comuns em máquinas de vendas de alta performance. Entre em contato para uma consultoria gratuita.
+      `,
+      keywords: ["E-commerce", "Vendas Online", "Escalabilidade", "Marketing Digital", "Checkout"],
+      metaDescription: "Aprenda as 5 estratégias essenciais para escalar seu e-commerce em 2026, desde otimização de checkout até automação de vendas."
     },
     {
+      id: "branding-luxo-2026",
       title: "Branding de Luxo: Como posicionar sua marca no topo",
       category: "Branding",
       date: "05 Mar 2026",
+      author: "Leonardo Santana",
       excerpt: "A psicologia por trás das marcas de alto padrão e como aplicar esses conceitos no seu negócio digital.",
       image: "https://picsum.photos/seed/luxury/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M200 60 L260 120 L200 180 L140 120 Z" stroke="#C9A84C" strokeWidth="2" className="diamond-path" />
+          <path d="M200 60 V180 M140 120 H260" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <circle cx="200" cy="120" r="40" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" />
+          <g className="sparkles">
+            <circle cx="160" cy="80" r="2" fill="#C9A84C" className="sparkle" />
+            <circle cx="240" cy="160" r="2" fill="#C9A84C" className="sparkle" />
+            <circle cx="220" cy="70" r="3" fill="#C9A84C" className="sparkle" />
+          </g>
+        </svg>
+      ),
       content: `
-        O luxo não é sobre preço, é sobre **exclusividade, história e percepção de valor**. No mundo digital, o branding de luxo exige uma estética minimalista e uma comunicação que valoriza o silêncio e a sofisticação.
+# Branding de Luxo: Como posicionar sua marca no topo
 
-        Pontos chave para o seu posicionamento:
-        - **Identidade Visual Impecável:** Onde cada pixel importa.
-        - **Storytelling Emocional:** Conectando a marca a valores aspiracionais.
-        - **Experiência do Cliente VIP:** O atendimento digital deve ser tão refinado quanto o presencial.
+O luxo não é sobre preço, é sobre **exclusividade, história e percepção de valor**. No mundo digital, o branding de luxo exige uma estética minimalista e uma comunicação que valoriza o silêncio e a sofisticação.
 
-        A Attiva Digital ajuda marcas a construírem essa aura de prestígio, elevando o ticket médio e a fidelidade dos clientes.
-      `
-    },
+## A Psicologia do Alto Padrão
+
+Marcas de luxo não vendem produtos; elas vendem pertencimento a um grupo seleto e a realização de desejos aspiracionais.
+
+### Pontos chave para o seu posicionamento:
+
+- **Identidade Visual Impecável:** Onde cada pixel importa.
+- **Storytelling Emocional:** Conectando a marca a valores aspiracionais.
+- **Experiência do Cliente VIP:** O atendimento digital deve ser tão refinado quanto o presencial.
+
+### Como o Branding afeta o preço:
+
+- **Valor Percebido:** Marcas com design premium podem cobrar mais caro por seus produtos ou serviços.
+- **Diferenciação:** Em um mercado saturado, ser visualmente único é a única forma de ser lembrado.
+- **Consistência:** Uma marca consistente em todos os pontos de contato gera confiança e fidelidade.
+
+### Conclusão
+
+A Attiva Digital ajuda marcas a construírem essa aura de prestígio, elevando o ticket médio e a fidelidade dos clientes através de um design que respira exclusividade.
+      `,
+      keywords: ["Branding de Luxo", "Marketing de Alto Padrão", "Posicionamento de Marca", "Design Premium"],
+      metaDescription: "Entenda como posicionar sua marca no mercado de luxo digital, utilizando psicologia de consumo e design sofisticado para atrair clientes de alto ticket."
+    }
+,
     {
+      id: "trafego-pago-vs-organico",
       title: "Tráfego Pago vs Orgânico: Onde investir seu orçamento?",
       category: "Marketing",
       date: "01 Mar 2026",
+      author: "Leonardo Santana",
       excerpt: "Um guia completo para equilibrar investimentos de curto e longo prazo para um crescimento sustentável.",
       image: "https://picsum.photos/seed/marketing/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 230 L150 180 L250 120 L350 50" stroke="#C9A84C" strokeWidth="3" className="chart-line-up" />
+          <rect x="70" y="180" width="30" height="50" fill="#C9A84C" opacity="0.3" />
+          <rect x="170" y="120" width="30" height="110" fill="#C9A84C" opacity="0.5" />
+          <rect x="270" y="70" width="30" height="160" fill="#C9A84C" opacity="0.8" />
+          <line x1="50" y1="230" x2="350" y2="230" stroke="#C9A84C" strokeWidth="1" />
+        </svg>
+      ),
       content: `
         O dilema eterno: resultados rápidos com anúncios ou autoridade duradoura com conteúdo orgânico? A resposta curta é: **ambos**, mas com o equilíbrio certo para o seu momento de negócio.
 
-        Neste guia, detalhamos:
-        - Quando acelerar no Google Ads e Meta Ads.
-        - Como o SEO sustenta o ROI a longo prazo.
-        - A estratégia de "Cercamento Digital" para dominar seu nicho.
+        ## Curto Prazo vs Longo Prazo
+        O tráfego pago é como um interruptor: você liga e os leads aparecem. O orgânico é como uma floresta: leva tempo para crescer, mas depois oferece sombra constante.
 
-        Entenda como a Attiva Digital gerencia orçamentos de marketing para maximizar o retorno sobre o investimento (ROI) de forma previsível e escalável.
-      `
+        ### Quando investir em cada um:
+        - **Tráfego Pago:** Ideal para lançamentos, promoções sazonais e validação rápida de ofertas.
+        - **SEO e Orgânico:** Essencial para reduzir o custo de aquisição (CAC) ao longo do tempo e construir autoridade.
+
+        Entenda como a Attiva Digital gerencia orçamentos de marketing para maximizar o retorno sobre o investimento (ROI) de forma previsível e escalável, utilizando a estratégia de "Cercamento Digital".
+      `,
+      keywords: ["Tráfego Pago", "SEO", "Marketing de Conteúdo", "ROI", "Estratégia Digital"],
+      metaDescription: "Descubra o equilíbrio ideal entre tráfego pago e orgânico para o seu negócio e como maximizar seu ROI com investimentos inteligentes."
     },
     {
+      id: "velocidade-carregamento-conversao",
       title: "A Importância da Velocidade de Carregamento para Conversão",
       category: "Tecnologia",
       date: "25 Fev 2026",
+      author: "Leonardo Santana",
       excerpt: "Cada milissegundo conta. Descubra como a performance técnica impacta diretamente no seu faturamento.",
       image: "https://picsum.photos/seed/speed/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="80" stroke="#C9A84C" strokeWidth="2" strokeDasharray="10 5" />
+          <path d="M200 140 L260 100" stroke="#C9A84C" strokeWidth="4" strokeLinecap="round" className="clock-hand" />
+          <circle cx="200" cy="140" r="5" fill="#C9A84C" />
+          <path d="M140 220 Q200 180 260 220" stroke="#C9A84C" strokeWidth="2" fill="none" className="speed-curve" />
+        </svg>
+      ),
       content: `
         Estudos mostram que um atraso de apenas 1 segundo no carregamento pode reduzir as conversões em até 7%. Em 2026, com conexões 5G e usuários cada vez mais impacientes, a performance técnica é uma questão de sobrevivência.
 
-        O que otimizamos na Attiva Digital:
-        - **Core Web Vitals:** As métricas que o Google usa para ranquear seu site.
-        - **Otimização de Imagens de Próxima Geração:** WebP e AVIF.
-        - **Código Limpo e Minificado:** Removendo o "lixo" que atrasa o navegador.
+        ## Core Web Vitals e o Google
+        O Google utiliza métricas de velocidade como fator de ranqueamento. Um site lento não apenas afasta o usuário, mas também é "punido" nas buscas.
 
-        Seu site é rápido o suficiente para não perder dinheiro? Faça o teste conosco.
-      `
+        ### O que otimizamos na Attiva Digital:
+        - **LCP (Largest Contentful Paint):** Tempo de carregamento do conteúdo principal.
+        - **FID (First Input Delay):** Interatividade da página.
+        - **CLS (Cumulative Layout Shift):** Estabilidade visual.
+
+        Seu site é rápido o suficiente para não perder dinheiro? A Attiva Digital utiliza tecnologias de ponta para garantir que seu site carregue em menos de 2 segundos.
+      `,
+      keywords: ["Velocidade de Site", "Performance Web", "Core Web Vitals", "Taxa de Conversão"],
+      metaDescription: "Saiba como a velocidade de carregamento do seu site afeta suas vendas e o que você pode fazer para otimizar a performance técnica hoje mesmo."
     },
     {
+      id: "gestao-redes-sociais-comunidade",
       title: "Gestão de Redes Sociais: Além dos Likes e Seguidores",
       category: "Social Media",
       date: "20 Fev 2026",
+      author: "Leonardo Santana",
       excerpt: "Como transformar sua audiência em uma comunidade ativa que defende e promove sua marca organicamente.",
       image: "https://picsum.photos/seed/social/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="30" fill="#C9A84C" opacity="0.8" />
+          <circle cx="120" cy="80" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="280" cy="80" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="120" cy="200" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="280" cy="200" r="20" fill="#C9A84C" opacity="0.4" />
+          <path d="M180 120 L135 95 M220 120 L265 95 M180 160 L135 185 M220 160 L265 185" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 2" />
+        </svg>
+      ),
       content: `
-        Likes não pagam boletos. O verdadeiro poder das redes sociais em 2026 está no **Engajamento Profundo** e na construção de comunidades.
+        Likes não pagam boletos. O verdadeiro poder das redes sociais in 2026 está no **Engajamento Profundo** e na construção de comunidades.
 
-        Nossa abordagem:
+        ## De Seguidores a Advogados da Marca
+        Uma comunidade ativa não apenas consome seu conteúdo, mas o defende e o compartilha, tornando-se um canal de aquisição orgânica poderosíssimo.
+
+        ### Nossa abordagem estratégica:
         - **Conteúdo Nativo:** Adaptando a mensagem para cada plataforma (TikTok, Reels, LinkedIn).
-        - **Gestão de Crise e Atendimento:** Transformando reclamações em fãs.
-        - **Estratégia de Influenciadores:** Conectando sua marca com quem realmente tem voz.
+        - **Gestão de Crise e Atendimento:** Transformando reclamações em fãs através de respostas rápidas e humanas.
+        - **Estratégia de Influenciadores:** Conectando sua marca com quem realmente tem voz no seu nicho.
 
-        A Attiva Digital não apenas posta; nós construímos relacionamentos que se traduzem em vendas.
-      `
+        A Attiva Digital não apenas posta; nós construímos relacionamentos que se traduzem em vendas e lealdade à marca.
+      `,
+      keywords: ["Redes Sociais", "Engajamento", "Comunidade Digital", "Social Media Strategy"],
+      metaDescription: "Aprenda a transformar suas redes sociais em uma comunidade vibrante e engajada que impulsiona suas vendas de forma orgânica."
+    },
+    {
+      id: "revolucao-no-code-2026",
+      title: "A Revolução do No-Code em 2026",
+      category: "Tecnologia",
+      date: "15 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Como ferramentas de baixo código estão democratizando a criação de software e acelerando a inovação.",
+      image: "https://picsum.photos/seed/nocode/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="100" y="60" width="200" height="160" rx="10" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="120" y="80" width="160" height="30" rx="5" fill="#C9A84C" opacity="0.3" />
+          <rect x="120" y="120" width="70" height="30" rx="5" fill="#C9A84C" opacity="0.5" />
+          <rect x="210" y="120" width="70" height="30" rx="5" fill="#C9A84C" opacity="0.5" />
+          <rect x="120" y="160" width="160" height="40" rx="5" fill="#C9A84C" opacity="0.8" />
+        </svg>
+      ),
+      content: `
+# A Revolução do No-Code em 2026
+
+O desenvolvimento de software não é mais exclusividade de programadores experientes. Em 2026, as ferramentas **No-Code** e **Low-Code** atingiram um nível de maturidade que permite a criação de aplicações complexas e escaláveis em tempo recorde.
+
+## O que mudou?
+
+A integração de IA nessas plataformas permite que usuários descrevam funcionalidades em linguagem natural, e a ferramenta gera a lógica e a interface automaticamente.
+
+### Benefícios para Empresas:
+
+- **Velocidade de Lançamento (Time-to-Market):** Ideias viram produtos em dias, não meses.
+- **Redução de Custos:** Menor dependência de grandes equipes de desenvolvimento para MVPs.
+- **Inovação Descentralizada:** Times de marketing e vendas podem criar suas próprias ferramentas de automação.
+
+A Attiva Digital utiliza o melhor do No-Code para prototipagem rápida e soluções internas ágeis, mantendo o código customizado para o que realmente exige performance extrema.
+      `,
+      keywords: ["No-Code", "Low-Code", "Desenvolvimento Ágil", "Inovação Digital"],
+      metaDescription: "Descubra como o No-Code está mudando o jogo do desenvolvimento de software em 2026 e como sua empresa pode se beneficiar dessa agilidade."
+    },
+    {
+      id: "seguranca-lgpd-marketing",
+      title: "Segurança de Dados e LGPD no Marketing Digital",
+      category: "Compliance",
+      date: "10 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Proteja seu negócio e a privacidade de seus clientes em um mundo cada vez mais regulado.",
+      image: "https://picsum.photos/seed/security/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M200 60 L280 100 V180 L200 220 L120 180 V100 Z" stroke="#C9A84C" strokeWidth="2" />
+          <circle cx="200" cy="140" r="30" stroke="#C9A84C" strokeWidth="1" />
+          <path d="M200 125 V155 M185 140 H215" stroke="#C9A84C" strokeWidth="2" />
+        </svg>
+      ),
+      content: `
+# Segurança de Dados e LGPD no Marketing Digital
+
+Em 2026, a privacidade não é apenas uma lei, é um diferencial competitivo. Empresas que respeitam os dados dos usuários ganham confiança e lealdade.
+
+## LGPD na Prática
+
+A Lei Geral de Proteção de Dados exige que toda coleta de dados tenha um propósito claro e o consentimento explícito do usuário.
+
+### O que sua agência deve garantir:
+
+- **Transparência:** Políticas de privacidade claras e acessíveis.
+- **Segurança:** Armazenamento criptografado e proteção contra vazamentos.
+- **Direito ao Esquecimento:** Ferramentas fáceis para o usuário solicitar a exclusão de seus dados.
+
+Na Attiva Digital, a segurança da informação está no DNA de cada projeto, garantindo que sua marca esteja sempre em conformidade e protegida.
+      `,
+      keywords: ["LGPD", "Segurança de Dados", "Privacidade Digital", "Compliance Marketing"],
+      metaDescription: "Saiba como manter seu marketing digital em conformidade com a LGPD e garantir a segurança dos dados dos seus clientes em 2026."
     }
+
   ];
 
   const resultsData = [
@@ -2242,8 +2505,8 @@ export default function App() {
               <div className="w-24 h-1 bg-gold-primary mx-auto" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolio.map((p, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+              {portfolio.slice(0, 9).map((p, i) => (
                 <motion.div 
                   key={i}
                   initial={{ opacity: 0, scale: 0.7, y: 120, rotate: i % 2 === 0 ? -3 : 3 }}
@@ -2254,7 +2517,7 @@ export default function App() {
                   className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer border border-zinc-800 hover:border-gold-primary/50 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black flex items-center justify-center">
-                    <p.icon className="opacity-5 scale-[3] text-gold-primary group-hover:scale-[4] transition-transform duration-700" />
+                    <p.icon size={64} className="opacity-10 text-gold-primary group-hover:scale-125 group-hover:opacity-30 transition-all duration-700 drop-shadow-[0_0_15px_rgba(201,168,76,0.5)]" />
                   </div>
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500" />
                   
@@ -2276,8 +2539,124 @@ export default function App() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Impact Charts Section */}
+            <div className="mb-32">
+              <div className="text-center mb-16">
+                <h3 className="font-display text-4xl md:text-5xl text-white mb-4">Impacto em Números</h3>
+                <div className="w-16 h-1 bg-gold-primary mx-auto" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {[
+                  { label: "ROI Médio", value: "12.5x", icon: TrendingUp },
+                  { label: "Leads Gerados", value: "2.5M+", icon: Users },
+                  { label: "Vendas Diretas", value: "R$ 45M+", icon: ShoppingBag },
+                  { label: "Retenção", value: "94%", icon: ShieldCheck }
+                ].map((stat, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="p-8 bg-zinc-900/50 rounded-3xl border border-zinc-800 text-center group hover:border-gold-primary/30 transition-colors"
+                  >
+                    <stat.icon size={32} className="text-gold-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                    <div className="text-3xl font-display text-white mb-1">{stat.value}</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Comparison Section: Sem Attiva vs Com Attiva */}
+            <div className="bg-zinc-900/30 rounded-[3rem] border border-zinc-800 p-8 md:p-16 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gold-primary/5 blur-[100px] rounded-full" />
+              
+              <div className="text-center mb-16">
+                <h3 className="font-display text-4xl md:text-5xl text-white mb-4">O Diferencial Attiva</h3>
+                <p className="text-zinc-500 uppercase tracking-widest text-xs">Por que somos a escolha das marcas de elite</p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative">
+                {/* Visual Connector */}
+                <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-full bg-gradient-to-b from-transparent via-zinc-800 to-transparent" />
+
+                {/* Sem Attiva */}
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="space-y-8"
+                >
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-red-500">
+                      <X size={24} />
+                    </div>
+                    <h4 className="text-2xl font-display text-white">Sem Attiva Digital</h4>
+                  </div>
+                  {[
+                    "Sites lentos e sem conversão",
+                    "Tráfego pago sem estratégia de ROI",
+                    "Redes sociais sem engajamento real",
+                    "Falta de dados para tomada de decisão",
+                    "Branding genérico e sem autoridade"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 text-zinc-500">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500/30" />
+                      <span className="text-sm">{item}</span>
+                    </div>
+                  ))}
+                </motion.div>
+
+                {/* Com Attiva */}
+                <motion.div 
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="space-y-8"
+                >
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 rounded-full bg-gold-primary/10 flex items-center justify-center text-gold-primary shadow-[0_0_20px_rgba(201,168,76,0.3)]">
+                      <Check size={24} />
+                    </div>
+                    <h4 className="text-2xl font-display text-gold-primary">Com Attiva Digital</h4>
+                  </div>
+                  {[
+                    "Performance extrema e UX focado em vendas",
+                    "Escala previsível com inteligência de dados",
+                    "Comunidades ativas e advogados da marca",
+                    "Dashboards em tempo real e foco no lucro",
+                    "Posicionamento de elite e desejo de consumo"
+                  ].map((item, i) => (
+                    <motion.div 
+                      key={i} 
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-center gap-4 text-white"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-gold-primary shadow-[0_0_8px_rgba(201,168,76,0.8)]" />
+                      <span className="text-sm font-medium">{item}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+
+              <div className="mt-16 text-center">
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate('#contato')}
+                  className="btn-gold px-12 py-5 rounded-full text-sm uppercase tracking-widest font-bold shadow-[0_0_30px_rgba(201,168,76,0.3)]"
+                >
+                  Quero o Diferencial Attiva
+                </motion.button>
+              </div>
+            </div>
           </section>
         )}
+
 
         {currentHash === '#resultados' && (
           <section id="resultados" className="py-32 px-6 max-w-7xl mx-auto">
@@ -2333,7 +2712,7 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post, i) => (
+              {blogPosts.slice(0, 8).map((post, i) => (
                 <BlogCard key={i} {...post} delay={i * 0.1} onClick={() => setSelectedPost(post)} />
               ))}
             </div>
@@ -2348,6 +2727,7 @@ export default function App() {
             </div>
           </section>
         )}
+
 
         {currentHash === '#contato' && (
           <section id="contato" className="py-32 px-6 max-w-7xl mx-auto">
