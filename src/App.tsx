@@ -2588,18 +2588,28 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
                   onClick={() => setSelectedProject(p)}
                   className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer border border-zinc-800 hover:border-gold-primary/50 transition-all duration-500"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black flex items-center justify-center">
+                  {/* 1. Deep background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black" />
+                  
+                  {/* 2. The SVG (The Hero) - Now with maximum highlight */}
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden z-10">
+                    {/* Background Glow Effect - More intense */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.3)_0%,transparent_70%)] opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                    
                     {p.svg ? (
-                      <div className="w-full h-full flex items-center justify-center opacity-20 group-hover:opacity-40 transition-all duration-700 group-hover:scale-110">
+                      <div className="w-full h-full flex items-center justify-center opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110 drop-shadow-[0_0_30px_rgba(201,168,76,0.6)]">
                         {p.svg}
                       </div>
                     ) : (
-                      <p.icon size={64} className="opacity-10 text-gold-primary group-hover:scale-125 group-hover:opacity-30 transition-all duration-700 drop-shadow-[0_0_15px_rgba(201,168,76,0.5)]" />
+                      <p.icon size={64} className="opacity-50 text-gold-primary group-hover:scale-125 group-hover:opacity-100 transition-all duration-700 drop-shadow-[0_0_35px_rgba(201,168,76,0.8)]" />
                     )}
                   </div>
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500" />
+
+                  {/* 3. Readability Overlay - Gradient instead of solid to let SVG pop at top */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-20 group-hover:from-black/90 group-hover:via-black/60 transition-all duration-500" />
                   
-                  <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                  {/* 4. Content - Higher z-index */}
+                  <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end translate-y-6 group-hover:translate-y-0 transition-transform duration-500 z-30">
                     <div className="flex items-center gap-2 text-gold-primary text-xs uppercase tracking-[0.2em] font-bold mb-4">
                       <p.icon size={14} /> {p.category}
                     </div>
