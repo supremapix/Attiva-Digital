@@ -1655,6 +1655,14 @@ export default function App() {
       category: "Lojas Virtuais", 
       result: "+1900% ROI", 
       icon: ShoppingCart,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="draw-line" d="M150 100 H250 V200 H150 Z" stroke="#C9A84C" strokeWidth="2" />
+          <path className="draw-line-delay" d="M150 120 H250" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <circle className="pulse-dot" cx="200" cy="150" r="30" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <path className="float-icon" d="M180 140 L200 160 L240 120" stroke="#C9A84C" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      ),
       description: "Reestruturação completa de UX e estratégia de tráfego pago para marca de moda de alto luxo.",
       tags: ["Shopify Plus", "Meta Ads Elite", "SEO Semântico", "Branding"],
       insight: "Focamos na exclusividade. Menos é mais quando o ticket médio é alto. A jornada de compra foi simplificada para 3 cliques.",
@@ -1670,6 +1678,13 @@ export default function App() {
       category: "Sistemas Web", 
       result: "+1200% Transações", 
       icon: Zap,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <rect className="draw-line" x="120" y="80" width="160" height="120" rx="12" stroke="#C9A84C" strokeWidth="2" />
+          <path className="flow-line" d="M140 120 H260 M140 140 H220 M140 160 H180" stroke="#C9A84C" strokeWidth="2" opacity="0.4" />
+          <path className="bolt-anim" d="M200 100 L180 140 H220 L200 180" stroke="#C9A84C" strokeWidth="3" strokeLinejoin="round" />
+        </svg>
+      ),
       description: "Desenvolvimento de plataforma de pagamentos transfronteiriços com foco em velocidade e segurança.",
       tags: ["React", "Node.js", "Segurança Bancária", "API Integration"],
       insight: "A confiança é a moeda principal. Implementamos um sistema de feedback em tempo real que reduziu a ansiedade do usuário.",
@@ -1684,6 +1699,13 @@ export default function App() {
       category: "Apps", 
       result: "+850% Engajamento", 
       icon: Heart,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="pulse-path" d="M100 140 H140 L150 100 L170 180 L185 140 H220" stroke="#C9A84C" strokeWidth="3" />
+          <circle className="pulse-dot" cx="220" cy="140" r="6" fill="#C9A84C" />
+          <path className="draw-line" d="M130 80 Q200 60 270 80 V200 Q200 220 130 200 Z" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+        </svg>
+      ),
       description: "Aplicativo de monitoramento de saúde com gamificação para aumentar a retenção de pacientes.",
       tags: ["React Native", "Gamificação", "UX Research", "Push Notifications"],
       insight: "Saúde não precisa ser chata. A gamificação transformou o hábito de medir pressão em um desafio recompensador.",
@@ -1698,6 +1720,14 @@ export default function App() {
       category: "SEO & Tráfego", 
       result: "+1500% Leads", 
       icon: Home,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="draw-line" d="M120 180 V100 L200 60 L280 100 V180 H120" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="180" y="140" width="40" height="40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <path className="float-icon" d="M200 100 V140" stroke="#C9A84C" strokeWidth="2" opacity="0.3" />
+          <circle className="pulse-dot" cx="200" cy="80" r="10" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+        </svg>
+      ),
       description: "Estratégia de SEO Local e Google Ads para venda de coberturas e mansões em Curitiba.",
       tags: ["Google Ads", "SEO Local", "Landing Pages", "CRM Sync"],
       insight: "O lead de luxo não quer formulário gigante. Criamos um concierge digital via WhatsApp que converte 4x mais.",
@@ -1712,6 +1742,13 @@ export default function App() {
       category: "Sistemas Web", 
       result: "+600% Alunos", 
       icon: BookOpen,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="draw-line" d="M120 100 H280 V200 H120 Z" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <path className="book-page" d="M200 100 V200 M200 100 L140 120 V220 L200 200 M200 100 L260 120 V220 L200 200" stroke="#C9A84C" strokeWidth="2" />
+          <circle className="neural-node" cx="200" cy="150" r="15" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+        </svg>
+      ),
       description: "Plataforma de cursos online com sistema de aprendizado adaptativo via IA.",
       tags: ["LMS Custom", "AI Learning", "Video Streaming", "Scalability"],
       insight: "Personalização é a chave da retenção. A IA sugere conteúdos baseados na dificuldade real do aluno.",
@@ -1726,6 +1763,14 @@ export default function App() {
       category: "Tráfego Pago", 
       result: "+750% Vendas", 
       icon: Car,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="car-body" d="M100 160 H300 L280 120 H120 L100 160 Z" stroke="#C9A84C" strokeWidth="2" />
+          <circle className="wheel-spin" cx="140" cy="160" r="15" stroke="#C9A84C" strokeWidth="2" />
+          <circle className="wheel-spin" cx="260" cy="160" r="15" stroke="#C9A84C" strokeWidth="2" />
+          <path className="speed-line" d="M80 140 H40 M70 150 H30 M80 160 H40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+        </svg>
+      ),
       description: "Gestão de performance para rede de concessionárias de marcas alemãs.",
       tags: ["Meta Ads", "Google Shopping", "Data Intelligence", "Lead Scoring"],
       insight: "Test-drive é o fechamento. Criamos um sistema de agendamento em 2 cliques que lotou as agendas.",
@@ -1740,6 +1785,14 @@ export default function App() {
       category: "SEO Local", 
       result: "+320% Consultas", 
       icon: Scale,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="draw-line" d="M200 80 V200 M140 200 H260" stroke="#C9A84C" strokeWidth="2" />
+          <path className="scale-swing" d="M140 120 L200 100 L260 120" stroke="#C9A84C" strokeWidth="2" />
+          <circle cx="140" cy="140" r="20" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+          <circle cx="260" cy="140" r="20" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+        </svg>
+      ),
       description: "Posicionamento de autoridade para escritório especializado em direito empresarial.",
       tags: ["Content Marketing", "SEO Técnico", "Google Maps", "Authority"],
       insight: "Advocacia é confiança. O blog técnico transformou o sócio em referência nacional no Google.",
@@ -1754,6 +1807,17 @@ export default function App() {
       category: "Redes Sociais", 
       result: "+1400% Alcance", 
       icon: Sparkles,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <path className="leaf-anim" d="M200 200 Q150 150 200 100 Q250 150 200 200" stroke="#C9A84C" strokeWidth="2" />
+          <circle className="pulse-dot" cx="200" cy="150" r="40" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+          <g className="sparkles-anim">
+            <circle cx="170" cy="120" r="2" fill="#C9A84C" />
+            <circle cx="230" cy="130" r="2" fill="#C9A84C" />
+            <circle cx="210" cy="170" r="2" fill="#C9A84C" />
+          </g>
+        </svg>
+      ),
       description: "Estratégia de conteúdo e influenciadores para marca de beleza sustentável.",
       tags: ["Influencer Marketing", "Reels Strategy", "UGC", "Community"],
       insight: "O cliente quer verdade. Conteúdos gerados por usuários (UGC) performaram 5x melhor que anúncios.",
@@ -1768,6 +1832,14 @@ export default function App() {
       category: "Sistemas Web", 
       result: "+500% Eficiência", 
       icon: Layers,
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="portfolio-svg">
+          <rect className="draw-line" x="100" y="80" width="200" height="120" rx="8" stroke="#C9A84C" strokeWidth="2" />
+          <path className="flow-line" d="M120 110 H280 M120 130 H240 M120 150 H200" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <circle className="pulse-dot" cx="250" cy="160" r="25" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <path className="float-icon" d="M240 160 L260 160 L270 140" stroke="#C9A84C" strokeWidth="2" />
+        </svg>
+      ),
       description: "Dashboard de controle em tempo real para frotas de transporte pesado.",
       tags: ["Real-time Data", "IoT Integration", "Dashboard UX", "Cloud"],
       insight: "Dados em tempo real salvam vidas e dinheiro. A interface foca no que é crítico para o motorista.",
@@ -2517,7 +2589,13 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
                   className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer border border-zinc-800 hover:border-gold-primary/50 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black flex items-center justify-center">
-                    <p.icon size={64} className="opacity-10 text-gold-primary group-hover:scale-125 group-hover:opacity-30 transition-all duration-700 drop-shadow-[0_0_15px_rgba(201,168,76,0.5)]" />
+                    {p.svg ? (
+                      <div className="w-full h-full flex items-center justify-center opacity-20 group-hover:opacity-40 transition-all duration-700 group-hover:scale-110">
+                        {p.svg}
+                      </div>
+                    ) : (
+                      <p.icon size={64} className="opacity-10 text-gold-primary group-hover:scale-125 group-hover:opacity-30 transition-all duration-700 drop-shadow-[0_0_15px_rgba(201,168,76,0.5)]" />
+                    )}
                   </div>
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-all duration-500" />
                   
