@@ -1,0 +1,7 @@
+{
+  "name": "Attiva Digital",
+  "description": "Agência de Publicidade Digital em Curitiba. Transformamos sua presença digital com gestão de redes sociais, criação de sites, SEO e consultoria.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
