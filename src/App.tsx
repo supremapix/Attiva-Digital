@@ -692,7 +692,6 @@ const InstagramFeed = () => {
               height="280"
               frameBorder="0"
               scrolling="no"
-              allowTransparency={true}
               className="w-full h-full block bg-black"
               style={{ background: 'black' }}
               loading="lazy"
