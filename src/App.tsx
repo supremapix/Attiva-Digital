@@ -75,6 +75,8 @@ ChartJS.register(
 
 // --- Constants ---
 const WHATSAPP_NUMBER = '5541998461858';
+const SHELLY_WHATSAPP = '5547997032739';
+const SHELLY_NAME = 'Shelly';
 const TYPEWRITER_PHRASES = [
   "Transformamos cliques em clientes.",
   "Sua marca no topo do Google.",
@@ -285,13 +287,13 @@ const BlogModal = ({ post, onClose }: { post: any, onClose: () => void }) => {
       "name": "Attiva Digital",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ais-pre-rh5pu4xkapvjlabeqel3ws-386589059803.us-west2.run.app/logo.png"
+        "url": "https://www.attivadigital.com.br/logo.png"
       }
     },
     "datePublished": post.date,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://ais-pre-rh5pu4xkapvjlabeqel3ws-386589059803.us-west2.run.app/#blog/${post.id}`
+      "@id": `https://www.attivadigital.com.br/#blog/${post.id}`
     }
   };
 
@@ -303,19 +305,19 @@ const BlogModal = ({ post, onClose }: { post: any, onClose: () => void }) => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://attiva.digital"
+        "item": "https://www.attivadigital.com.br"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://attiva.digital/#blog"
+        "item": "https://www.attivadigital.com.br/#blog"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": post.title,
-        "item": `https://attiva.digital/blog/${post.id}`
+        "item": `https://www.attivadigital.com.br/#blog/${post.id}`
       }
     ]
   };
@@ -1094,6 +1096,691 @@ const PortfolioModal = ({ project, onClose }: { project: any, onClose: () => voi
   );
 };
 
+const services = [
+    { 
+      icon: Globe, 
+      title: "Criação de Sites Profissionais", 
+      description: "Desenvolvemos sites de alta conversão, ultra-rápidos e otimizados para o Google (SEO).",
+      fullText: "Na Attiva Digital, não criamos apenas sites; construímos máquinas de vendas. Nossos projetos são desenvolvidos com foco total em UX (Experiência do Usuário) e UI (Interface do Usuário), garantindo que cada clique tenha o potencial de se tornar um novo cliente. Utilizamos as tecnologias mais modernas para assegurar que seu site carregue em menos de 2 segundos, seja 100% responsivo (funciona perfeitamente em celulares, tablets e desktops) e possua uma arquitetura de informação pensada para a jornada de compra do seu público.",
+      items: ["Sites Institucionais", "Landing Pages de Alta Conversão", "Blogs de Autoridade", "Portfólios Digitais"],
+      differentiators: ["Otimização de Velocidade (Core Web Vitals)", "Design Exclusivo e Luxuoso", "SEO On-Page Integrado", "Hospedagem de Alta Performance"],
+      results: "Aumento médio de 45% na taxa de conversão e melhoria imediata no posicionamento orgânico."
+    },
+    { 
+      icon: MessageCircle, 
+      title: "Gestão de Redes Sociais", 
+      description: "Conteúdo estratégico que engaja, constrói autoridade e transforma seguidores em embaixadores da marca.",
+      fullText: "Sua presença nas redes sociais é o cartão de visitas da sua empresa no mundo moderno. Nossa gestão vai muito além de 'postagens bonitas'. Criamos uma estratégia de conteúdo baseada em dados, tendências e no comportamento do seu público-alvo. Focamos em construir uma comunidade ativa em torno da sua marca, utilizando narrativas envolventes (storytelling), design de impacto e monitoramento constante de métricas para garantir que seu investimento se transforme em engajamento real e vendas.",
+      items: ["Planejamento de Conteúdo Mensal", "Design de Posts e Reels", "Gestão de Comunidade e Comentários", "Relatórios de Performance"],
+      differentiators: ["Estratégia de Branding Integrada", "Copywriting de Alto Impacto", "Análise de Concorrência", "Foco em Conversão, não apenas likes"],
+      results: "Crescimento orgânico qualificado e fortalecimento da identidade visual da marca."
+    },
+    { 
+      icon: Search, 
+      title: "SEO & Indexação Google", 
+      description: "Domine a primeira página do Google e seja encontrado por quem já está procurando o seu serviço.",
+      fullText: "O SEO (Search Engine Optimization) é o investimento mais rentável a longo prazo para qualquer negócio digital. Na Attiva Digital, aplicamos técnicas avançadas de SEO Semântico, otimização técnica e link building para garantir que sua empresa apareça no topo das buscas em Curitiba e em todo o Brasil. Trabalhamos a indexação profunda do seu site, garantindo que o Google entenda exatamente o que você oferece e priorize sua marca frente aos concorrentes.",
+      items: ["Auditoria Técnica de SEO", "Pesquisa de Palavras-Chave Estratégicas", "SEO Local (Google Meu Negócio)", "Otimização de Conteúdo Semântico"],
+      differentiators: ["Foco em E-E-A-T (Experiência, Especialidade, Autoridade e Confiança)", "Estratégia de SEO Local para Curitiba", "Monitoramento de Rankings em Tempo Real", "Otimização Contínua de Performance"],
+      results: "Aumento exponencial no tráfego orgânico e redução drástica no custo por lead a longo prazo."
+    },
+    { 
+      icon: ShoppingCart, 
+      title: "Lojas Virtuais (E-commerce)", 
+      description: "Plataformas de vendas completas, seguras e prontas para escalar seu faturamento.",
+      fullText: "Transforme sua loja física em uma potência de vendas online ou comece seu império digital do zero. Desenvolvemos e-commerces robustos, com foco na facilidade de navegação e na segurança das transações. Integramos as melhores soluções de pagamento (Pix, Cartão, Boleto) e logística do mercado, garantindo que a experiência de compra do seu cliente seja fluida e prazerosa, resultando em menos carrinhos abandonados e mais vendas finalizadas.",
+      items: ["Desenvolvimento em Shopify/WooCommerce/Custom", "Integração com Gateways de Pagamento", "Gestão de Estoque e Frete", "Otimização de Checkout"],
+      differentiators: ["Checkout em Uma Página", "Recuperação de Carrinhos Abandonados", "Design Focado em Mobile-First", "Treinamento Completo para sua Equipe"],
+      results: "Plataforma escalável pronta para suportar grandes volumes de tráfego e vendas."
+    },
+    { 
+      icon: Settings, 
+      title: "Sistemas Web Customizados", 
+      description: "Automação de processos e ferramentas exclusivas para a gestão eficiente do seu negócio.",
+      fullText: "Muitas vezes, as ferramentas prontas do mercado não atendem às necessidades específicas da sua empresa. É aí que entramos com o desenvolvimento de sistemas web sob medida. Seja um CRM personalizado, um portal de membros ou uma ferramenta de automação interna, criamos soluções que resolvem problemas reais, economizam tempo da sua equipe e fornecem dados precisos para a tomada de decisão.",
+      items: ["Dashboards Administrativos", "Sistemas de Gestão (ERP/CRM) Customizados", "Portais de Conteúdo e EAD", "Integrações via API"],
+      differentiators: ["Arquitetura Escalável", "Segurança de Dados Avançada", "Interface Intuitiva", "Suporte Técnico Especializado"],
+      results: "Aumento da produtividade interna e centralização inteligente das informações do negócio."
+    },
+    { 
+      icon: Smartphone, 
+      title: "Desenvolvimento de Apps", 
+      description: "Aplicativos nativos e híbridos que colocam sua marca no bolso do seu cliente.",
+      fullText: "O mundo é mobile. Ter um aplicativo próprio é a forma mais direta de fidelizar seus clientes e oferecer serviços exclusivos. Desenvolvemos apps para iOS e Android com foco em performance e usabilidade. Desde a concepção da ideia até a publicação nas lojas (App Store e Google Play), cuidamos de todo o processo técnico para que você tenha uma ferramenta poderosa de conexão e vendas na palma da mão.",
+      items: ["Apps Nativos (Swift/Kotlin)", "Apps Híbridos (React Native/Flutter)", "Progressive Web Apps (PWA)", "Manutenção e Atualização de Apps"],
+      differentiators: ["UI/UX Mobile Especializada", "Integração com Recursos do Celular (GPS, Câmera, Push)", "Performance Fluida", "Publicação Assistida nas Lojas"],
+      results: "Maior retenção de clientes e criação de um novo canal de receita direta."
+    },
+    { 
+      icon: TrendingUp, 
+      title: "Tráfego Pago (Ads)", 
+      description: "Anúncios certeiros no Google, Instagram e Facebook para gerar leads qualificados hoje.",
+      fullText: "Quer resultados imediatos? O tráfego pago é o caminho. Criamos e gerenciamos campanhas de alta performance no Google Ads, Meta Ads (Instagram/Facebook), LinkedIn Ads e TikTok Ads. Nossa metodologia foca no ROI (Retorno sobre Investimento). Não buscamos apenas cliques; buscamos as pessoas certas, no momento certo, com a oferta certa para garantir que cada centavo investido retorne em faturamento para sua empresa.",
+      items: ["Gestão de Google Ads (Pesquisa/Display/Shopping)", "Anúncios em Redes Sociais (Meta/TikTok/LinkedIn)", "Remarketing Estratégico", "Criação de Criativos de Alta Conversão"],
+      differentiators: ["Análise de Dados em Tempo Real", "Testes A/B Constantes", "Otimização de Landing Pages", "Relatórios Transparentes de ROI"],
+      results: "Geração imediata de leads e vendas com controle total do orçamento investido."
+    },
+    { 
+      icon: Lightbulb, 
+      title: "Consultoria de Marketing Digital", 
+      description: "Estratégia macro para empresas que buscam crescimento sustentável e posicionamento de elite.",
+      fullText: "Muitas empresas investem no digital sem uma estratégia clara, o que resulta em desperdício de recursos. Nossa consultoria oferece um olhar 360º sobre o seu negócio. Analisamos sua concorrência, seu posicionamento atual e identificamos as melhores oportunidades de crescimento. Entregamos um roadmap detalhado de ações que vão desde o branding até a escala de vendas, garantindo que sua marca se torne uma autoridade no seu nicho.",
+      items: ["Planejamento Estratégico Anual", "Análise de Presença Digital", "Treinamento de Equipes de Vendas/Marketing", "Definição de KPIs e Métricas"],
+      differentiators: ["Visão de Negócio Além do Marketing", "Metodologia Própria de Escala", "Acompanhamento Próximo e Consultivo", "Foco em Branding de Luxo e Valor"],
+      results: "Clareza estratégica total e um caminho sólido para a liderança de mercado."
+    },
+  ];
+
+const faqs = [
+    {
+      question: "Quanto tempo leva para criar um site profissional?",
+      answer: "O tempo médio de desenvolvimento de um site institucional de alta qualidade é de 15 a 30 dias, dependendo da complexidade e da agilidade na aprovação do conteúdo. Landing pages podem ser entregues em até 7 dias úteis."
+    },
+    {
+      question: "A Attiva Digital atende apenas empresas de Curitiba?",
+      answer: "Embora nossa sede seja em Curitiba–PR, atendemos clientes em todo o Brasil e até no exterior. O marketing digital nos permite uma conexão total e eficiente de forma remota, com reuniões via vídeo e acompanhamento em tempo real."
+    },
+    {
+      question: "Qual o investimento mínimo para tráfego pago?",
+      answer: "Não existe um valor fixo, pois o investimento depende dos seus objetivos e da concorrência do seu nicho. Recomendamos um valor inicial que permita realizar testes significativos, geralmente a partir de R$ 1.000,00 mensais em verba de anúncios, além da nossa taxa de gestão."
+    },
+    {
+      question: "Meu site vai aparecer na primeira página do Google?",
+      answer: "Trabalhamos com as melhores práticas de SEO e indexação para que isso aconteça. O SEO é um processo de médio a longo prazo, mas com nossa estratégia de SEO Local e Semântico, os resultados de posicionamento começam a aparecer de forma sólida nos primeiros meses."
+    },
+    {
+      question: "Vocês fazem apenas o design ou também o conteúdo?",
+      answer: "Oferecemos soluções completas (Full Service). Nossa equipe conta com copywriters especializados em conversão que criam todo o conteúdo textual do seu site ou redes sociais, garantindo que a comunicação seja persuasiva e alinhada à sua marca."
+    }
+  ];
+
+const reviews = [
+    // ─── COLUNA 1 (18 reviews) ───
+    {
+      name: "Marcos Oliveira",
+      avatar: "MO", color: "#4285F4",
+      stars: 5, time: "há 2 semanas",
+      service: "Criação de Site",
+      text: "Excelente trabalho da equipe Attiva Digital! O site ficou incrível, profissional e muito rápido. Superaram todas as minhas expectativas. Recomendo para qualquer empresa que queira se destacar online.",
+      reply: "Obrigado, Marcos! Foi um prazer trabalhar com você. 🚀"
+    },
+    {
+      name: "Camila Ferreira",
+      avatar: "CF", color: "#34A853",
+      stars: 5, time: "há 1 mês",
+      service: "Gestão de Redes Sociais",
+      text: "Nossa página cresceu mais de 10 mil seguidores em 5 meses! O conteúdo é estratégico, criativo e engaja de verdade. A equipe é super atenciosa e sempre disponível."
+    },
+    {
+      name: "Roberto Santos",
+      avatar: "RS", color: "#EA4335",
+      stars: 5, time: "há 3 semanas",
+      service: "Sistema Web",
+      text: "O sistema que desenvolveram para nossa empresa automatizou processos que antes levavam horas. ROI veio em menos de 2 meses. Profissionalismo impecável do início ao fim."
+    },
+    {
+      name: "Ana Paula Lima",
+      avatar: "AL", color: "#FBBC05",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Resultados surpreendentes! Custo por lead caiu 60% e o volume de contatos triplicou. Muito satisfeita com a transparência e os relatórios detalhados que recebo semanalmente."
+    },
+    {
+      name: "Diego Mendes",
+      avatar: "DM", color: "#9C27B0",
+      stars: 5, time: "há 1 semana",
+      service: "Criação de Site",
+      text: "Site entregue no prazo, dentro do orçamento e com qualidade que impressiona. Já recebi vários elogios de clientes. Nota 10 para toda a equipe da Attiva Digital!"
+    },
+    {
+      name: "Fernanda Costa",
+      avatar: "FC", color: "#00BCD4",
+      stars: 5, time: "há 1 mês",
+      service: "SEO & Indexação",
+      text: "Em 3 meses aparecemos na primeira página do Google para as palavras-chave mais importantes do nosso segmento. Tráfego orgânico cresceu 300%. Trabalho sério e consistente."
+    },
+    {
+      name: "Paulo Rodrigues",
+      avatar: "PR", color: "#FF5722",
+      stars: 5, time: "há 3 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria foi um divisor de águas para o nosso negócio. Identificaram oportunidades que não estávamos enxergando e criaram um plano claro e executável. Vale cada centavo!"
+    },
+    {
+      name: "Juliana Machado",
+      avatar: "JM", color: "#607D8B",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "Nossa loja virtual ficou incrível! Design profissional, checkout simples e integração perfeita com os meios de pagamento. As vendas online cresceram 180% no primeiro mês."
+    },
+    {
+      name: "Carlos Eduardo",
+      avatar: "CE", color: "#4285F4",
+      stars: 5, time: "há 5 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Profissionalismo e criatividade de alto nível. Cada post é pensado estrategicamente. Minha marca ganhou autoridade no mercado local de Curitiba. Super recomendo!"
+    },
+    {
+      name: "Larissa Alves",
+      avatar: "LA", color: "#34A853",
+      stars: 5, time: "há 1 semana",
+      service: "App Mobile",
+      text: "O aplicativo que desenvolveram para nós é intuitivo, rápido e com visual moderno. Os clientes adoraram! Avaliação 4.8 na App Store logo no lançamento. Equipe excepcional."
+    },
+    {
+      name: "Thiago Pereira",
+      avatar: "TP", color: "#EA4335",
+      stars: 5, time: "há 4 meses",
+      service: "Tráfego Pago",
+      text: "Campanhas otimizadas e gerenciadas com total transparência. ROAS de 4.2x no primeiro mês e melhoring todo mês. São especialistas de verdade em performance digital."
+    },
+    {
+      name: "Beatriz Nunes",
+      avatar: "BN", color: "#FBBC05",
+      stars: 5, time: "há 2 meses",
+      service: "Criação de Site",
+      text: "Atendimento personalizado e cuidadoso em cada etapa. O site ficou exatamente como eu idealizei — até melhor! Carregamento super rápido e ótima experiência no celular."
+    },
+    {
+      name: "Gustavo Lima",
+      avatar: "GL", color: "#9C27B0",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Estávamos invisíveis no Google. Em 4 meses, 3 das nossas principais palavras-chave estão no top 5. O volume de ligações do Google aumentou 4x. Resultado concreto!"
+    },
+    {
+      name: "Rafaela Souza",
+      avatar: "RS", color: "#00BCD4",
+      stars: 5, time: "há 6 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Finalmente uma agência que realmente entende de redes sociais e não fica só repostando frases motivacionais. Conteúdo com estratégia real, engajamento e crescimento de audiência."
+    },
+    {
+      name: "Anderson Martins",
+      avatar: "AM", color: "#FF5722",
+      stars: 5, time: "há 1 mês",
+      service: "Sistema Web",
+      text: "Sistema entregue com toda a funcionalidade que precisávamos e mais. O processo foi organizado, com sprints semanais e feedback constante. Time técnico muito competente."
+    },
+    {
+      name: "Patrícia Gonçalves",
+      avatar: "PG", color: "#607D8B",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "E-commerce completo, integrado com marketplace e com painel de gestão intuitivo. Minhas vendas online já superam as presenciais. Investimento que se pagou rapidamente."
+    },
+    {
+      name: "Leandro Castro",
+      avatar: "LC", color: "#4285F4",
+      stars: 5, time: "há 3 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria trouxe clareza total para nossa estratégia digital. Saímos da reunião com um roadmap completo e já vemos resultados nos primeiros 60 dias de implementação."
+    },
+    {
+      name: "Vanessa Torres",
+      avatar: "VT", color: "#34A853",
+      stars: 5, time: "há 4 semanas",
+      service: "Criação de Site",
+      text: "Desde o briefing até a entrega, tudo foi conduzido com muita profissionalidade. O site é lindo, responsivo e perfeito em todos os dispositivos. Já recebi vários leads por ele!"
+    },
+  
+    // ─── COLUNA 2 (19 reviews) ───
+    {
+      name: "Henrique Barros",
+      avatar: "HB", color: "#EA4335",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Minha campanha no Meta Ads estava queimando dinheiro antes da Attiva. Eles reestruturaram tudo e em 30 dias o custo por resultado caiu pela metade com o dobro de volume."
+    },
+    {
+      name: "Simone Araújo",
+      avatar: "SA", color: "#FBBC05",
+      stars: 5, time: "há 1 semana",
+      service: "SEO & Indexação",
+      text: "Aparecemos no Google Maps como primeira opção na nossa região. O número de clientes que chegam dizendo que nos encontraram no Google triplicou. Trabalho excepcional!"
+    },
+    {
+      name: "Fábio Cardoso",
+      avatar: "FC", color: "#9C27B0",
+      stars: 5, time: "há 5 meses",
+      service: "App Mobile",
+      text: "App desenvolvido com qualidade de startup de alto nível. UX impecável, sem bugs, integração com nosso sistema legado funcionando perfeitamente. Entrega antes do prazo!"
+    },
+    {
+      name: "Mônica Ribeiro",
+      avatar: "MR", color: "#00BCD4",
+      stars: 5, time: "há 3 semanas",
+      service: "Gestão de Redes Sociais",
+      text: "O conteúdo que produzem para a nossa clínica é educativo, humanizado e altamente engajador. Crescemos organicamente sem precisar impulsionar posts. Estratégia inteligente."
+    },
+    {
+      name: "Rodrigo Freitas",
+      avatar: "RF", color: "#FF5722",
+      stars: 5, time: "há 2 meses",
+      service: "Sistema Web",
+      text: "Portal de gestão desenvolvido do zero, com todas as funcionalidades que precisávamos. Interface bonita e fácil de usar. A equipe foi parceira em todo o processo."
+    },
+    {
+      name: "Isabela Moura",
+      avatar: "IM", color: "#607D8B",
+      stars: 5, time: "há 1 mês",
+      service: "Criação de Site",
+      text: "Super atenciosos e criativos! O site reflete perfeitamente a identidade da nossa marca. Rápido, seguro com certificado SSL e otimizado para celular. Amei o resultado!"
+    },
+    {
+      name: "Alessandro Vieira",
+      avatar: "AV", color: "#4285F4",
+      stars: 5, time: "há 6 semanas",
+      service: "Loja Virtual",
+      text: "Loja virtual entregue em tempo recorde, com integração completa. Design que converte e experiência de compra fluida. As métricas de abandono de carrinho caíram 40%."
+    },
+    {
+      name: "Carina Duarte",
+      avatar: "CD", color: "#34A853",
+      stars: 5, time: "há 2 semanas",
+      service: "Tráfego Pago",
+      text: "Gerenciam nossas campanhas com muita atenção e estratégia. Relatórios claros, reuniões mensais produtivas e resultados crescendo mês a mês. Parceria de longo prazo!"
+    },
+    {
+      name: "Marcelo Pinto",
+      avatar: "MP", color: "#EA4335",
+      stars: 5, time: "há 4 meses",
+      service: "Consultoria Digital",
+      text: "Diagnóstico preciso e plano de ação realista. Não prometem o impossível — entregam o que é combinado e às vezes superam. Referência em consultoria digital em Curitiba."
+    },
+    {
+      name: "Tatiane Lopes",
+      avatar: "TL", color: "#FBBC05",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Investimos em SEO com a Attiva e o retorno superou todas as expectativas. Hoje 70% dos nossos leads vêm do Google organicamente. Melhor investimento de marketing que fizemos."
+    },
+    {
+      name: "Wellington Cruz",
+      avatar: "WC", color: "#9C27B0",
+      stars: 5, time: "há 1 mês",
+      service: "Gestão de Redes Sociais",
+      text: "A equipe entende profundamente cada plataforma e adapta o conteúdo para cada uma. Resultado: engajamento real, seguidores qualificados e crescimento consistente todo mês."
+    },
+    {
+      name: "Nádia Santos",
+      avatar: "NS", color: "#00BCD4",
+      stars: 5, time: "há 5 semanas",
+      service: "Criação de Site",
+      text: "O prazo foi respeitado, o orçamento mantido e a qualidade entregue foi além do que eu esperava. O suporte pós-entrega é excelente. Recomendo sem hesitar!"
+    },
+    {
+      name: "Edmilson Rocha",
+      avatar: "ER", color: "#FF5722",
+      stars: 5, time: "há 7 meses",
+      service: "App Mobile",
+      text: "Desenvolveram nosso app com atenção a cada detalhe. Processo transparente com entregas semanais para acompanhar. Resultado final ficou melhor do que o protótipo!"
+    },
+    {
+      name: "Priscila Melo",
+      avatar: "PM", color: "#607D8B",
+      stars: 5, time: "há 2 meses",
+      service: "Tráfego Pago",
+      text: "Primeira agência que realmente me explicou o que estava sendo feito nas campanhas. Sem enrolação, focados em resultado. Meu faturamento online cresceu 120% em 4 meses."
+    },
+    {
+      name: "Davi Correia",
+      avatar: "DC", color: "#4285F4",
+      stars: 5, time: "há 1 mês",
+      service: "Loja Virtual",
+      text: "E-commerce robusto com painel de admin completo. Integração com Mercado Pago, PicPay e boleto funcionando perfeitamente. Design moderno e taxas de conversão excelentes."
+    },
+    {
+      name: "Letícia Campos",
+      avatar: "LC", color: "#34A853",
+      stars: 5, time: "há 3 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Em 4 meses nossa comunidade no Instagram virou referência no nosso nicho. Conteúdo autêntico, estratégico e que realmente conecta com o público. Resultado excepcional!"
+    },
+    {
+      name: "Fábio Nascimento",
+      avatar: "FN", color: "#EA4335",
+      stars: 5, time: "há 6 semanas",
+      service: "SEO & Indexação",
+      text: "Aparecer na primeira posição do Google para a nossa cidade mudou completamente o volume de clientes. A Attiva Digital sabe o que está fazendo. Investimento que vale muito!"
+    },
+    {
+      name: "Claudia Moraes",
+      avatar: "CM", color: "#FBBC05",
+      stars: 5, time: "há 2 semanas",
+      service: "Sistema Web",
+      text: "Sistema de agendamento online que nossos clientes adoraram. Integração com WhatsApp, notificações automáticas e relatórios inteligentes. Reduziu nosso trabalho operacional em 60%."
+    },
+    {
+      name: "Bruno Azevedo",
+      avatar: "BA", color: "#9C27B0",
+      stars: 5, time: "há 1 mês",
+      service: "Consultoria Digital",
+      text: "A consultoria da Attiva mudou a visão do nosso time sobre marketing digital. Saímos com um playbook completo e já vemos os resultados nas primeiras semanas de execução."
+    },
+  
+    // ─── COLUNA 3 (18 reviews) ───
+    {
+      name: "Renata Oliveira",
+      avatar: "RO", color: "#00BCD4",
+      stars: 5, time: "há 3 meses",
+      service: "Criação de Site",
+      text: "Site desenvolvido com muito cuidado e atenção à nossa identidade visual. Carrega em menos de 2 segundos e é lindo em qualquer dispositivo. Recebi elogios de todos!"
+    },
+    {
+      name: "Sérgio Batista",
+      avatar: "SB", color: "#FF5722",
+      stars: 5, time: "há 1 semana",
+      service: "Tráfego Pago",
+      text: "Gerenciamento profissional das campanhas com foco em resultado real. Eles não ficam jogando desculpas — identificam o problema e ajustam rapidamente. Nota máxima!"
+    },
+    {
+      name: "Cristiane Dias",
+      avatar: "CD", color: "#607D8B",
+      stars: 5, time: "há 2 meses",
+      service: "Gestão de Redes Sociais",
+      text: "Minha farmácia nunca teve tanto reconhecimento local. As redes sociais viraram uma fonte real de clientes novos. O trabalho da Attiva é diferenciado e comprometido."
+    },
+    {
+      name: "Nilson Ferreira",
+      avatar: "NF", color: "#4285F4",
+      stars: 5, time: "há 4 meses",
+      service: "Loja Virtual",
+      text: "E-commerce entregue com integração total com nosso estoque físico. A sincronização em tempo real evita vender produto sem estoque. Solução técnica impecável!"
+    },
+    {
+      name: "Adriana Mendes",
+      avatar: "AM", color: "#34A853",
+      stars: 5, time: "há 3 semanas",
+      service: "SEO & Indexação",
+      text: "Saímos da 8ª página do Google para a 1ª posição em 5 meses. O crescimento de tráfego orgânico é consistente mês a mês. Excelente trabalho técnico e estratégico!"
+    },
+    {
+      name: "Leonardo Barros",
+      avatar: "LB", color: "#EA4335",
+      stars: 5, time: "há 1 mês",
+      service: "App Mobile",
+      text: "App desenvolvido com qualidade premium. Testaram em múltiplos dispositivos e entregaram sem nenhum bug. Suporte pós-lançamento ágil e eficiente. Muito satisfeito!"
+    },
+    {
+      name: "Elaine Carvalho",
+      avatar: "EC", color: "#FBBC05",
+      stars: 5, time: "há 5 semanas",
+      service: "Consultoria Digital",
+      text: "Diagnóstico digital completo e muito preciso. Identificaram gargalos que não estávamos percebendo e deram um plano claro com prioridades. Nossa eficiência digital triplicou."
+    },
+    {
+      name: "Marcos Teixeira",
+      avatar: "MT", color: "#9C27B0",
+      stars: 5, time: "há 2 meses",
+      service: "Criação de Site",
+      text: "Processo de desenvolvimento bem estruturado com entregas parciais para validação. O resultado final superou o briefing. Site lindo e que já gerou novos clientes!"
+    },
+    {
+      name: "Gisele Cunha",
+      avatar: "GC", color: "#00BCD4",
+      stars: 5, time: "há 1 semana",
+      service: "Tráfego Pago",
+      text: "A gestão das campanhas é impecável. Eles testam criativos, públicos e placements constantemente para otimizar resultados. Meu ROAS saiu de 1.8x para 5.2x em 3 meses!"
+    },
+    {
+      name: "Vitor Lemos",
+      avatar: "VL", color: "#FF5722",
+      stars: 5, time: "há 3 meses",
+      service: "Sistema Web",
+      text: "CRM desenvolvido especificamente para nosso processo comercial. A produtividade do time de vendas aumentou 40% com a automação de tarefas repetitivas. Projeto incrível!"
+    },
+    {
+      name: "Amanda Fonseca",
+      avatar: "AF", color: "#607D8B",
+      stars: 5, time: "há 6 semanas",
+      service: "Gestão de Redes Sociais",
+      text: "Equipe criativa, responsiva e com muito domínio das plataformas. Cada campanha é pensada estrategicamente. Os resultados são visíveis e mensuráveis. Top demais!"
+    },
+    {
+      name: "Nelson Rodrigues",
+      avatar: "NR", color: "#4285F4",
+      stars: 5, time: "há 4 meses",
+      service: "SEO & Indexação",
+      text: "Métricas de SEO crescendo consistentemente há 6 meses. Posicionamento nos buscadores melhorou para todas as keywords trabalhadas. Trabalho técnico de altíssima qualidade."
+    },
+    {
+      name: "Juliana Pereira",
+      avatar: "JP", color: "#34A853",
+      stars: 5, time: "há 2 semanas",
+      service: "Loja Virtual",
+      text: "Nossa loja virtual passou a representar 45% do faturamento total em apenas 3 meses. O design é lindo e a experiência de compra é impecável. Investimento que valeu muito!"
+    },
+    {
+      name: "Eduardo Lima",
+      avatar: "EL", color: "#EA4335",
+      stars: 5, time: "há 1 mês",
+      service: "Criação de Site",
+      text: "Site institucional profissional que transmite credibilidade desde o primeiro acesso. Nossos clientes corporativos comentam a qualidade. Representou um salto de imagem enorme!"
+    },
+    {
+      name: "Sandra Costa",
+      avatar: "SC", color: "#FBBC05",
+      stars: 5, time: "há 5 meses",
+      service: "Consultoria Digital",
+      text: "A consultoria nos mostrou que estávamos investindo nos canais errados. Com o redirecionamento estratégico, o custo de aquisição caiu 45% e os leads qualificados triplicaram."
+    },
+    {
+      name: "Rodrigo Almeida",
+      avatar: "RA", color: "#9C27B0",
+      stars: 5, time: "há 3 semanas",
+      service: "Tráfego Pago",
+      text: "Profissionais que dominam Google Ads e Meta Ads com profundidade. Segmentação cirúrgica e criativos de alta conversão. Resultados que eu não conseguia nem com outras agências."
+    },
+    {
+      name: "Daniela Ribeiro",
+      avatar: "DR", color: "#00BCD4",
+      stars: 5, time: "há 2 meses",
+      service: "App Mobile",
+      text: "App para delivery da nossa rede de restaurantes funcionando perfeitamente. Integração com sistema de gestão, notificações push e painel admin completo. Excelente parceria!"
+    },
+    {
+      name: "Claudio Matos",
+      avatar: "CM", color: "#FF5722",
+      stars: 5, time: "há 1 semana",
+      service: "Gestão de Redes Sociais",
+      text: "A presença digital da nossa empresa nunca foi tão forte. Conteúdo consistente, identidade visual impecável e engajamento crescendo todo mês. Parceria que renovo sempre!"
+    }
+
+  ];
+
+const testimonials = [
+    {
+      name: "Ricardo Almeida",
+      company: "Almeida Advocacia",
+      text: "A Attiva Digital transformou nossa presença online. Saímos do zero para a primeira página do Google em Curitiba em menos de 3 meses. O profissionalismo do Leonardo e sua equipe é impecável.",
+      rating: 5
+    },
+    {
+      name: "Mariana Costa",
+      company: "Boutique de Luxo",
+      text: "Minha loja virtual nunca vendeu tanto. O novo design trouxe uma elegância que meus clientes valorizam muito. O suporte pós-venda também é um grande diferencial deles.",
+      rating: 5
+    },
+    {
+      name: "Carlos Eduardo",
+      company: "Tech Solutions",
+      text: "O sistema web que desenvolveram para nossa gestão interna economizou horas de trabalho manual da minha equipe. Valeu cada centavo do investimento.",
+      rating: 5
+    }
+  ];
+
+const portfolio = [
+    {
+      id: "lux-residences",
+      title: "Lux Residences",
+      category: "Imobiliário de Luxo",
+      description: "Plataforma de vendas para empreendimentos de alto padrão com tour virtual e agendamento inteligente.",
+      image: "https://picsum.photos/seed/luxury/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <path d="M100 220V80H300V220" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M150 80V60H250V80" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="140" y="110" width="40" height="40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <rect x="220" y="110" width="40" height="40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <rect x="140" y="170" width="40" height="40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <rect x="220" y="170" width="40" height="40" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <path d="M190 220V180H210V220" stroke="#C9A84C" strokeWidth="2" />
+          <circle cx="200" cy="40" r="10" stroke="#C9A84C" strokeWidth="1" />
+        </svg>
+      ),
+      results: "Venda de 80% das unidades em apenas 3 meses de lançamento digital.",
+      tech: ["React", "Node.js", "Three.js", "Google Ads"],
+      timeline: [
+        { period: "Mês 01", event: "Lançamento", impact: "10k acessos únicos no primeiro dia.", growth: 0 },
+        { period: "Mês 02", event: "Escala", impact: "Custo por lead reduzido em 35%.", growth: 150 },
+        { period: "Mês 03", event: "Sucesso", impact: "Recorde de vendas histórico da construtora.", growth: 400 }
+      ]
+    },
+    {
+      id: "bio-saude",
+      title: "BioSaúde Portal",
+      category: "Saúde & Bem-estar",
+      description: "Ecossistema digital para agendamento de consultas e telemedicina com foco em UX humanizada.",
+      image: "https://picsum.photos/seed/health/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <circle cx="200" cy="140" r="80" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M200 90V190M150 140H250" stroke="#C9A84C" strokeWidth="8" strokeLinecap="round" />
+          <path d="M120 140Q120 100 200 100Q280 100 280 140" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <circle cx="200" cy="140" r="100" stroke="#C9A84C" strokeWidth="1" strokeDasharray="10 10" opacity="0.2" />
+        </svg>
+      ),
+      results: "Redução de 60% nas faltas às consultas através de sistema de notificações inteligente.",
+      tech: ["Next.js", "Firebase", "Tailwind CSS", "WhatsApp API"],
+      timeline: [
+        { period: "Mês 01", event: "MVP", impact: "Primeiros 500 agendamentos online.", growth: 0 },
+        { period: "Mês 04", event: "Expansão", impact: "Integração com 15 novas clínicas.", growth: 300 },
+        { period: "Mês 08", event: "Liderança", impact: "Maior portal de saúde da região sul.", growth: 800 }
+      ]
+    },
+    {
+      id: "agro-smart",
+      title: "AgroSmart Dash",
+      category: "Agronegócio",
+      description: "Dashboard de inteligência de dados para monitoramento de safras e previsão de mercado.",
+      image: "https://picsum.photos/seed/agro/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <path d="M50 230H350" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M80 230V180M140 230V120M200 230V150M260 230V80M320 230V110" stroke="#C9A84C" strokeWidth="20" opacity="0.6" />
+          <path d="M80 180L140 120L200 150L260 80L320 110" stroke="#C9A84C" strokeWidth="3" />
+          <circle cx="260" cy="80" r="8" fill="#C9A84C" />
+          <path d="M50 50L350 230" stroke="#C9A84C" strokeWidth="1" opacity="0.1" />
+        </svg>
+      ),
+      results: "Otimização de 25% na margem de lucro dos produtores através de dados preditivos.",
+      tech: ["Python", "React", "D3.js", "AWS"],
+      timeline: [
+        { period: "Mês 01", event: "Data Sync", impact: "Conexão com 100 sensores de campo.", growth: 0 },
+        { period: "Mês 06", event: "AI Insights", impact: "Previsão de safra com 95% de acerto.", growth: 250 },
+        { period: "Mês 12", event: "Escala", impact: "Gestão de mais de 500 mil hectares.", growth: 600 }
+      ]
+    },
+    {
+      id: "fin-elite",
+      title: "FinElite App",
+      category: "Fintech",
+      description: "Aplicativo de investimentos para o público ultra-high-net-worth com segurança bancária.",
+      image: "https://picsum.photos/seed/finance/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <rect x="130" y="40" width="140" height="200" rx="20" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M150 100H250M150 140H210M150 180H230" stroke="#C9A84C" strokeWidth="2" opacity="0.5" />
+          <circle cx="200" cy="215" r="10" stroke="#C9A84C" strokeWidth="1" />
+          <path d="M200 70C230 70 250 90 250 120" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="200" cy="140" r="40" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+        </svg>
+      ),
+      results: "Mais de R$ 500 milhões em ativos sob gestão transacionados via plataforma.",
+      tech: ["React Native", "Go", "PostgreSQL", "Biometria"],
+      timeline: [
+        { period: "Mês 01", event: "Security Audit", impact: "Aprovação em todos os protocolos bancários.", growth: 0 },
+        { period: "Mês 05", event: "Beta VIP", impact: "1.000 usuários selecionados convidados.", growth: 100 },
+        { period: "Mês 10", event: "Open Market", impact: "Crescimento de 400% na base de usuários.", growth: 400 }
+      ]
+    },
+    {
+      id: "edu-connect",
+      title: "EduConnect",
+      category: "Educação Digital",
+      description: "LMS (Learning Management System) gamificado para grandes corporações e treinamentos.",
+      image: "https://picsum.photos/seed/education/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <path d="M100 100L200 50L300 100V200H100V100Z" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M100 100L200 150L300 100" stroke="#C9A84C" strokeWidth="2" />
+          <circle cx="200" cy="110" r="30" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <path d="M160 200V230M240 200V230" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="140" y="230" width="120" height="10" fill="#C9A84C" opacity="0.5" />
+        </svg>
+      ),
+      results: "Aumento de 75% no engajamento dos colaboradores nos treinamentos internos.",
+      tech: ["Vue.js", "Laravel", "Redis", "Socket.io"],
+      timeline: [
+        { period: "Mês 01", event: "Curriculum Design", impact: "Estruturação de 50 cursos iniciais.", growth: 0 },
+        { period: "Mês 06", event: "Gamification", impact: "Taxa de conclusão subiu para 90%.", growth: 200 },
+        { period: "Mês 12", event: "Global Rollout", impact: "Uso em 5 países simultaneamente.", growth: 500 }
+      ]
+    },
+    {
+      id: "log-master",
+      title: "LogMaster AI",
+      category: "Logística & Transportes",
+      description: "Sistema de roteirização inteligente que utiliza IA para reduzir custos de frete.",
+      image: "https://picsum.photos/seed/logistics/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="280" fill="#0A0A0A" />
+          <path d="M80 140H320M200 60V220" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+          <rect x="100" y="100" width="60" height="40" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="240" y="140" width="60" height="40" stroke="#C9A84C" strokeWidth="2" />
+          <path d="M160 120C200 120 200 160 240 160" stroke="#C9A84C" strokeWidth="2" strokeDasharray="5 5" />
+          <circle cx="160" cy="120" r="4" fill="#C9A84C" />
+          <circle cx="240" cy="160" r="4" fill="#C9A84C" />
+        </svg>
+      ),
+      results: "Economia de R$ 1.2M anuais em combustível para frota de 200 veículos.",
+      tech: ["Python", "TensorFlow", "Google Maps API", "React"],
+      timeline: [
+        { period: "Mês 01", event: "Prototipagem", impact: "Validação de interface com 50 motoristas reais.", growth: 0 },
+        { period: "Mês 06", event: "Rollout Nacional", impact: "Redução de 15% no consumo de combustível.", growth: 200 },
+        { period: "Mês 12", event: "Otimização Total", impact: "Eficiência logística da frota cresceu 500%.", growth: 500 }
+      ]
+    }
+  ];
+
+const resultsData = [
+    {
+      title: "Crescimento de Tráfego Orgânico",
+      metric: "+450%",
+      description: "Média de crescimento anual para clientes com estratégia de SEO Semântico.",
+      chartData: [100, 120, 150, 200, 280, 350, 420, 480, 550, 620, 700, 850]
+    },
+    {
+      title: "Redução de Custo por Lead (CPL)",
+      metric: "-65%",
+      description: "Otimização de campanhas de tráfego pago focada em conversão qualificada.",
+      chartData: [100, 95, 85, 80, 70, 65, 60, 55, 50, 45, 40, 35]
+    },
+    {
+      title: "Retorno sobre Investimento (ROI)",
+      metric: "12.5x",
+      description: "Média de retorno para e-commerces e negócios locais de alto padrão.",
+      chartData: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 12.5]
+    }
+  ];
+
 export default function App() {
   const [currentHash, setCurrentHash] = useState(window.location.hash || '#home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -1110,16 +1797,40 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Handle initial hash for blog posts
+  useEffect(() => {
+    if (!isLoading) {
+      const hash = window.location.hash;
+      if (hash.startsWith('#blog/')) {
+        const postId = hash.replace('#blog/', '');
+        const post = blogPosts.find(p => p.id === postId);
+        if (post) {
+          setSelectedPost(post);
+        }
+      }
+    }
+  }, [isLoading, blogPosts]);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     const handleHashChange = () => {
       const newHash = window.location.hash || '#home';
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentHash(newHash);
-        window.scrollTo(0, 0);
-        setTimeout(() => setIsTransitioning(false), 400);
-      }, 400);
+      
+      // Handle blog post navigation from hash
+      if (newHash.startsWith('#blog/')) {
+        const postId = newHash.replace('#blog/', '');
+        const post = blogPosts.find(p => p.id === postId);
+        if (post) {
+          setSelectedPost(post);
+        }
+      } else {
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setCurrentHash(newHash);
+          window.scrollTo(0, 0);
+          setTimeout(() => setIsTransitioning(false), 400);
+        }, 400);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -1852,7 +2563,8 @@ export default function App() {
 
   ];
 
-  const blogPosts = [
+// --- Static Data ---
+const blogPosts = [
     {
       id: "seo-ia-2026",
       title: "O Futuro do SEO em 2026: IA e Busca Semântica",
@@ -2829,12 +3541,24 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
                 <p className="text-ink-silver mb-12 opacity-70 elderly-friendly-text">Preencha o formulário e nossa equipe entrará em contato via WhatsApp em poucos minutos.</p>
                 
                 <div className="space-y-8">
+                  <div className="flex items-center gap-6 group p-4 bg-gold-primary/5 rounded-2xl border border-gold-primary/20 hover:border-gold-primary/50 transition-all">
+                    <div className="w-14 h-14 bg-gold-primary rounded-full flex items-center justify-center text-black shadow-[0_0_20px_rgba(201,168,76,0.3)]">
+                      <User size={28} />
+                    </div>
+                    <div>
+                      <div className="text-xs uppercase tracking-widest text-gold-primary font-bold mb-1">Fale com nossa Especialista</div>
+                      <a href={`https://wa.me/${SHELLY_WHATSAPP}`} className="text-2xl text-white hover:text-gold-primary transition-colors font-display tracking-tight">
+                        {SHELLY_NAME}: (47) 99703-2739
+                      </a>
+                    </div>
+                  </div>
+
                   <div className="flex items-center gap-6 group">
                     <div className="w-14 h-14 bg-zinc-900 rounded-full flex items-center justify-center text-gold-primary border border-zinc-800 group-hover:border-gold-primary transition-colors">
                       <MessageCircle />
                     </div>
                     <div>
-                      <div className="text-xs uppercase tracking-widest text-zinc-500">WhatsApp</div>
+                      <div className="text-xs uppercase tracking-widest text-zinc-500">WhatsApp Geral</div>
                       <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="text-xl text-white hover:text-gold-primary transition-colors">(41) 99846-1858</a>
                     </div>
                   </div>
@@ -2872,7 +3596,7 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
                     `*Telefone:* ${formData.get('telefone')}\n` +
                     `*Serviço:* ${formData.get('servico')}\n` +
                     `*Mensagem:* ${formData.get('mensagem')}`;
-                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+                  window.open(`https://wa.me/${SHELLY_WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank');
                 }}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2948,9 +3672,29 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
           </div>
 
           <div>
-            <h4 className="text-white font-heading font-bold mb-8 uppercase tracking-widest text-sm">Localização</h4>
-            <p className="text-ink-silver text-sm opacity-60 mb-4">Rua Elvira Annibaleto, 117 Ap 22<br />Bairro Novo Mundo, Curitiba – PR</p>
-            <p className="text-ink-silver text-sm opacity-60">CEP: 81010-340</p>
+            <h4 className="text-white font-heading font-bold mb-8 uppercase tracking-widest text-sm">Contato</h4>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center gap-3 group">
+                <div className="w-8 h-8 rounded-full bg-gold-primary/10 flex items-center justify-center text-gold-primary group-hover:bg-gold-primary group-hover:text-black transition-all">
+                  <User size={16} />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-500">Shelly</div>
+                  <a href={`https://wa.me/${SHELLY_WHATSAPP}`} className="text-sm text-white hover:text-gold-primary transition-colors">(47) 99703-2739</a>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 group">
+                <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-gold-primary group-hover:bg-gold-primary group-hover:text-black transition-all">
+                  <MessageCircle size={16} />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-500">WhatsApp Geral</div>
+                  <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="text-sm text-white hover:text-gold-primary transition-colors">(41) 99846-1858</a>
+                </div>
+              </div>
+            </div>
+            <h4 className="text-white font-heading font-bold mb-4 uppercase tracking-widest text-xs">Localização</h4>
+            <p className="text-ink-silver text-xs opacity-60">Rua Elvira Annibaleto, 117 Ap 22<br />Novo Mundo, Curitiba – PR</p>
           </div>
         </div>
 
@@ -2964,13 +3708,13 @@ Na Attiva Digital, a segurança da informação está no DNA de cada projeto, ga
       </footer>
 
       <a 
-        href={`https://wa.me/${WHATSAPP_NUMBER}`} 
+        href={`https://wa.me/${SHELLY_WHATSAPP}`} 
         target="_blank" 
         className="fixed bottom-8 right-8 w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center shadow-2xl z-50 hover:scale-110 transition-transform animate-bounce group"
       >
         <MessageCircle size={32} />
         <span className="absolute right-full mr-4 px-4 py-2 bg-zinc-900 border border-gold-primary/30 text-white text-xs rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Fale com um especialista agora!
+          Fale com a Shelly agora!
         </span>
       </a>
 
