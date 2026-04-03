@@ -1755,10 +1755,51 @@ const portfolio = [
       timeline: [
         { period: "Mês 01", event: "Prototipagem", impact: "Validação de interface com 50 motoristas reais.", growth: 0 },
         { period: "Mês 06", event: "Rollout Nacional", impact: "Redução de 15% no consumo de combustível.", growth: 200 },
-        { period: "Mês 12", event: "Otimização Total", impact: "Eficiência logística da frota cresceu 500%
-const blogPosts = [
+        { period: "Mês 12", event: "Otimização Total", impact: "Eficiência logística da frota cresceu 500%", growth: 500 }
+      ]
+    }
+  ];
+
+  const blogPosts = [
     {
-      id: "ecommerce-escala-2026",, estudos de caso e opiniões que a IA não pode replicar.
+      id: "seo-ia-2026",
+      title: "O Futuro do SEO em 2026: IA e Busca Semântica",
+      category: "SEO",
+      date: "15 Mar 2026",
+      author: "Leonardo Santana",
+      excerpt: "Como as novas atualizações do Google estão priorizando a intenção do usuário e o conteúdo gerado por especialistas.",
+      image: "https://picsum.photos/seed/seo/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="100" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+          <circle cx="200" cy="140" r="60" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+          <g className="neural-nodes">
+            <circle className="neural-node" cx="200" cy="140" r="8" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="180" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="180" r="6" fill="#C9A84C" />
+          </g>
+          <path className="flow-line" d="M200 140 L120 100 M200 140 L280 100 M200 140 L120 180 M200 140 L280 180" stroke="#C9A84C" strokeWidth="2" opacity="0.5" />
+        </svg>
+      ),
+      content: `
+# O Futuro do SEO em 2026: IA e Busca Semântica
+
+O cenário do SEO está mudando drasticamente com a integração da Inteligência Artificial Generativa nos motores de busca. Em 2026, não basta apenas palavras-chave; o Google agora prioriza a **Intenção do Usuário** e a **Autoridade do Especialista (E-E-A-T)**.
+
+## Como a IA está mudando a busca
+
+A Busca Generativa (SGE) do Google agora responde diretamente às perguntas dos usuários, o que significa que o tráfego informativo puro pode diminuir. No entanto, a necessidade de fontes confiáveis e opiniões de especialistas nunca foi tão alta.
+
+### O que é Busca Semântica?
+
+A busca semântica foca no significado por trás das palavras, não apenas nas palavras em si. O Google tenta entender o contexto da pesquisa para entregar o resultado mais relevante, mesmo que a palavra-chave exata não esteja presente.
+
+### Estratégias para 2026:
+
+1.  **Dados Estruturados Avançados:** Ajude a IA a entender seu conteúdo através de Schema.org.
+2.  **Conteúdo de Especialista:** Foque em experiências reais, estudos de caso e opiniões que a IA não pode replicar.
 3.  **Otimização para Intenção:** Vá além da palavra-chave e responda ao \"porquê\" do usuário.
 4.  **Velocidade e UX:** O Google continua priorizando sites que carregam rápido e oferecem uma ótima experiência.
 
