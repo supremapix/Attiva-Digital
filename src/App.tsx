@@ -1781,6 +1781,324 @@ const resultsData = [
     }
   ];
 
+const blogPosts = [
+    {
+      id: "seo-ia-2026",
+      title: "O Futuro do SEO em 2026: IA e Busca Semântica",
+      category: "SEO",
+      date: "15 Mar 2026",
+      author: "Leonardo Santana",
+      excerpt: "Como as novas atualizações do Google estão priorizando a intenção do usuário e o conteúdo gerado por especialistas.",
+      image: "https://picsum.photos/seed/seo/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="100" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
+          <circle cx="200" cy="140" r="60" stroke="#C9A84C" strokeWidth="1" opacity="0.4" />
+          <g className="neural-nodes">
+            <circle className="neural-node" cx="200" cy="140" r="8" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="100" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="120" cy="180" r="6" fill="#C9A84C" />
+            <circle className="neural-node" cx="280" cy="180" r="6" fill="#C9A84C" />
+          </g>
+          <path className="flow-line" d="M200 140 L120 100 M200 140 L280 100 M200 140 L120 180 M200 140 L280 180" stroke="#C9A84C" strokeWidth="2" opacity="0.5" />
+        </svg>
+      ),
+      content: `
+# O Futuro do SEO em 2026: IA e Busca Semântica
+
+O cenário do SEO está mudando drasticamente com a integração da Inteligência Artificial Generativa nos motores de busca. Em 2026, não basta apenas palavras-chave; o Google agora prioriza a **Intenção do Usuário** e a **Autoridade do Especialista (E-E-A-T)**.
+
+## Como a IA está mudando a busca
+
+A Busca Generativa (SGE) do Google agora responde diretamente às perguntas dos usuários, o que significa que o tráfego informativo puro pode diminuir. No entanto, a necessidade de fontes confiáveis e opiniões de especialistas nunca foi tão alta.
+
+### O que é Busca Semântica?
+
+A busca semântica foca no significado por trás das palavras, não apenas nas palavras em si. O Google tenta entender o contexto da pesquisa para entregar o resultado mais relevante, mesmo que a palavra-chave exata não esteja presente.
+
+### Estratégias para 2026:
+
+1.  **Dados Estruturados Avançados:** Ajude a IA a entender seu conteúdo através de Schema.org.
+2.  **Conteúdo de Especialista:** Foque em experiências reais, estudos de caso e opiniões que a IA não pode replicar.
+3.  **Otimização para Intenção:** Vá além da palavra-chave e responda ao \"porquê\" do usuário.
+4.  **Velocidade e UX:** O Google continua priorizando sites que carregam rápido e oferecem uma ótima experiência.
+
+### Conclusão
+
+A Attiva Digital já está implementando essas estratégias para garantir que nossos clientes permaneçam no topo das buscas, mesmo com as mudanças constantes dos algoritmos. O SEO não morreu, ele apenas evoluiu para algo mais humano e inteligente.
+      `,
+      keywords: ["SEO 2026", "Inteligência Artificial", "Busca Semântica", "Google SGE", "E-E-A-T"],
+      metaDescription: "Descubra como a IA e a busca semântica estão transformando o SEO em 2026 e como sua empresa pode se adaptar para continuar no topo do Google."
+    },
+    {
+      id: "ecommerce-escala-2026",
+      title: "5 Estratégias para Escalar seu E-commerce este ano",
+      category: "E-commerce",
+      date: "10 Mar 2026",
+      author: "Leonardo Santana",
+      excerpt: "Do checkout em uma página ao remarketing dinâmico: o que realmente funciona para vender mais.",
+      image: "https://picsum.photos/seed/ecommerce/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="100" y="80" width="200" height="120" rx="8" stroke="#C9A84C" strokeWidth="2" className="wireframe-box" />
+          <path d="M120 110 H280 M120 130 H220 M120 150 H180" stroke="#C9A84C" strokeWidth="1" opacity="0.5" />
+          <circle cx="250" cy="160" r="20" fill="#C9A84C" className="pulse-circle" />
+          <path d="M240 160 L248 168 L260 152" stroke="black" strokeWidth="3" />
+        </svg>
+      ),
+      content: `
+# 5 Estratégias para Escalar seu E-commerce este ano
+
+Escalar um e-commerce exige mais do que apenas tráfego; exige conversão e retenção. Aqui estão as 5 estratégias que estão trazendo resultados reais para nossos clientes em 2026.
+
+## 1. Checkout em Uma Página (One-Page Checkout)
+
+Reduza o atrito. Quanto menos cliques entre o carrinho e a confirmação de pagamento, maior a sua taxa de conversão. O checkout em uma página simplifica o processo e diminui o abandono de carrinho.
+
+## 2. Remarketing Dinâmico com IA
+
+Não mostre apenas o produto que o cliente viu. Use IA para mostrar produtos complementares ou ofertas personalizadas baseadas no comportamento de navegação.
+
+## 3. Prova Social em Tempo Real
+
+Exibir notificações de \"Alguém acabou de comprar este item\" ou avaliações recentes cria urgência e confiança imediata.
+
+## 4. Otimização para Mobile-First
+
+Em 2026, mais de 80% das compras online são feitas via smartphone. Seu site deve ser impecável no mobile, com botões fáceis de clicar e carregamento instantâneo.
+
+## 5. Atendimento via WhatsApp Automatizado
+
+Integre um bot de IA no seu WhatsApp para responder dúvidas frequentes e até fechar vendas 24/7. O toque humano ainda é importante, mas a velocidade da IA no primeiro contato é imbatível.
+
+### Como a Attiva Digital pode ajudar?
+
+Nós somos especialistas em transformar e-commerces comuns em máquinas de vendas de alta performance. Entre em contato para uma consultoria gratuita.
+      `,
+      keywords: ["E-commerce", "Vendas Online", "Escalabilidade", "Marketing Digital", "Checkout"],
+      metaDescription: "Aprenda as 5 estratégias essenciais para escalar seu e-commerce em 2026, desde otimização de checkout até automação de vendas."
+    },
+    {
+      id: "branding-luxo-2026",
+      title: "Branding de Luxo: Como posicionar sua marca no topo",
+      category: "Branding",
+      date: "05 Mar 2026",
+      author: "Leonardo Santana",
+      excerpt: "A psicologia por trás das marcas de alto padrão e como aplicar esses conceitos no seu negócio digital.",
+      image: "https://picsum.photos/seed/luxury/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M200 60 L260 120 L200 180 L140 120 Z" stroke="#C9A84C" strokeWidth="2" className="diamond-path" />
+          <path d="M200 60 V180 M140 120 H260" stroke="#C9A84C" strokeWidth="1" opacity="0.3" />
+          <circle cx="200" cy="120" r="40" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" />
+          <g className="sparkles">
+            <circle cx="160" cy="80" r="2" fill="#C9A84C" className="sparkle" />
+            <circle cx="240" cy="160" r="2" fill="#C9A84C" className="sparkle" />
+            <circle cx="220" cy="70" r="3" fill="#C9A84C" className="sparkle" />
+          </g>
+        </svg>
+      ),
+      content: `
+# Branding de Luxo: Como posicionar sua marca no topo
+
+O luxo não é sobre preço, é sobre **exclusividade, história e percepção de valor**. No mundo digital, o branding de luxo exige uma estética minimalista e uma comunicação que valoriza o silêncio e a sofisticação.
+
+## A Psicologia do Alto Padrão
+
+Marcas de luxo não vendem produtos; elas vendem pertencimento a um grupo seleto e a realização de desejos aspiracionais.
+
+### Pontos chave para o seu posicionamento:
+
+- **Identidade Visual Impecável:** Onde cada pixel importa.
+- **Storytelling Emocional:** Conectando a marca a valores aspiracionais.
+- **Experiência do Cliente VIP:** O atendimento digital deve ser tão refinado quanto o presencial.
+
+### Como o Branding afeta o preço:
+
+- **Valor Percebido:** Marcas com design premium podem cobrar mais caro por seus produtos ou serviços.
+- **Diferenciação:** Em um mercado saturado, ser visualmente único é a única forma de ser lembrado.
+- **Consistência:** Uma marca consistente em todos os pontos de contato gera confiança e fidelidade.
+
+### Conclusão
+
+A Attiva Digital ajuda marcas a construírem essa aura de prestígio, elevando o ticket médio e a fidelidade dos clientes através de um design que respira exclusividade.
+      `,
+      keywords: ["Branding de Luxo", "Marketing de Alto Padrão", "Posicionamento de Marca", "Design Premium"],
+      metaDescription: "Entenda como posicionar sua marca no mercado de luxo digital, utilizando psicologia de consumo e design sofisticado para atrair clientes de alto ticket."
+    },
+    {
+      id: "trafego-pago-vs-organico",
+      title: "Tráfego Pago vs Orgânico: Onde investir seu orçamento?",
+      category: "Marketing",
+      date: "01 Mar 2026",
+      author: "Leonardo Santana",
+      excerpt: "Um guia completo para equilibrar investimentos de curto e longo prazo para um crescimento sustentável.",
+      image: "https://picsum.photos/seed/marketing/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 230 L150 180 L250 120 L350 50" stroke="#C9A84C" strokeWidth="3" className="chart-line-up" />
+          <rect x="70" y="180" width="30" height="50" fill="#C9A84C" opacity="0.3" />
+          <rect x="170" y="120" width="30" height="110" fill="#C9A84C" opacity="0.5" />
+          <rect x="270" y="70" width="30" height="160" fill="#C9A84C" opacity="0.8" />
+          <line x1="50" y1="230" x2="350" y2="230" stroke="#C9A84C" strokeWidth="1" />
+        </svg>
+      ),
+      content: `
+        O dilema eterno: resultados rápidos com anúncios ou autoridade duradoura com conteúdo orgânico? A resposta curta é: **ambos**, mas com o equilíbrio certo para o seu momento de negócio.
+
+        ## Curto Prazo vs Longo Prazo
+        O tráfego pago é como um interruptor: você liga e os leads aparecem. O orgânico é como uma floresta: leva tempo para crescer, mas depois oferece sombra constante.
+
+        ### Quando investir em cada um:
+        - **Tráfego Pago:** Ideal para lançamentos, promoções sazonais e validação rápida de ofertas.
+        - **SEO e Orgânico:** Essencial para reduzir o custo de aquisição (CAC) ao longo do tempo e construir autoridade.
+
+        Entenda como a Attiva Digital gerencia orçamentos de marketing para maximizar o retorno sobre o investimento (ROI) de forma previsível e escalável, utilizando a estratégia de "Cercamento Digital".
+      `,
+      keywords: ["Tráfego Pago", "SEO", "Marketing de Conteúdo", "ROI", "Estratégia Digital"],
+      metaDescription: "Descubra o equilíbrio ideal entre tráfego pago e orgânico para o seu negócio e como maximizar seu ROI com investimentos inteligentes."
+    },
+    {
+      id: "velocidade-carregamento-conversao",
+      title: "A Importância da Velocidade de Carregamento para Conversão",
+      category: "Tecnologia",
+      date: "25 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Cada milissegundo conta. Descubra como a performance técnica impacta diretamente no seu faturamento.",
+      image: "https://picsum.photos/seed/speed/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="80" stroke="#C9A84C" strokeWidth="2" strokeDasharray="10 5" />
+          <path d="M200 140 L260 100" stroke="#C9A84C" strokeWidth="4" strokeLinecap="round" className="clock-hand" />
+          <circle cx="200" cy="140" r="5" fill="#C9A84C" />
+          <path d="M140 220 Q200 180 260 220" stroke="#C9A84C" strokeWidth="2" fill="none" className="speed-curve" />
+        </svg>
+      ),
+      content: `
+        Estudos mostram que um atraso de apenas 1 segundo no carregamento pode reduzir as conversões em até 7%. Em 2026, com conexões 5G e usuários cada vez mais impacientes, a performance técnica é uma questão de sobrevivência.
+
+        ## Core Web Vitals e o Google
+        O Google utiliza métricas de velocidade como fator de ranqueamento. Um site lento não apenas afasta o usuário, mas também é "punido" nas buscas.
+
+        ### O que otimizamos na Attiva Digital:
+        - **LCP (Largest Contentful Paint):** Tempo de carregamento do conteúdo principal.
+        - **FID (First Input Delay):** Interatividade da página.
+        - **CLS (Cumulative Layout Shift):** Estabilidade visual.
+
+        Seu site é rápido o suficiente para não perder dinheiro? A Attiva Digital utiliza tecnologias de ponta para garantir que seu site carregue em menos de 2 segundos.
+      `,
+      keywords: ["Velocidade de Site", "Performance Web", "Core Web Vitals", "Taxa de Conversão"],
+      metaDescription: "Saiba como a velocidade de carregamento do seu site afeta suas vendas e o que você pode fazer para otimizar a performance técnica hoje mesmo."
+    },
+    {
+      id: "gestao-redes-sociais-comunidade",
+      title: "Gestão de Redes Sociais: Além dos Likes e Seguidores",
+      category: "Social Media",
+      date: "20 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Como transformar sua audiência em uma comunidade ativa que defende e promove sua marca organicamente.",
+      image: "https://picsum.photos/seed/social/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="140" r="30" fill="#C9A84C" opacity="0.8" />
+          <circle cx="120" cy="80" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="280" cy="80" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="120" cy="200" r="20" fill="#C9A84C" opacity="0.4" />
+          <circle cx="280" cy="200" r="20" fill="#C9A84C" opacity="0.4" />
+          <path d="M180 120 L135 95 M220 120 L265 95 M180 160 L135 185 M220 160 L265 185" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 2" />
+        </svg>
+      ),
+      content: `
+        Likes não pagam boletos. O verdadeiro poder das redes sociais in 2026 está no **Engajamento Profundo** e na construção de comunidades.
+
+        ## De Seguidores a Advogados da Marca
+        Uma comunidade ativa não apenas consome seu conteúdo, mas o defende e o compartilha, tornando-se um canal de aquisição orgânica poderosíssimo.
+
+        ### Nossa abordagem estratégica:
+        - **Conteúdo Nativo:** Adaptando a mensagem para cada plataforma (TikTok, Reels, LinkedIn).
+        - **Gestão de Crise e Atendimento:** Transformando reclamações em fãs através de respostas rápidas e humanas.
+        - **Estratégia de Influenciadores:** Conectando sua marca com quem realmente tem voz no seu nicho.
+
+        A Attiva Digital não apenas posta; nós construímos relacionamentos que se traduzem em vendas e lealdade à marca.
+      `,
+      keywords: ["Redes Sociais", "Engajamento", "Comunidade Digital", "Social Media Strategy"],
+      metaDescription: "Aprenda a transformar suas redes sociais em uma comunidade vibrante e engajada que impulsiona suas vendas de forma orgânica."
+    },
+    {
+      id: "revolucao-no-code-2026",
+      title: "A Revolução do No-Code em 2026",
+      category: "Tecnologia",
+      date: "15 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Como ferramentas de baixo código estão democratizando a criação de software e acelerando a inovação.",
+      image: "https://picsum.photos/seed/nocode/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="100" y="60" width="200" height="160" rx="10" stroke="#C9A84C" strokeWidth="2" />
+          <rect x="120" y="80" width="160" height="30" rx="5" fill="#C9A84C" opacity="0.3" />
+          <rect x="120" y="120" width="70" height="30" rx="5" fill="#C9A84C" opacity="0.5" />
+          <rect x="210" y="120" width="70" height="30" rx="5" fill="#C9A84C" opacity="0.5" />
+          <rect x="120" y="160" width="160" height="40" rx="5" fill="#C9A84C" opacity="0.8" />
+        </svg>
+      ),
+      content: `
+# A Revolução do No-Code em 2026
+
+O desenvolvimento de software não é mais exclusividade de programadores experientes. Em 2026, as ferramentas **No-Code** e **Low-Code** atingiram um nível de maturidade que permite a criação de aplicações complexas e escaláveis em tempo recorde.
+
+## O que mudou?
+
+A integração de IA nessas plataformas permite que usuários descrevam funcionalidades em linguagem natural, e a ferramenta gera a lógica e a interface automaticamente.
+
+### Benefícios para Empresas:
+
+- **Velocidade de Lançamento (Time-to-Market):** Ideias viram produtos em dias, não meses.
+- **Redução de Custos:** Menor dependência de grandes equipes de desenvolvimento para MVPs.
+- **Inovação Descentralizada:** Times de marketing e vendas podem criar suas próprias ferramentas de automação.
+
+A Attiva Digital utiliza o melhor do No-Code para prototipagem rápida e soluções internas ágeis, mantendo o código customizado para o que realmente exige performance extrema.
+      `,
+      keywords: ["No-Code", "Low-Code", "Desenvolvimento Ágil", "Inovação Digital"],
+      metaDescription: "Descubra como o No-Code está mudando o jogo do desenvolvimento de software em 2026 e como sua empresa pode se beneficiar dessa agilidade."
+    },
+    {
+      id: "seguranca-lgpd-marketing",
+      title: "Segurança de Dados e LGPD no Marketing Digital",
+      category: "Compliance",
+      date: "10 Fev 2026",
+      author: "Leonardo Santana",
+      excerpt: "Proteja seu negócio e a privacidade de seus clientes em um mundo cada vez mais regulado.",
+      image: "https://picsum.photos/seed/security/800/600",
+      svg: (
+        <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M200 60 L280 100 V180 L200 220 L120 180 V100 Z" stroke="#C9A84C" strokeWidth="2" />
+          <circle cx="200" cy="140" r="30" stroke="#C9A84C" strokeWidth="1" />
+          <path d="M200 125 V155 M185 140 H215" stroke="#C9A84C" strokeWidth="2" />
+        </svg>
+      ),
+      content: `
+# Segurança de Dados e LGPD no Marketing Digital
+
+Em 2026, a privacidade não é apenas uma lei, é um diferencial competitivo. Empresas que respeitam os dados dos usuários ganham confiança e lealdade.
+
+## LGPD na Prática
+
+A Lei Geral de Proteção de Dados exige que toda coleta de dados tenha um propósito claro e o consentimento explícito do usuário.
+
+### O que sua agência deve garantir:
+
+- **Transparência:** Políticas de privacidade claras e acessíveis.
+- **Segurança:** Armazenamento criptografado e proteção contra vazamentos.
+- **Direito ao Esquecimento:** Ferramentas fáceis para o usuário solicitar a exclusão de seus dados.
+
+Na Attiva Digital, a segurança da informação está no DNA de cada projeto, garantindo que sua marca esteja sempre em conformidade e protegida.
+      `,
+      keywords: ["LGPD", "Segurança de Dados", "Privacidade Digital", "Compliance Marketing"],
+      metaDescription: "Saiba como manter seu marketing digital em conformidade com a LGPD e garantir a segurança dos dados dos seus clientes em 2026."
+    }
+  ];
+
 export default function App() {
   const [currentHash, setCurrentHash] = useState(window.location.hash || '#home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
