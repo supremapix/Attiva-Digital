@@ -2385,6 +2385,54 @@ export default function App() {
           </section>
         )}
 
+        {/* Shelly Highlight Contact Section */}
+        {currentHash === '#home' && (
+          <section className="py-12 bg-zinc-950 border-y border-gold-primary/10 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.05)_0%,transparent_70%)]" />
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <motion.div 
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-zinc-900 to-black border border-gold-primary/20 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+              >
+                <div className="flex items-center gap-6">
+                  <div className="relative">
+                    <div className="w-20 h-20 rounded-full bg-gold-primary/10 flex items-center justify-center border border-gold-primary/30 overflow-hidden">
+                      <User size={40} className="text-gold-primary" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-4 border-black" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-display text-white mb-1">Fale com a {SHELLY_NAME}</h3>
+                    <p className="text-gold-primary font-mono text-lg md:text-xl tracking-wider">(47) 99703-2739</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                      <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Online Agora</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <button 
+                    onClick={() => window.open(`https://wa.me/${SHELLY_WHATSAPP}`, '_blank')}
+                    className="flex items-center gap-3 px-8 py-4 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 shadow-lg shadow-green-900/20"
+                  >
+                    <MessageCircle size={20} /> WhatsApp
+                  </button>
+                  <a 
+                    href={`tel:+${SHELLY_WHATSAPP}`}
+                    className="flex items-center gap-3 px-8 py-4 bg-gold-primary hover:bg-gold-light text-black rounded-full font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 shadow-lg shadow-gold-primary/20"
+                  >
+                    <Smartphone size={20} /> Ligar Agora
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        )}
+
         {currentHash === '#servicos' && (
           <section id="servicos" className="py-32 px-6 max-w-7xl mx-auto">
             <div className="text-center mb-20">
